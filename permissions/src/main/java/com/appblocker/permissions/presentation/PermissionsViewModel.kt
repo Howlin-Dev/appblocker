@@ -1,9 +1,9 @@
-package com.serhii.appblocker.presentation.permissions
+package com.appblocker.permissions.presentation
 
 import androidx.lifecycle.ViewModel
-import com.serhii.appblocker.domain.model.RequiredPermission
-import com.serhii.appblocker.domain.repository.PermissionRepository
-import com.serhii.appblocker.platform.requester.PermissionRequester
+import com.appblocker.permissions.domain.model.RequiredPermission
+import com.appblocker.permissions.domain.repository.PermissionRepository
+import com.appblocker.permissions.platform.requester.PermissionRequester
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

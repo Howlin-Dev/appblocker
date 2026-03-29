@@ -1,4 +1,4 @@
-package com.serhii.appblocker.presentation.permissions
+package com.appblocker.permissions.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,8 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.serhii.appblocker.domain.model.RequiredPermission
-import com.serhii.appblocker.presentation.permissions.component.PermissionItem
+import com.appblocker.permissions.domain.model.RequiredPermission
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

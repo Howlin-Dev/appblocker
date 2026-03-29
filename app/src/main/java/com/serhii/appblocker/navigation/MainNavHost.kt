@@ -8,8 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appblocker.permissions.presentation.PermissionsScreen
 import com.serhii.appblocker.navigation.entry.EntryViewModel
-import com.serhii.appblocker.presentation.permissions.PermissionsScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel

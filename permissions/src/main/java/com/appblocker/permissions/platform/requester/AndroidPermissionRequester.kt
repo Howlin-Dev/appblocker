@@ -1,7 +1,7 @@
-package com.serhii.appblocker.platform.requester
+package com.appblocker.permissions.platform.requester
 
-import com.serhii.appblocker.domain.model.RequiredPermission
-import com.serhii.appblocker.platform.PermissionNavigator
+import com.appblocker.permissions.domain.model.RequiredPermission
+import com.appblocker.permissions.platform.PermissionNavigator
 
 class PermissionRequester(
     private val navigator: PermissionNavigator

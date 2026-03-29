@@ -23,3 +23,4 @@ rootProject.name = "App Blocker"
 include(":app")
 include(":profiles")
 include(":core")
+include(":permissions")

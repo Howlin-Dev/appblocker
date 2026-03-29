@@ -1,6 +1,6 @@
-package com.serhii.appblocker.presentation.permissions
+package com.appblocker.permissions.presentation
 
-import com.serhii.appblocker.domain.model.RequiredPermission
+import com.appblocker.permissions.domain.model.RequiredPermission
 
 sealed interface PermissionsAction {
     data class PermissionGrantClick(val permission: RequiredPermission): PermissionsAction

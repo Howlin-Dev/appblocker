@@ -1,6 +1,6 @@
-package com.serhii.appblocker.domain.repository
+package com.appblocker.permissions.domain.repository
 
-import com.serhii.appblocker.domain.model.RequiredPermission
+import com.appblocker.permissions.domain.model.RequiredPermission
 
 interface PermissionRepository {
     fun hasRequiredPermissions(): Boolean

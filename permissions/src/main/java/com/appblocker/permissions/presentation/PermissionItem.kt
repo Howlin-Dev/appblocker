@@ -1,4 +1,4 @@
-package com.serhii.appblocker.presentation.permissions.component
+package com.appblocker.permissions.presentation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

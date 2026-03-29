@@ -8,8 +8,8 @@ import android.os.Build
 import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
-import com.serhii.appblocker.domain.model.RequiredPermission
-import com.serhii.appblocker.domain.repository.PermissionRepository
+import com.appblocker.permissions.domain.model.RequiredPermission
+import com.appblocker.permissions.domain.repository.PermissionRepository
 import com.serhii.appblocker.platform.accessibility.BlockAccessibilityService
 
 class AndroidPermissionRepository(

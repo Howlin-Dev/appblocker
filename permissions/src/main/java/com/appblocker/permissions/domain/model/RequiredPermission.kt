@@ -1,4 +1,4 @@
-package com.serhii.appblocker.domain.model
+package com.appblocker.permissions.domain.model
 
 sealed class RequiredPermission(val title: String, val subtitle: String) {
     object Accessibility : RequiredPermission("Accessibility Service (Control app usage)","Allow access to monitor and block selected apps in real time.")

@@ -1,7 +1,7 @@
 package com.serhii.appblocker.navigation.entry
 
 import androidx.lifecycle.ViewModel
-import com.serhii.appblocker.domain.repository.PermissionRepository
+import com.appblocker.permissions.domain.repository.PermissionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

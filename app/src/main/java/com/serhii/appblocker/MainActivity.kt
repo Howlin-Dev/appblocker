@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.serhii.appblocker.navigation.MainNavHost
-import com.serhii.appblocker.presentation.permissions.PermissionsScreen
-import com.serhii.appblocker.ui.theme.AppBlockerTheme
+import com.serhii.appblocker.core.ui.theme.AppBlockerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

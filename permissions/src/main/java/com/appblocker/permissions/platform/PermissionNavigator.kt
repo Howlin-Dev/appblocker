@@ -1,4 +1,4 @@
-package com.serhii.appblocker.platform
+package com.appblocker.permissions.platform
 
 import android.content.Context
 import android.content.Intent

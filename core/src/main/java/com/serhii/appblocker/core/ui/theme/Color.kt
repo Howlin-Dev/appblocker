@@ -1,4 +1,4 @@
-package com.serhii.appblocker.ui.theme
+package com.serhii.appblocker.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

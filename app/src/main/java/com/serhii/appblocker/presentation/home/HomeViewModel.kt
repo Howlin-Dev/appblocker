@@ -1,8 +1,8 @@
 package com.serhii.appblocker.presentation.home
 
 import androidx.lifecycle.ViewModel
-import com.serhii.appblocker.domain.repository.PermissionRepository
-import com.serhii.appblocker.platform.requester.PermissionRequester
+import com.appblocker.permissions.domain.repository.PermissionRepository
+import com.appblocker.permissions.platform.requester.PermissionRequester
 
 class HomeViewModel(
     private val permissionRepository: PermissionRepository,
