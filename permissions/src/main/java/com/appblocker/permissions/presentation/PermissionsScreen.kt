@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.appblocker.permissions.domain.model.RequiredPermission
+import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -30,7 +32,7 @@ fun PermissionsScreen(
     modifier: Modifier = Modifier,
     viewModel: PermissionsViewModel = koinViewModel()
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     LifecycleResumeEffect(viewModel) {
         viewModel.checkPermissions()
@@ -39,9 +41,9 @@ fun PermissionsScreen(
 
     PermissionsScreenContent(
         modifier = modifier,
-        missingPermissions = state.value.missingRequiredPermissions,
+        missingPermissions = state.missingRequiredPermissions,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 is PermissionsAction.PermissionGrantClick -> {
                     viewModel.requestPermission(action.permission)
                 }
@@ -49,8 +51,8 @@ fun PermissionsScreen(
         }
     )
 
-    LaunchedEffect(state.value.missingRequiredPermissions) {
-        if(state.value.allPermissionsGranted) {
+    LaunchedEffect(state.missingRequiredPermissions) {
+        if (state.allPermissionsGranted) {
             onAllPermissionsGranted()
         }
     }
@@ -62,19 +64,22 @@ private fun PermissionsScreenContent(
     onAction: (PermissionsAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
+    AppScaffold(
         modifier = modifier,
-        contentPadding = PaddingValues(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            PermissionScreenInfo()
-        }
-        items(items = missingPermissions) {
-            PermissionItem(
-                title = it.title, subtitle = it.subtitle,
-                onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) }
-            )
+        LazyColumn(
+            contentPadding = PaddingValues(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                PermissionScreenInfo()
+            }
+            items(items = missingPermissions) {
+                PermissionItem(
+                    title = it.title, subtitle = it.subtitle,
+                    onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) }
+                )
+            }
         }
     }
 }

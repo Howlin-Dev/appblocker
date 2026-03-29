@@ -2,6 +2,7 @@ package com.serhii.appblocker.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -10,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appblocker.permissions.presentation.PermissionsScreen
 import com.serhii.appblocker.navigation.entry.EntryViewModel
+import com.serhii.appblocker.profiles.presentation.create.CreateProfileScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
@@ -20,7 +22,7 @@ fun MainNavHost(
     navController: NavHostController = rememberNavController(),
     viewModel: EntryViewModel = koinViewModel(),
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     NavHost(
         navController = navController,
@@ -29,8 +31,13 @@ fun MainNavHost(
     ) {
         composable<ProfileListDestination> {
             ProfileListScreen(
-                onAddClick = {  },
-                onProfileClick = {  },
+                onCreateClick = { navController.navigate(CreateProfileDestination) },
+                onProfileClick = { },
+            )
+        }
+        composable<CreateProfileDestination> {
+            CreateProfileScreen(
+                onBackClick = { navController.popBackStack() },
             )
         }
         composable<PermissionsDestination> {
@@ -44,8 +51,8 @@ fun MainNavHost(
         }
     }
 
-    LaunchedEffect(state.value.arePermissionsNeeded) {
-        if(state.value.arePermissionsNeeded == true) {
+    LaunchedEffect(state.arePermissionsNeeded) {
+        if (state.arePermissionsNeeded == true) {
             navController.navigate(PermissionsDestination) {
                 popUpTo(ProfileListDestination) { inclusive = true }
             }
@@ -58,3 +65,6 @@ object PermissionsDestination
 
 @Serializable
 object ProfileListDestination
+
+@Serializable
+object CreateProfileDestination
