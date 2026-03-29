@@ -3,7 +3,6 @@ package com.serhii.appblocker.data.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.util.LruCache
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
@@ -33,7 +32,7 @@ class InstalledAppsRepositoryImpl(
                 AppInfo(
                     packageName = appInfo.packageName,
                     name = resolveInfo.loadLabel(pm).toString(),
-                    drawable = resolveInfo.loadIcon(pm)
+                    icon = resolveInfo.loadIcon(pm)
                 )
             }
             .filterNot { it.packageName == context.packageName }
@@ -42,17 +41,13 @@ class InstalledAppsRepositoryImpl(
         return apps
     }
 
-    override suspend fun getAppInfo(packageName: String): AppInfo? = withContext(Dispatchers.IO) {
+    override suspend fun getAppInfo(packageName: String): AppInfo = withContext(Dispatchers.IO) {
         cache.get(packageName)?.let { return@withContext it }
 
-        try {
-            val appInfo = pm.getApplicationInfo(packageName, 0)
-            val icon = pm.getApplicationIcon(appInfo)
-            val name = pm.getApplicationLabel(appInfo).toString()
+        val appInfo = pm.getApplicationInfo(packageName, 0)
+        val icon = pm.getApplicationIcon(appInfo)
+        val name = pm.getApplicationLabel(appInfo).toString()
 
-            AppInfo(packageName, name, icon).also { cache.put(packageName, it) }
-        } catch (e: PackageManager.NameNotFoundException) {
-            null
-        }
+        AppInfo(packageName, name, icon).also { cache.put(packageName, it) }
     }
 }

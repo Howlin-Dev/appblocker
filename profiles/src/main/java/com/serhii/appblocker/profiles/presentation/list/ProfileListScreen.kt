@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.profiles.domain.model.Profile
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileListItem
+import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -45,7 +46,7 @@ fun ProfileListScreen(
 
 @Composable
 private fun ProfileListScreenContent(
-    profiles: List<Profile>,
+    profiles: List<ProfileUi>,
     onAction: (ProfileListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -65,7 +66,9 @@ private fun ProfileListScreenContent(
             items(items = profiles) {
                 ProfileListItem(
                     profile = it,
-                    onClick = { onAction(ProfileListAction.ProfileClick(it.id)) })
+                    onClick = { onAction(ProfileListAction.ProfileClick(it.id)) },
+                    onLockClick = {}
+                )
             }
         }
     }

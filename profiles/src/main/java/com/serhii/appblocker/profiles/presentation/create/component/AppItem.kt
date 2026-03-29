@@ -3,7 +3,6 @@ package com.serhii.appblocker.profiles.presentation.create.component
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -52,7 +51,7 @@ fun AppItem(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
-            app.drawable?.let {
+            app.icon?.let {
                 Image(
                     modifier = Modifier.size(56.dp),
                     painter = rememberDrawablePainter(it),
