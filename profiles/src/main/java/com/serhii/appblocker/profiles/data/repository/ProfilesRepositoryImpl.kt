@@ -8,7 +8,7 @@ import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class AndroidProfilesRepository(
+class ProfilesRepositoryImpl(
     private val profileDao: ProfileDao
 ) : ProfilesRepository {
 

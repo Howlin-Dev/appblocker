@@ -1,6 +1,9 @@
 package com.serhii.appblocker.profiles.presentation.list
 
+import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
+
 sealed interface ProfileListAction {
     object CreateClick: ProfileListAction
     data class ProfileClick(val id: Long): ProfileListAction
+    data class ToggleProfileActivation(val profile: ProfileUi): ProfileListAction
 }

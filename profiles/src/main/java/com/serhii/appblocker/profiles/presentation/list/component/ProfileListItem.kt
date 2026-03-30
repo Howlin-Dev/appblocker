@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
@@ -30,8 +29,10 @@ import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 @Composable
 fun ProfileListItem(
     profile: ProfileUi,
+    isActive: Boolean,
+    isAnotherProfileActive: Boolean,
     onClick: () -> Unit,
-    onLockClick: () -> Unit,
+    onToggleProfileActivation: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -62,7 +63,9 @@ fun ProfileListItem(
                 )
             }
             FlowRow(
-                modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -78,28 +81,44 @@ fun ProfileListItem(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
             ) {
-                Button(
-                    onClick = onLockClick,
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            8.dp,
-                            alignment = Alignment.CenterHorizontally,
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.outline_lock),
-                            contentDescription = "Lock"
-                        )
-                        Text(
-                            text = "Lock",
-                            style = MaterialTheme.typography.labelLarge,
-                            fontSize = 16.sp
-                        )
-                    }
-                }
+                ActivateProfileButton(
+                    isActive = isActive,
+                    isAnotherProfileActive = isAnotherProfileActive,
+                    onClick = onToggleProfileActivation,
+                )
             }
+        }
+    }
+}
+
+@Composable
+private fun ActivateProfileButton(
+    isActive: Boolean,
+    isAnotherProfileActive: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        modifier = modifier,
+        onClick = onClick,
+        enabled = !isAnotherProfileActive,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                8.dp,
+                alignment = Alignment.CenterHorizontally,
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.outline_lock),
+                contentDescription = "Lock"
+            )
+            Text(
+                text = if(isActive) "Deactivate" else "Activate",
+                style = MaterialTheme.typography.labelLarge,
+                fontSize = 16.sp
+            )
         }
     }
 }
@@ -112,7 +131,9 @@ private fun ProfileListItemPreview() {
             modifier = Modifier.padding(16.dp),
             profile = ProfileUi(0L, "", "", emptyList()),
             onClick = {},
-            onLockClick = {},
+            onToggleProfileActivation = {},
+            isActive = false,
+            isAnotherProfileActive = false,
         )
     }
 }
