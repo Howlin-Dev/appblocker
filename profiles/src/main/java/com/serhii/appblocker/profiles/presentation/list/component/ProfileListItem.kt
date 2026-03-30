@@ -13,12 +13,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -99,5 +101,18 @@ fun ProfileListItem(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileListItemPreview() {
+    Surface {
+        ProfileListItem(
+            modifier = Modifier.padding(16.dp),
+            profile = ProfileUi(0L, "", "", emptyList()),
+            onClick = {},
+            onLockClick = {},
+        )
     }
 }
