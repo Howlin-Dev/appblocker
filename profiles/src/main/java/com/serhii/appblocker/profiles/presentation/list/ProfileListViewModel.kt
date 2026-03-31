@@ -3,16 +3,19 @@ package com.serhii.appblocker.profiles.presentation.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.repository.BlockRepository
+import com.serhii.appblocker.core.domain.repository.TimerRepository
 import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -20,10 +23,19 @@ class ProfileListViewModel(
     private val profilesRepository: ProfilesRepository,
     private val installedAppsRepository: InstalledAppsRepository,
     private val blockRepository: BlockRepository,
+    private val timerRepository: TimerRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfilesListState())
     val state: StateFlow<ProfilesListState> = _state.asStateFlow()
+
+    val remainingTime: StateFlow<Long> =
+        timerRepository.observeRemainingTime()
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = 0L
+            )
 
     init {
         getProfiles()
@@ -78,6 +90,7 @@ class ProfileListViewModel(
 
     private fun activateProfile(profile: ProfileUi) {
         viewModelScope.launch {
+            timerRepository.startTimer(180000)
             blockRepository.activateProfile(
                 profileId = profile.id,
                 blockedPackages = profile.blockedApps.map { app -> app.packageName }

@@ -31,6 +31,7 @@ fun ProfileListItem(
     profile: ProfileUi,
     isActive: Boolean,
     isAnotherProfileActive: Boolean,
+    formattedTimeRemaining: String,
     onClick: () -> Unit,
     onToggleProfileActivation: () -> Unit,
     modifier: Modifier = Modifier,
@@ -81,6 +82,9 @@ fun ProfileListItem(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End,
             ) {
+                if (isActive && formattedTimeRemaining.isNotEmpty()) {
+                    Text(formattedTimeRemaining)
+                }
                 ActivateProfileButton(
                     isActive = isActive,
                     isAnotherProfileActive = isAnotherProfileActive,
@@ -115,7 +119,7 @@ private fun ActivateProfileButton(
                 contentDescription = "Lock"
             )
             Text(
-                text = if(isActive) "Deactivate" else "Activate",
+                text = if (isActive) "Deactivate" else "Activate",
                 style = MaterialTheme.typography.labelLarge,
                 fontSize = 16.sp
             )
@@ -134,6 +138,7 @@ private fun ProfileListItemPreview() {
             onToggleProfileActivation = {},
             isActive = false,
             isAnotherProfileActive = false,
+            formattedTimeRemaining = "",
         )
     }
 }

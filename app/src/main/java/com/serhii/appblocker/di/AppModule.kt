@@ -8,6 +8,7 @@ import com.appblocker.permissions.platform.PermissionNavigator
 import com.appblocker.permissions.platform.requester.PermissionRequester
 import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -20,4 +21,7 @@ val appModule = module {
     single<InstalledAppsRepository> { InstalledAppsRepositoryImpl(androidContext()) }
 
     viewModelOf(::EntryViewModel)
+
+    factory { KoinWorkerFactory() }
+
 }

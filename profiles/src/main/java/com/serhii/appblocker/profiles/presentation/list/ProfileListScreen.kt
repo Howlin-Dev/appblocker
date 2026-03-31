@@ -10,12 +10,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
+import com.serhii.appblocker.core.util.formatMillis
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import org.koin.androidx.compose.koinViewModel
@@ -28,11 +31,17 @@ fun ProfileListScreen(
     viewModel: ProfileListViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val remainingMillis by viewModel.remainingTime.collectAsState()
+
+    val formattedTime = remember(remainingMillis) {
+        formatMillis(remainingMillis)
+    }
 
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
         profiles = state.profiles,
         activeProfileId = state.activeProfileId,
+        formattedTimeRemaining = formattedTime,
         onAction = { action ->
             when (action) {
                 ProfileListAction.CreateClick -> onCreateClick()
@@ -47,6 +56,7 @@ fun ProfileListScreen(
 private fun ProfileListScreenContent(
     profiles: List<ProfileUi>,
     activeProfileId: Long?,
+    formattedTimeRemaining: String,
     onAction: (ProfileListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -69,7 +79,8 @@ private fun ProfileListScreenContent(
                     onClick = { onAction(ProfileListAction.ProfileClick(it.id)) },
                     onToggleProfileActivation = { onAction(ProfileListAction.ToggleProfileActivation(it)) },
                     isActive = activeProfileId == it.id,
-                    isAnotherProfileActive = activeProfileId != it.id && activeProfileId != null
+                    isAnotherProfileActive = activeProfileId != it.id && activeProfileId != null,
+                    formattedTimeRemaining = formattedTimeRemaining,
                 )
             }
         }
@@ -84,6 +95,7 @@ private fun ProfileListScreenPreview() {
             profiles = emptyList(),
             onAction = {},
             activeProfileId = null,
+            formattedTimeRemaining = "",
         )
     }
 }
