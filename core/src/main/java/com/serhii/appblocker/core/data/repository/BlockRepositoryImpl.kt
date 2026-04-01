@@ -25,10 +25,10 @@ class BlockRepositoryImpl(
         )
     }
 
-    override suspend fun activateProfile(profileId: Long, blockedPackages: List<String>) {
+    override suspend fun activateProfile(profileId: Long, appPackages: List<String>) {
         dataStore.edit { prefs ->
             prefs[BlockPreferencesKeys.ACTIVE_PROFILE_ID] = profileId
-            prefs[BlockPreferencesKeys.LOCKED_PACKAGES] = blockedPackages.toSet()
+            prefs[BlockPreferencesKeys.LOCKED_PACKAGES] = appPackages.toSet()
         }
     }
 

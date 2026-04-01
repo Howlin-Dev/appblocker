@@ -17,12 +17,12 @@ fun ProfileEntity.toDomain() = Profile(
     id = id,
     name = name,
     description = description,
-    blockedAppsPackageNames = if (blockedAppsPackageNames.isEmpty()) emptyList() else blockedAppsPackageNames.split(",")
+    appPackages = if (blockedAppsPackageNames.isEmpty()) emptyList() else blockedAppsPackageNames.split(",")
 )
 
 fun Profile.toEntity() = ProfileEntity(
     id = id,
     name = name,
     description = description,
-    blockedAppsPackageNames = blockedAppsPackageNames.joinToString(",")
+    blockedAppsPackageNames = appPackages.joinToString(",")
 )

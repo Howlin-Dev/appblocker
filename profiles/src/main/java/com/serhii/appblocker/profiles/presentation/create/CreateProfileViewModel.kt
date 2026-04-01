@@ -55,7 +55,7 @@ class CreateProfileViewModel(
                 id = 0,
                 name = currentState.name,
                 description = "",
-                blockedAppsPackageNames = currentState.selectedApps.toList()
+                appPackages = currentState.selectedApps.toList()
             )
             runCatching {
                 profilesRepository.insert(profile)

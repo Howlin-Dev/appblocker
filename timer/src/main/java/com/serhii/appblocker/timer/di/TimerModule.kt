@@ -26,8 +26,8 @@ val timerModule = module {
         TimerWorker(
             get(),
             get(),
-            get(), // BlockRepository
-            get()  // TimerDataStore
+            get(),
+            get(),
         )
     }
 }
