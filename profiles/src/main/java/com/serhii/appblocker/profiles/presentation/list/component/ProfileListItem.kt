@@ -84,7 +84,7 @@ fun ProfileListItem(
             }
             Column(
                 modifier = Modifier
-                    .width(IntrinsicSize.Max),
+                    .width(100.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -92,11 +92,13 @@ fun ProfileListItem(
                     Text(formattedTimeRemaining)
                 } else {
                     ActivateProfileButton(
+                        modifier = Modifier.fillMaxWidth(),
                         isProfileActive = isActive,
                         isAnotherProfileActive = isAnotherProfileActive,
                         onClick = onToggleProfileActivation,
                     )
                     TimerButton(
+                        modifier = Modifier.fillMaxWidth(),
                         isProfileActive = isActive,
                         onClick = {}
                     )
@@ -115,7 +117,6 @@ private fun AppList(
 ) {
     FlowRow(
         modifier = modifier
-            .fillMaxWidth()
             .padding(top = 8.dp)
             .alpha(if (profileActive) 0.75f else 1f),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -138,8 +139,7 @@ private fun TimerButton(
     modifier: Modifier = Modifier,
 ) {
     FilledTonalButton(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier,
         contentPadding = PaddingValues(horizontal = 16.dp),
         onClick = onClick,
         enabled = !isProfileActive,
@@ -168,9 +168,7 @@ private fun ActivateProfileButton(
     modifier: Modifier = Modifier,
 ) {
     Button(
-        modifier = modifier
-            .fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier,
         onClick = onClick,
         enabled = !isAnotherProfileActive,
         shape = RoundedCornerShape(12.dp)
