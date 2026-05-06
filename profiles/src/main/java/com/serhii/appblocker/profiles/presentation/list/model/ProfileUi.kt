@@ -10,3 +10,25 @@ data class ProfileUi(
     val description: String,
     val blockedApps: List<AppInfo>,
 )
+
+// --- mapping ---
+
+suspend fun Profile.toUi(installedAppsRepository: InstalledAppsRepository): ProfileUi {
+    return ProfileUi(
+        id = id,
+        name = name,
+        description = description,
+        blockedApps = appPackages.map {
+            installedAppsRepository.getAppInfo(it)
+        }
+    )
+}
+
+fun ProfileUi.toDomain(): Profile {
+    return Profile(
+        id = id,
+        name = name,
+        description = description,
+        appPackages = blockedApps.map { it.packageName }
+    )
+}

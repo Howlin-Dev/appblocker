@@ -4,8 +4,8 @@ import com.serhii.appblocker.profiles.domain.model.Profile
 import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetProfilesUseCase(
+class UpdateProfileUseCase(
     private val profilesRepository: ProfilesRepository
 ) {
-    operator fun invoke(): Flow<List<Profile>> = profilesRepository.getAll()
+    suspend operator fun invoke(profile: Profile) = profilesRepository.update(profile)
 }

@@ -5,6 +5,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ObserveActiveProfileUseCase(private val blockRepository: BlockRepository) {
-    fun execute(): Flow<Long?> = blockRepository.activeBlock
+    operator fun invoke(): Flow<Long?> = blockRepository.activeBlock
         .map { it?.profileId }
 }

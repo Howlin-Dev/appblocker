@@ -9,9 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.appblocker.permissions.presentation.PermissionsScreen
 import com.serhii.appblocker.navigation.entry.EntryViewModel
 import com.serhii.appblocker.profiles.presentation.create.CreateProfileScreen
+import com.serhii.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
@@ -32,11 +34,18 @@ fun MainNavHost(
         composable<ProfileListDestination> {
             ProfileListScreen(
                 onCreateClick = { navController.navigate(CreateProfileDestination) },
-                onProfileClick = { },
+                onProfileClick = { navController.navigate(ProfileDetailDestination(it)) },
             )
         }
         composable<CreateProfileDestination> {
             CreateProfileScreen(
+                onBackClick = { navController.popBackStack() },
+            )
+        }
+        composable<ProfileDetailDestination> {
+            val destination = it.toRoute<ProfileDetailDestination>()
+            ProfileDetailScreen(
+                profileId = destination.profileId,
                 onBackClick = { navController.popBackStack() },
             )
         }
@@ -68,3 +77,8 @@ object ProfileListDestination
 
 @Serializable
 object CreateProfileDestination
+
+@Serializable
+data class ProfileDetailDestination(
+    val profileId: Long,
+)

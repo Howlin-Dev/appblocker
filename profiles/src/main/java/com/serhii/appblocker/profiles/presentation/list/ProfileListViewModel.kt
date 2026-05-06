@@ -10,6 +10,8 @@ import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
+import com.serhii.appblocker.profiles.presentation.list.model.toDomain
+import com.serhii.appblocker.profiles.presentation.list.model.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -36,7 +38,7 @@ class ProfileListViewModel(
     val state: StateFlow<ProfilesListState> = _state.asStateFlow()
 
     val remainingTime: StateFlow<Long> =
-        observeRemainingTimeUseCase.execute()
+        observeRemainingTimeUseCase()
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
@@ -49,10 +51,10 @@ class ProfileListViewModel(
     }
 
     private fun observeProfiles() {
-        getProfilesUseCase.execute()
+        getProfilesUseCase()
             .onStart { _state.update { it.copy(isLoading = true) } }
             .map { profiles ->
-                profiles.map { it.toUi() }
+                profiles.map { it.toUi(installedAppsRepository) }
             }
             .onEach { profilesUi ->
                 _state.update {
@@ -69,7 +71,7 @@ class ProfileListViewModel(
     }
 
     private fun observeActiveProfile() {
-        observeActiveProfileUseCase.execute()
+        observeActiveProfileUseCase()
             .onEach { activeProfileId ->
                 _state.update { it.copy(activeProfileId = activeProfileId) }
             }
@@ -84,28 +86,6 @@ class ProfileListViewModel(
                 activateProfileUseCase(profile.toDomain())
             }
         }
-    }
-
-    // --- mapping ---
-
-    private suspend fun Profile.toUi(): ProfileUi {
-        return ProfileUi(
-            id = id,
-            name = name,
-            description = description,
-            blockedApps = appPackages.map {
-                installedAppsRepository.getAppInfo(it)
-            }
-        )
-    }
-
-    private fun ProfileUi.toDomain(): Profile {
-        return Profile(
-            id = id,
-            name = name,
-            description = description,
-            appPackages = blockedApps.map { it.packageName }
-        )
     }
 }
 

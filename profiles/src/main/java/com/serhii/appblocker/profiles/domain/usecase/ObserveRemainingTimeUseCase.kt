@@ -4,5 +4,5 @@ import com.serhii.appblocker.core.domain.repository.TimerRepository
 import kotlinx.coroutines.flow.Flow
 
 class ObserveRemainingTimeUseCase(private val timerRepository: TimerRepository) {
-    fun execute(): Flow<Long> = timerRepository.observeRemainingTime()
+    operator fun invoke(): Flow<Long> = timerRepository.observeRemainingTime()
 }
