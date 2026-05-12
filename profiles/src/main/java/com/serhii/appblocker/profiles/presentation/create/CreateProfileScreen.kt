@@ -10,10 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.profiles.presentation.create.component.AppItem
+import com.serhii.appblocker.profiles.presentation.create.component.InstalledAppGrid
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -43,16 +49,19 @@ fun CreateProfileScreen(
         installedApps = state.installedApps,
         selectedAppsPackages = state.selectedApps,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 is CreateProfileAction.AppSelected -> {
                     viewModel.toggleAppSelection(action.packageName)
                 }
+
                 CreateProfileAction.BackClick -> {
                     onBackClick()
                 }
+
                 CreateProfileAction.CreateProfileClick -> {
                     viewModel.createProfile()
                 }
+
                 is CreateProfileAction.NameChange -> {
                     viewModel.onNameChange(action.name)
                 }
@@ -61,7 +70,7 @@ fun CreateProfileScreen(
     )
 
     LaunchedEffect(state.isCreated) {
-        if(state.isCreated) {
+        if (state.isCreated) {
             onBackClick()
         }
     }
@@ -78,13 +87,22 @@ private fun CreateProfileScreenContent(
     AppScaffold(
         modifier = modifier,
         title = "New Profile",
-        onBackClick = { onAction(CreateProfileAction.BackClick) }
+        navigationIconImageVector = Icons.Default.Close,
+        onBackClick = { onAction(CreateProfileAction.BackClick) },
+        actions = {
+            TextButton(
+                onClick = { onAction(CreateProfileAction.CreateProfileClick) },
+                enabled = name.isNotEmpty() && selectedAppsPackages.isNotEmpty(),
+            ) {
+                Text("Create")
+            }
+        }
     ) {
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            TextField(
+            OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
@@ -92,42 +110,20 @@ private fun CreateProfileScreenContent(
                 placeholder = {
                     Text(text = "Profile Name...")
                 },
-                onValueChange = { onAction(CreateProfileAction.NameChange(it)) }
+                onValueChange = { onAction(CreateProfileAction.NameChange(it)) },
+                label = {
+                    Text("Profile Name")
+                }
             )
             Box(
                 modifier = Modifier.weight(1f)
             ) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
-                    contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 80.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    items(items = installedApps) {
-                        AppItem(
-                            app = it,
-                            selected = selectedAppsPackages.contains(it.packageName),
-                            onClick = { onAction(CreateProfileAction.AppSelected(it.packageName)) }
-                        )
-                    }
-                }
-                Button(
-                    modifier = Modifier
-                        .padding(horizontal = 24.dp, vertical = 16.dp)
-                        .height(56.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter),
-                    onClick = {
-                        onAction(CreateProfileAction.CreateProfileClick)
-                    },
-                    enabled = name.isNotEmpty() && selectedAppsPackages.isNotEmpty()
-                ) {
-                    Text(
-                        text = "Create",
-                        style = MaterialTheme.typography.labelLarge,
-                        fontSize = 20.sp
-                    )
-                }
+                InstalledAppGrid(
+                    installedApps = installedApps,
+                    selectedAppsPackages = selectedAppsPackages,
+                    onItemClick = { onAction(CreateProfileAction.AppSelected(it)) },
+                    columnCount = 4
+                )
             }
         }
     }

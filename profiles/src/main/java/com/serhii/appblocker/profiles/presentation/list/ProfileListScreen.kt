@@ -1,5 +1,6 @@
 package com.serhii.appblocker.profiles.presentation.list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,7 +8,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -70,10 +74,21 @@ private fun ProfileListScreenContent(
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
-        }
+        },
+        actions = {
+            IconButton(
+                onClick = {}
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings"
+                )
+            }
+        },
     ) {
         LazyColumn(
-            contentPadding = PaddingValues(bottom = 140.dp)
+            contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(items = profiles) {
                 ProfileListItem(

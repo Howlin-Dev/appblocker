@@ -21,6 +21,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.profiles.presentation.detail.component.DeleteProfileConfirmDialog
 import com.serhii.appblocker.profiles.presentation.detail.component.ProfileDetailAppIconGrid
+import com.serhii.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import org.koin.androidx.compose.koinViewModel
@@ -48,6 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProfileDetailScreen(
     profileId: Long,
     onBackClick: () -> Unit,
+    onManageListClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileDetailViewModel = koinViewModel(),
 ) {
@@ -60,6 +63,8 @@ fun ProfileDetailScreen(
             when (action) {
                 ProfileDetailAction.BackClick -> onBackClick()
                 ProfileDetailAction.DeleteProfile -> viewModel.deleteProfile()
+                ProfileDetailAction.ManageListClick -> onManageListClick(profileId)
+                is ProfileDetailAction.ProfileNameChanged -> viewModel.updateProfileName(action.name)
             }
         }
     )
@@ -81,6 +86,7 @@ private fun ProfileDetailScreenContent(
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var renameDialogShown by remember { mutableStateOf(false) }
     var deleteConfirmDialogShown by remember { mutableStateOf(false) }
 
     AppScaffold(
@@ -111,14 +117,16 @@ private fun ProfileDetailScreenContent(
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp),
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             ProfileNameSection(
                 name = profile?.name.orEmpty(),
+                onRenameClick = { renameDialogShown = true }
             )
             ProfileAppListSection(
                 appList = profile?.blockedApps.orEmpty(),
+                onAction = onAction,
             )
         }
     }
@@ -132,11 +140,40 @@ private fun ProfileDetailScreenContent(
             onCancel = { deleteConfirmDialogShown = false }
         )
     }
+    if (renameDialogShown) {
+        RenameProfileDialog(
+            name = profile?.name.orEmpty(),
+            onChange = {
+                onAction(ProfileDetailAction.ProfileNameChanged(it))
+                renameDialogShown = false
+            },
+            onCancel = { renameDialogShown = false },
+        )
+    }
 }
+
+//@Composable
+//private fun ProfileNameSection(
+//    name: String,
+//    onValueChange: (String) -> Unit,
+//    modifier: Modifier = Modifier,
+//) {
+//    OutlinedTextField(
+//        modifier = modifier,
+//        value = name,
+//        onValueChange = onValueChange,
+//        singleLine = true,
+//        maxLines = 1,
+//        placeholder = {
+//            Text(text = "Name")
+//        },
+//    )
+//}
 
 @Composable
 private fun ProfileNameSection(
     name: String,
+    onRenameClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -158,7 +195,7 @@ private fun ProfileNameSection(
                 overflow = TextOverflow.Ellipsis
             )
             IconButton(
-                onClick = {}
+                onClick = onRenameClick
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -172,6 +209,7 @@ private fun ProfileNameSection(
 @Composable
 private fun ProfileAppListSection(
     appList: List<AppInfo>,
+    onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -195,7 +233,7 @@ private fun ProfileAppListSection(
                 appList = appList,
             )
             TextButton(
-                onClick = {},
+                onClick = { onAction(ProfileDetailAction.ManageListClick) },
             ) {
                 Text("Manage List")
                 Spacer(modifier = Modifier.width(8.dp))
@@ -211,5 +249,8 @@ private fun ProfileAppListSection(
 @Preview
 @Composable
 private fun ProfileDetailScreenPreview() {
-
+    ProfileDetailScreenContent(
+        profile = null,
+        onAction = { },
+    )
 }

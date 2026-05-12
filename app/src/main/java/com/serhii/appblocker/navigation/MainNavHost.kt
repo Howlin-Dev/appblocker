@@ -13,6 +13,7 @@ import androidx.navigation.toRoute
 import com.appblocker.permissions.presentation.PermissionsScreen
 import com.serhii.appblocker.navigation.entry.EntryViewModel
 import com.serhii.appblocker.profiles.presentation.create.CreateProfileScreen
+import com.serhii.appblocker.profiles.presentation.detail.ManageProfileAppListScreen
 import com.serhii.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
 import kotlinx.serialization.Serializable
@@ -47,6 +48,23 @@ fun MainNavHost(
             ProfileDetailScreen(
                 profileId = destination.profileId,
                 onBackClick = { navController.popBackStack() },
+                onManageListClick = { navController.navigate(ManageProfileAppListDestination(it)) },
+            )
+        }
+        composable<ManageProfileAppListDestination> {
+            val destination = it.toRoute<ManageProfileAppListDestination>()
+            ManageProfileAppListScreen(
+                profileId = destination.profileId,
+                onBackClick = { navController.popBackStack() },
+            )
+        }
+        composable<PermissionsDestination> {
+            PermissionsScreen(
+                onAllPermissionsGranted = {
+                    navController.navigate(ProfileListDestination) {
+                        popUpTo(PermissionsDestination) { inclusive = true }
+                    }
+                }
             )
         }
         composable<PermissionsDestination> {
@@ -80,5 +98,10 @@ object CreateProfileDestination
 
 @Serializable
 data class ProfileDetailDestination(
+    val profileId: Long,
+)
+
+@Serializable
+data class ManageProfileAppListDestination(
     val profileId: Long,
 )

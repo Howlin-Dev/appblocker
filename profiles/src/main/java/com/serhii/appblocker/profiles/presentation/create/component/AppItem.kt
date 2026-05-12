@@ -31,7 +31,7 @@ fun AppItem(
 ) {
     Surface(
         onClick = onClick,
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         color = if (selected) {
             MaterialTheme.colorScheme.primaryContainer
@@ -44,20 +44,17 @@ fun AppItem(
             MaterialTheme.colorScheme.onSurface
         }
     ) {
-        Column (
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(horizontal = 4.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
         ) {
-            app.icon?.let {
-                Image(
-                    modifier = Modifier.size(56.dp),
-                    painter = rememberDrawablePainter(it),
-                    contentDescription = null,
-                )
-            }
+            Image(
+                modifier = Modifier.size(56.dp),
+                painter = rememberDrawablePainter(app.icon),
+                contentDescription = null,
+            )
             Text(
                 text = app.name,
                 style = MaterialTheme.typography.labelLarge,

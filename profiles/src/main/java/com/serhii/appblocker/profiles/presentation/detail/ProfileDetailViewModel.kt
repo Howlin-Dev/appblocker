@@ -36,7 +36,13 @@ class ProfileDetailViewModel(
         }
     }
 
-    fun updateProfile(profile: ProfileUi) {
+    fun updateProfileName(newName: String) {
+        _state.value.profile?.copy(name = newName)?.let {
+            updateProfile(it)
+        }
+    }
+
+    private fun updateProfile(profile: ProfileUi) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             runCatching {

@@ -11,6 +11,7 @@ import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.create.CreateProfileViewModel
+import com.serhii.appblocker.profiles.presentation.detail.ManageProfileAppListViewModel
 import com.serhii.appblocker.profiles.presentation.detail.ProfileDetailViewModel
 import com.serhii.appblocker.profiles.presentation.list.ProfileListViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -22,6 +23,7 @@ val profilesModule = module {
     viewModelOf(::ProfileListViewModel)
     viewModelOf(::CreateProfileViewModel)
     viewModelOf(::ProfileDetailViewModel)
+    viewModelOf(::ManageProfileAppListViewModel)
 
     factory { GetProfilesUseCase(get()) }
     factory { GetProfileUseCase(get()) }
