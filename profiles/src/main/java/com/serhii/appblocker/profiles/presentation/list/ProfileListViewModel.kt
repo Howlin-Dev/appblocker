@@ -2,13 +2,12 @@ package com.serhii.appblocker.profiles.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhii.appblocker.profiles.domain.model.Profile
 import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveRemainingTimeUseCase
+import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import com.serhii.appblocker.profiles.presentation.list.model.toDomain
 import com.serhii.appblocker.profiles.presentation.list.model.toUi

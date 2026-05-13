@@ -8,7 +8,7 @@ import com.serhii.appblocker.profiles.domain.usecase.DeleteProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveRemainingTimeUseCase
+import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.create.CreateProfileViewModel
 import com.serhii.appblocker.profiles.presentation.detail.ManageProfileAppListViewModel

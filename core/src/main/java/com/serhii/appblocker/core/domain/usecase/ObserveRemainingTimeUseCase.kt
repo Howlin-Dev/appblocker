@@ -1,4 +1,4 @@
-package com.serhii.appblocker.profiles.domain.usecase
+package com.serhii.appblocker.core.domain.usecase
 
 import com.serhii.appblocker.core.domain.repository.TimerRepository
 import kotlinx.coroutines.flow.Flow
