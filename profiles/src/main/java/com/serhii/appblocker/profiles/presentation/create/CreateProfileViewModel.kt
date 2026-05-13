@@ -56,7 +56,8 @@ class CreateProfileViewModel(
                 id = 0,
                 name = currentState.name,
                 description = "",
-                appPackages = currentState.selectedApps.toList()
+                appPackages = currentState.selectedApps.toList(),
+                durationMillis = null,
             )
             runCatching {
                 profilesRepository.insert(profile)

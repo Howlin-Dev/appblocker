@@ -9,6 +9,7 @@ data class ProfileUi(
     val name: String,
     val description: String,
     val blockedApps: List<AppInfo>,
+    val durationMillis: Long?,
 )
 
 // --- mapping ---
@@ -20,7 +21,8 @@ suspend fun Profile.toUi(installedAppsRepository: InstalledAppsRepository): Prof
         description = description,
         blockedApps = appPackages.map {
             installedAppsRepository.getAppInfo(it)
-        }
+        },
+        durationMillis = durationMillis,
     )
 }
 
@@ -29,6 +31,7 @@ fun ProfileUi.toDomain(): Profile {
         id = id,
         name = name,
         description = description,
-        appPackages = blockedApps.map { it.packageName }
+        appPackages = blockedApps.map { it.packageName },
+        durationMillis = durationMillis,
     )
 }

@@ -1,24 +1,19 @@
 package com.serhii.appblocker.profiles.presentation.list.component
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -30,18 +25,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.serhii.appblocker.core.R
-import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
-import kotlin.math.max
-import kotlin.math.min
 
 @Composable
 fun ProfileListItem(
@@ -57,18 +49,24 @@ fun ProfileListItem(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .height(160.dp)
+            .padding(horizontal = 16.dp),
+        border = BorderStroke(
+            width = 2.dp,
+            color = if(isActive) MaterialTheme.colorScheme.primary else Color.Transparent,
+        )
     ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth(),
+                .fillMaxSize(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Column(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .weight(1f),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = profile.name,
@@ -84,19 +82,25 @@ fun ProfileListItem(
             }
             Column(
                 modifier = Modifier
+                    .fillMaxHeight()
                     .width(100.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 if (isActive && formattedTimeRemaining.isNotEmpty()) {
-                    Text(formattedTimeRemaining)
+                    TimerSection(
+                        formattedTimeRemaining = formattedTimeRemaining,
+                    )
                 } else {
                     ActivateProfileButton(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
                         isProfileActive = isActive,
                         isAnotherProfileActive = isAnotherProfileActive,
                         onClick = onToggleProfileActivation,
                     )
+                    Spacer(modifier = Modifier.size(8.dp))
                     TimerButton(
                         modifier = Modifier.fillMaxWidth(),
                         isProfileActive = isActive,
@@ -109,26 +113,21 @@ fun ProfileListItem(
 }
 
 @Composable
-private fun AppList(
-    profileActive: Boolean,
-    appList: List<AppInfo>,
+private fun TimerSection(
+    formattedTimeRemaining: String,
     modifier: Modifier = Modifier,
-    maxItems: Int = 12,
 ) {
-    FlowRow(
-        modifier = modifier
-            .padding(top = 8.dp)
-            .alpha(if (profileActive) 0.75f else 1f),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        repeat(min(appList.size, maxItems)) {
-            Image(
-                modifier = Modifier.size(32.dp),
-                painter = rememberDrawablePainter(appList[it].icon),
-                contentDescription = null
-            )
-        }
+        Text("Active for:")
+        Text(
+            modifier = modifier,
+            text = formattedTimeRemaining,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.displaySmall
+        )
     }
 }
 
@@ -139,8 +138,10 @@ private fun TimerButton(
     modifier: Modifier = Modifier,
 ) {
     FilledTonalButton(
-        modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        modifier = modifier
+            .padding(0.dp)
+            .height(40.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
         onClick = onClick,
         enabled = !isProfileActive,
         shape = RoundedCornerShape(12.dp),
@@ -195,12 +196,12 @@ private fun ProfileListItemPreview() {
     Surface {
         ProfileListItem(
             modifier = Modifier.padding(16.dp),
-            profile = ProfileUi(0L, "Working Out", "", emptyList()),
+            profile = ProfileUi(0L, "Working Out", "", emptyList(), null),
             onClick = {},
             onToggleProfileActivation = {},
             isActive = false,
-            isAnotherProfileActive = false,
-            formattedTimeRemaining = "",
+            isAnotherProfileActive = true,
+            formattedTimeRemaining = "00:00",
         )
     }
 }

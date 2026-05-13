@@ -1,4 +1,4 @@
-package com.serhii.appblocker.profiles.presentation.create.component
+package com.serhii.appblocker.profiles.presentation.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.serhii.appblocker.core.domain.model.AppInfo
+import com.serhii.appblocker.profiles.presentation.create.component.AppItem
 
 @Composable
 fun InstalledAppGrid(

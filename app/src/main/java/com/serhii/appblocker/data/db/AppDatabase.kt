@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.serhii.appblocker.profiles.data.db.ProfileDao
 import com.serhii.appblocker.profiles.data.model.ProfileEntity
 
-@Database(entities = [ProfileEntity::class], version = 1)
+@Database(entities = [ProfileEntity::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
 }

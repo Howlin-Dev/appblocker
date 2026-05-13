@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
-import com.serhii.appblocker.profiles.presentation.create.component.InstalledAppGrid
+import com.serhii.appblocker.profiles.presentation.common.InstalledAppGrid
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
