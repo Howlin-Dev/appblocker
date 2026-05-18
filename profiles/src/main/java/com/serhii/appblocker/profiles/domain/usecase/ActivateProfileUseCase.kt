@@ -9,7 +9,9 @@ class ActivateProfileUseCase(
     private val timerRepository: TimerRepository
 ) {
     suspend operator fun invoke(profile: Profile) {
-        timerRepository.startTimer(20_000)
+        profile.durationMillis?.let {
+            timerRepository.startTimer(it)
+        }
 
         blockRepository.activateProfile(
             profileId = profile.id,

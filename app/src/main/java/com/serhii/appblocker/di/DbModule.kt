@@ -11,7 +11,9 @@ val dbModule = module {
             androidContext(),
             AppDatabase::class.java,
             "app_blocker_db"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     single { get<AppDatabase>().profileDao() }

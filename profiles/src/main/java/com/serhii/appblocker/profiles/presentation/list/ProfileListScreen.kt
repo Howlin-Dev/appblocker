@@ -51,7 +51,10 @@ fun ProfileListScreen(
             when (action) {
                 ProfileListAction.CreateClick -> onCreateClick()
                 is ProfileListAction.ProfileClick -> onProfileClick(action.id)
-                is ProfileListAction.ToggleProfileActivation -> viewModel.toggleProfileActivation(action.profile)
+                is ProfileListAction.ToggleProfileActivation -> viewModel.toggleProfileActivation(
+                    action.profile
+                )
+                is ProfileListAction.TimerChange -> viewModel.updateProfileTimer(action.profileUi, action.newTime)
             }
         }
     )
@@ -69,7 +72,7 @@ private fun ProfileListScreenContent(
         modifier = modifier,
         title = "Profiles",
         floatingActionButton = {
-            LargeFloatingActionButton (
+            LargeFloatingActionButton(
                 onClick = { onAction(ProfileListAction.CreateClick) }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
@@ -94,10 +97,17 @@ private fun ProfileListScreenContent(
                 ProfileListItem(
                     profile = it,
                     onClick = { onAction(ProfileListAction.ProfileClick(it.id)) },
-                    onToggleProfileActivation = { onAction(ProfileListAction.ToggleProfileActivation(it)) },
+                    onToggleProfileActivation = {
+                        onAction(
+                            ProfileListAction.ToggleProfileActivation(
+                                it
+                            )
+                        )
+                    },
                     isActive = activeProfileId == it.id,
                     isAnotherProfileActive = activeProfileId != it.id && activeProfileId != null,
                     formattedTimeRemaining = formattedTimeRemaining,
+                    onTimerChanged = { newTime -> onAction(ProfileListAction.TimerChange(it, newTime)) }
                 )
             }
         }

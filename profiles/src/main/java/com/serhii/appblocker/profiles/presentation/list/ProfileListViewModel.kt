@@ -8,6 +8,7 @@ import com.serhii.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
 import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
+import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import com.serhii.appblocker.profiles.presentation.list.model.toDomain
 import com.serhii.appblocker.profiles.presentation.list.model.toUi
@@ -30,7 +31,8 @@ class ProfileListViewModel(
     private val observeActiveProfileUseCase: ObserveActiveProfileUseCase,
     private val activateProfileUseCase: ActivateProfileUseCase,
     private val deactivateProfileUseCase: DeactivateProfileUseCase,
-    private val installedAppsRepository: InstalledAppsRepository
+    private val installedAppsRepository: InstalledAppsRepository,
+    private val updateProfileUseCase: UpdateProfileUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfilesListState())
@@ -83,6 +85,22 @@ class ProfileListViewModel(
                 deactivateProfileUseCase()
             } else {
                 activateProfileUseCase(profile.toDomain())
+            }
+        }
+    }
+
+    fun updateProfileTimer(profileUi: ProfileUi, newTime: Long?) {
+        updateProfile(profileUi.copy(durationMillis = newTime))
+    }
+
+    private fun updateProfile(profile: ProfileUi) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            runCatching {
+                updateProfileUseCase(profile.toDomain())
+//                _state.update { it.copy(isLoading = false, profiles = _state.value.profiles.) }
+            }.onFailure {
+                _state.update { it.copy(isLoading = false) }
             }
         }
     }

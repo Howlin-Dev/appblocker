@@ -1,7 +1,6 @@
 package com.serhii.appblocker.profiles.presentation.list.component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +22,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +36,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhii.appblocker.core.R
+import com.serhii.appblocker.profiles.presentation.common.TimerPickerDialog
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
+import com.serhii.appblocker.profiles.util.millisToTimeString
 
 @Composable
 fun ProfileListItem(
@@ -42,9 +47,12 @@ fun ProfileListItem(
     isAnotherProfileActive: Boolean,
     formattedTimeRemaining: String,
     onClick: () -> Unit,
+    onTimerChanged: (Long?) -> Unit,
     onToggleProfileActivation: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    var isTimerDialogShown by remember { mutableStateOf(false) }
+
     Card(
         onClick = onClick,
         modifier = modifier
@@ -53,7 +61,7 @@ fun ProfileListItem(
             .padding(horizontal = 16.dp),
         border = BorderStroke(
             width = 2.dp,
-            color = if(isActive) MaterialTheme.colorScheme.primary else Color.Transparent,
+            color = if (isActive) MaterialTheme.colorScheme.primary else Color.Transparent,
         )
     ) {
         Row(
@@ -83,11 +91,11 @@ fun ProfileListItem(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(100.dp),
+                    .width(115.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (isActive && formattedTimeRemaining.isNotEmpty()) {
+                if (isActive && profile.durationMillis != null) {
                     TimerSection(
                         formattedTimeRemaining = formattedTimeRemaining,
                     )
@@ -103,12 +111,24 @@ fun ProfileListItem(
                     Spacer(modifier = Modifier.size(8.dp))
                     TimerButton(
                         modifier = Modifier.fillMaxWidth(),
+                        time = profile.durationMillis,
                         isProfileActive = isActive,
-                        onClick = {}
+                        onClick = { isTimerDialogShown = true }
                     )
                 }
             }
         }
+    }
+
+    if (isTimerDialogShown) {
+        TimerPickerDialog(
+            time = profile.durationMillis,
+            onConfirm = {
+                onTimerChanged(it)
+                isTimerDialogShown = false
+            },
+            onCancel = { isTimerDialogShown = false },
+        )
     }
 }
 
@@ -133,6 +153,7 @@ private fun TimerSection(
 
 @Composable
 private fun TimerButton(
+    time: Long?,
     isProfileActive: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -151,7 +172,7 @@ private fun TimerButton(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = "Timer",
+                text = time?.millisToTimeString() ?: "Timer",
             )
             Icon(
                 painter = painterResource(R.drawable.outline_timer),
@@ -198,6 +219,7 @@ private fun ProfileListItemPreview() {
             modifier = Modifier.padding(16.dp),
             profile = ProfileUi(0L, "Working Out", "", emptyList(), null),
             onClick = {},
+            onTimerChanged = {},
             onToggleProfileActivation = {},
             isActive = false,
             isAnotherProfileActive = true,
