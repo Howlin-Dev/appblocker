@@ -1,4 +1,4 @@
-package com.serhii.appblocker.profiles.presentation.detail.component
+package com.serhii.appblocker.core.presentation.component
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -7,18 +7,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun DeleteProfileConfirmDialog(
+fun ConfirmDialog(
     onConfirm: () -> Unit,
     onCancel: () -> Unit,
+    title: String,
+    text: String,
+    confirmButtonText: String,
+    cancelButtonText: String,
     modifier: Modifier = Modifier,
 ) {
     AlertDialog(
         modifier = modifier,
         title = {
-            Text(text = "Delete profile?")
+            Text(text = title)
         },
         text = {
-            Text(text = "The action cannot be undone")
+            Text(text = text)
         },
         onDismissRequest = {
             onCancel()
@@ -29,7 +33,7 @@ fun DeleteProfileConfirmDialog(
                     onConfirm()
                 }
             ) {
-                Text("Delete")
+                Text(confirmButtonText)
             }
         },
         dismissButton = {
@@ -38,7 +42,7 @@ fun DeleteProfileConfirmDialog(
                     onCancel()
                 }
             ) {
-                Text("Cancel")
+                Text(cancelButtonText)
             }
         }
     )

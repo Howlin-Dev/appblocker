@@ -1,6 +1,5 @@
 package com.serhii.appblocker.profiles.presentation.detail
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
@@ -21,7 +19,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -39,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
-import com.serhii.appblocker.profiles.presentation.detail.component.DeleteProfileConfirmDialog
+import com.serhii.appblocker.core.presentation.component.ConfirmDialog
 import com.serhii.appblocker.profiles.presentation.detail.component.ProfileDetailAppIconGrid
 import com.serhii.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
@@ -132,12 +129,16 @@ private fun ProfileDetailScreenContent(
     }
 
     if (deleteConfirmDialogShown) {
-        DeleteProfileConfirmDialog(
+        ConfirmDialog(
             onConfirm = {
                 onAction(ProfileDetailAction.DeleteProfile)
                 deleteConfirmDialogShown = false
             },
-            onCancel = { deleteConfirmDialogShown = false }
+            onCancel = { deleteConfirmDialogShown = false },
+            title = "Delete profile?",
+            text = "The action cannot be undone",
+            confirmButtonText = "Delete",
+            cancelButtonText = "Cancel",
         )
     }
     if (renameDialogShown) {
