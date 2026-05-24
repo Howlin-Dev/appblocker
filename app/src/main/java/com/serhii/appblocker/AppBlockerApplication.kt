@@ -7,6 +7,7 @@ import com.serhii.appblocker.core.di.coreModule
 import com.serhii.appblocker.di.appModule
 import com.serhii.appblocker.di.dbModule
 import com.serhii.appblocker.profiles.di.profilesModule
+import com.serhii.appblocker.settings.di.settingsModule
 import com.serhii.appblocker.timer.di.timerModule
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -33,7 +34,8 @@ class AppBlockerApplication : Application(), Configuration.Provider {
                 coreModule,
                 profilesModule,
                 permissionsModule,
-                timerModule
+                timerModule,
+                settingsModule,
             )
         }
     }

@@ -2,7 +2,7 @@ package com.serhii.appblocker.presentation.block
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
@@ -10,12 +10,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
+import com.serhii.appblocker.core.domain.model.ThemeMode
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.ui.theme.AppBlockerTheme
 import com.serhii.appblocker.core.util.LocalAppIconProvider
 import com.serhii.appblocker.util.AppIconLoader
 
-class BlockActivity : ComponentActivity() {
+class BlockActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

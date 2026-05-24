@@ -1,6 +1,7 @@
 [versions]
 accompanistDrawablepainter = "0.37.3"
 agp = "9.1.0"
+appcompatVersion = "1.7.0"
 coreKtx = "1.17.0"
 datastorePreferences = "1.2.1"
 junit = "4.13.2"
@@ -22,6 +23,7 @@ workRuntimeKtx = "2.11.2"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
+androidx-appcompat-v170 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

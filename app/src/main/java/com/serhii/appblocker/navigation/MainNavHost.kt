@@ -16,6 +16,8 @@ import com.serhii.appblocker.profiles.presentation.create.CreateProfileScreen
 import com.serhii.appblocker.profiles.presentation.detail.ManageProfileAppListScreen
 import com.serhii.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
+import com.serhii.appblocker.settings.presentation.language.LanguageScreen
+import com.serhii.appblocker.settings.presentation.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
@@ -36,6 +38,7 @@ fun MainNavHost(
             ProfileListScreen(
                 onCreateClick = { navController.navigate(CreateProfileDestination) },
                 onProfileClick = { navController.navigate(ProfileDetailDestination(it)) },
+                onSettingsClick = { navController.navigate(SettingsDestination) },
             )
         }
         composable<CreateProfileDestination> {
@@ -76,6 +79,17 @@ fun MainNavHost(
                 }
             )
         }
+        composable<SettingsDestination> {
+            SettingsScreen(
+                onBackClick = { navController.popBackStack() },
+                onLanguageClick = { navController.navigate(LanguageDestination) },
+            )
+        }
+        composable<LanguageDestination> {
+            LanguageScreen(
+                onBackClick = { navController.popBackStack() },
+            )
+        }
     }
 
     LaunchedEffect(state.arePermissionsNeeded) {
@@ -105,3 +119,9 @@ data class ProfileDetailDestination(
 data class ManageProfileAppListDestination(
     val profileId: Long,
 )
+
+@Serializable
+object SettingsDestination
+
+@Serializable
+object LanguageDestination

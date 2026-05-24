@@ -34,6 +34,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileListScreen(
     onCreateClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     onProfileClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileListViewModel = koinViewModel()
@@ -54,6 +55,7 @@ fun ProfileListScreen(
         onAction = { action ->
             when (action) {
                 ProfileListAction.CreateClick -> onCreateClick()
+                ProfileListAction.SettingsClick -> onSettingsClick()
                 is ProfileListAction.ProfileClick -> onProfileClick(action.id)
                 is ProfileListAction.ToggleProfileActivation -> {
                     if (action.profile.durationMillis == null)
@@ -105,7 +107,7 @@ private fun ProfileListScreenContent(
         },
         actions = {
             IconButton(
-                onClick = {}
+                onClick = { onAction(ProfileListAction.SettingsClick) }
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,

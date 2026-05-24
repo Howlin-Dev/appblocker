@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Налаштування</string>
+    <string name="theme">Тема</string>
+    <string name="language">Мова</string>
+    <string name="app_version">Версія програми: %s</string>
+</resources>
