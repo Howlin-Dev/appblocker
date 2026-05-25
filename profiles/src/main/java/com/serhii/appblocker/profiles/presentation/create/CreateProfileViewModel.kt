@@ -3,9 +3,8 @@ package com.serhii.appblocker.profiles.presentation.create
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.AppInfo
-import com.serhii.appblocker.profiles.domain.model.Profile
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
-import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
+import com.serhii.appblocker.profiles.domain.usecase.CreateProfileUseCase
+import com.serhii.appblocker.profiles.domain.usecase.GetInstalledAppsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,8 +12,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CreateProfileViewModel(
-    private val installedAppsRepository: InstalledAppsRepository,
-    private val profilesRepository: ProfilesRepository,
+    private val getInstalledAppsUseCase: GetInstalledAppsUseCase,
+    private val createProfileUseCase: CreateProfileUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CreateProfileState())
@@ -27,7 +26,7 @@ class CreateProfileViewModel(
     private fun loadInstalledApps() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
-            val apps = installedAppsRepository.getInstalledApps()
+            val apps = getInstalledAppsUseCase()
             _state.update { it.copy(installedApps = apps, isLoading = false) }
         }
     }
@@ -53,19 +52,16 @@ class CreateProfileViewModel(
 
         viewModelScope.launch {
             _state.update { it.copy(isSaving = true) }
-            val profile = Profile(
-                id = 0,
-                name = currentState.name,
-                description = "",
-                appPackages = currentState.selectedApps.toList(),
-                durationMillis = null,
-            )
             runCatching {
-                profilesRepository.insert(profile)
+                createProfileUseCase(
+                    name = currentState.name,
+                    appPackages = currentState.selectedApps.toList()
+                )
             }.onFailure {
                 it.printStackTrace()
+                _state.update { it.copy(isSaving = false) }
             }.onSuccess {
-                _state.update { it.copy(isCreated = true) }
+                _state.update { it.copy(isCreated = true, isSaving = false) }
             }
         }
     }

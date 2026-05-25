@@ -1,14 +1,14 @@
 package com.serhii.appblocker.navigation.entry
 
 import androidx.lifecycle.ViewModel
-import com.appblocker.permissions.domain.repository.PermissionRepository
+import com.appblocker.permissions.domain.usecase.GetMissingPermissionsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class EntryViewModel(
-    private val permissionRepository: PermissionRepository,
+    private val getMissingPermissionsUseCase: GetMissingPermissionsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(EntryState())
@@ -19,7 +19,7 @@ class EntryViewModel(
     }
 
     fun checkPermissions() {
-        val arePermissionsNeeded = permissionRepository.getMissingPermissions().isNotEmpty()
+        val arePermissionsNeeded = getMissingPermissionsUseCase().isNotEmpty()
         _state.update { it.copy(arePermissionsNeeded = arePermissionsNeeded) }
     }
 }

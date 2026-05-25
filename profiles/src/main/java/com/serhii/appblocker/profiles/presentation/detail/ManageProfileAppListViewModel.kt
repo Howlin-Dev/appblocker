@@ -3,12 +3,11 @@ package com.serhii.appblocker.profiles.presentation.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.AppInfo
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
-import com.serhii.appblocker.profiles.domain.usecase.GetProfileUseCase
+import com.serhii.appblocker.profiles.domain.usecase.GetInstalledAppsUseCase
+import com.serhii.appblocker.profiles.domain.usecase.GetProfileUiUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import com.serhii.appblocker.profiles.presentation.list.model.toDomain
-import com.serhii.appblocker.profiles.presentation.list.model.toUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,9 +15,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ManageProfileAppListViewModel(
-    private val getProfileUseCase: GetProfileUseCase,
+    private val getProfileUiUseCase: GetProfileUiUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
-    private val installedAppsRepository: InstalledAppsRepository,
+    private val getInstalledAppsUseCase: GetInstalledAppsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ManageProfileAppListState())
@@ -31,7 +30,7 @@ class ManageProfileAppListViewModel(
     private fun loadInstalledApps() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(isLoading = true) }
-            val apps = installedAppsRepository.getInstalledApps()
+            val apps = getInstalledAppsUseCase()
             _state.update { it.copy(installedApps = apps, isLoading = false) }
         }
     }
@@ -40,12 +39,12 @@ class ManageProfileAppListViewModel(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             runCatching {
-                val profile = getProfileUseCase(id)
+                val profileUi = getProfileUiUseCase(id)
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        profile = profile.toUi(installedAppsRepository),
-                        selectedApps = profile.appPackages.toSet()
+                        profile = profileUi,
+                        selectedApps = profileUi.blockedApps.map { it.packageName }.toSet()
                     )
                 }
             }.onFailure {

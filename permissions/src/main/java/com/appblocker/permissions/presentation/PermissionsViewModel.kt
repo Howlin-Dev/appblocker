@@ -2,23 +2,23 @@ package com.appblocker.permissions.presentation
 
 import androidx.lifecycle.ViewModel
 import com.appblocker.permissions.domain.model.RequiredPermission
-import com.appblocker.permissions.domain.repository.PermissionRepository
-import com.appblocker.permissions.platform.requester.PermissionRequester
+import com.appblocker.permissions.domain.usecase.GetMissingPermissionsUseCase
+import com.appblocker.permissions.domain.usecase.RequestPermissionUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class PermissionsViewModel(
-    private val permissionRepository: PermissionRepository,
-    private val permissionRequester: PermissionRequester,
+    private val getMissingPermissionsUseCase: GetMissingPermissionsUseCase,
+    private val requestPermissionUseCase: RequestPermissionUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PermissionsState())
     val state: StateFlow<PermissionsState> = _state.asStateFlow()
 
     fun checkPermissions() {
-        val missingPermissions = permissionRepository.getMissingPermissions()
+        val missingPermissions = getMissingPermissionsUseCase()
         _state.update {
             _state.value.copy(
                 missingRequiredPermissions = missingPermissions,
@@ -28,7 +28,7 @@ class PermissionsViewModel(
     }
 
     fun requestPermission(permission: RequiredPermission) {
-        permissionRequester.request(permission)
+        requestPermissionUseCase(permission)
     }
 }
 

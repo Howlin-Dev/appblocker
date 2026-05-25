@@ -2,16 +2,14 @@ package com.serhii.appblocker.profiles.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
-import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
+import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUiUseCase
 import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveBlockUseCase
 import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import com.serhii.appblocker.profiles.presentation.list.model.toDomain
-import com.serhii.appblocker.profiles.presentation.list.model.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -27,11 +25,10 @@ import kotlinx.coroutines.launch
 
 class ProfileListViewModel(
     observeRemainingTimeUseCase: ObserveRemainingTimeUseCase,
-    private val getProfilesUseCase: GetProfilesUseCase,
+    private val getProfilesUiUseCase: GetProfilesUiUseCase,
     private val observeActiveBlockUseCase: ObserveActiveBlockUseCase,
     private val activateProfileUseCase: ActivateProfileUseCase,
     private val deactivateProfileUseCase: DeactivateProfileUseCase,
-    private val installedAppsRepository: InstalledAppsRepository,
     private val updateProfileUseCase: UpdateProfileUseCase,
 ) : ViewModel() {
 
@@ -52,13 +49,9 @@ class ProfileListViewModel(
 
     private fun observeState() {
         combine(
-            getProfilesUseCase(),
+            getProfilesUiUseCase(),
             observeActiveBlockUseCase()
-        ) { profiles, activeBlock ->
-
-            val profilesUi = profiles.map {
-                it.toUi(installedAppsRepository)
-            }
+        ) { profilesUi, activeBlock ->
 
             val activeProfile = profilesUi.find {
                 it.id == activeBlock?.profileId
