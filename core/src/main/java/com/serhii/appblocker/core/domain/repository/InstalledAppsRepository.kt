@@ -1,4 +1,4 @@
-package com.serhii.appblocker.profiles.domain.repository
+package com.serhii.appblocker.core.domain.repository
 
 import com.serhii.appblocker.core.domain.model.AppInfo
 

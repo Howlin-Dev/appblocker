@@ -1,6 +1,6 @@
 package com.serhii.appblocker.profiles.domain.usecase
 
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
+import com.serhii.appblocker.core.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 import com.serhii.appblocker.profiles.presentation.list.model.toUi

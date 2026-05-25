@@ -16,13 +16,3 @@ internal val timerUiTimeList = listOf<Long?>(
     100 * 60_000,
     120 * 60_000,
 )
-
-fun Long?.millisToTimeString(): String {
-    if (this == null) return "No Timer"
-    val duration = toDuration(DurationUnit.MILLISECONDS)
-    duration.toComponents { hours, minutes, _, _ ->
-        if (hours == 0L) return "${minutes}m"
-        if(minutes == 0) return "${hours}h"
-        return "${hours}h ${minutes}m"
-    }
-}

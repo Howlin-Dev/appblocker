@@ -11,8 +11,6 @@ import com.serhii.appblocker.profiles.domain.usecase.GetProfileUiUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUiUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveBlockUseCase
-import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.create.CreateProfileViewModel
 import com.serhii.appblocker.profiles.presentation.detail.ManageProfileAppListViewModel
@@ -35,8 +33,6 @@ val profilesModule = module {
     factory { GetProfileUiUseCase(get(), get()) }
     factory { UpdateProfileUseCase(get()) }
     factory { DeleteProfileUseCase(get()) }
-    factory { ObserveActiveBlockUseCase(get()) }
-    factory { ObserveRemainingTimeUseCase(get()) }
     factory { ActivateProfileUseCase(get(), get()) }
     factory { DeactivateProfileUseCase(get()) }
     factory { GetInstalledAppsUseCase(get()) }

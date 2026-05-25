@@ -51,7 +51,7 @@ fun PermissionsScreen(
         }
     )
 
-    LaunchedEffect(state.missingRequiredPermissions) {
+    LaunchedEffect(state.allPermissionsGranted) {
         if (state.allPermissionsGranted) {
             onAllPermissionsGranted()
         }

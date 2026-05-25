@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUiUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveBlockUseCase
+import com.serhii.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi

@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.LruCache
 import com.serhii.appblocker.core.domain.model.AppInfo
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
+import com.serhii.appblocker.core.domain.repository.InstalledAppsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

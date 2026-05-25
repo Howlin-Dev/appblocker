@@ -3,7 +3,7 @@ package com.serhii.appblocker.profiles.presentation.detail.component
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.AppInfo
-import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
+import com.serhii.appblocker.core.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

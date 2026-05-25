@@ -25,11 +25,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.presentation.component.ConfirmDialog
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.util.formatMillis
+import com.serhii.appblocker.core.util.millisToTimeString
 import com.serhii.appblocker.profiles.presentation.list.component.ActiveProfileListItem
-import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
-import com.serhii.appblocker.profiles.util.millisToTimeString
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

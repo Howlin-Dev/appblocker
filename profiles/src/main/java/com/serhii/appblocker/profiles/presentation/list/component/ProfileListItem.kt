@@ -37,9 +37,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhii.appblocker.core.R
+import com.serhii.appblocker.core.util.millisToTimeString
 import com.serhii.appblocker.profiles.presentation.common.TimerPickerDialog
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
-import com.serhii.appblocker.profiles.util.millisToTimeString
 
 @Composable
 fun ProfileListItem(

@@ -17,10 +17,14 @@ class PermissionsViewModel(
     private val _state = MutableStateFlow(PermissionsState())
     val state: StateFlow<PermissionsState> = _state.asStateFlow()
 
+    init {
+        checkPermissions()
+    }
+
     fun checkPermissions() {
         val missingPermissions = getMissingPermissionsUseCase()
-        _state.update {
-            _state.value.copy(
+        _state.update { currentState ->
+            currentState.copy(
                 missingRequiredPermissions = missingPermissions,
                 allPermissionsGranted = missingPermissions.isEmpty()
             )

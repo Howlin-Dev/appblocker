@@ -32,7 +32,9 @@ fun InstalledAppGrid(
     ) {
         if (isLoading) {
             items(30) {
-                AppItemPlaceholder()
+                AppItemPlaceholder(
+                    modifier = Modifier.animateItem(),
+                    )
             }
         } else {
             items(items = installedApps) {

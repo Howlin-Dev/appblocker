@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.ActiveBlock
+import com.serhii.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveBlockUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
