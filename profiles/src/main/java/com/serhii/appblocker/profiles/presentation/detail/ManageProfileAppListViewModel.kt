@@ -30,8 +30,9 @@ class ManageProfileAppListViewModel(
 
     private fun loadInstalledApps() {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoading = true) }
             val apps = installedAppsRepository.getInstalledApps()
-            _state.update { it.copy(installedApps = apps) }
+            _state.update { it.copy(installedApps = apps, isLoading = false) }
         }
     }
 

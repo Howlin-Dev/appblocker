@@ -1,5 +1,6 @@
 package com.serhii.appblocker.navigation
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -9,6 +10,7 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -35,10 +37,23 @@ fun MainNavHost(
     viewModel: EntryViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val arePermissionsNeeded = state.arePermissionsNeeded
+
+    if (arePermissionsNeeded == null) {
+        return
+    }
+
+    val startDestination = remember {
+        if (arePermissionsNeeded == true) {
+            PermissionsDestination
+        } else {
+            ProfileListDestination
+        }
+    }
 
     NavHost(
         navController = navController,
-        startDestination = ProfileListDestination,
+        startDestination = startDestination,
         modifier = modifier,
         enterTransition = {
             fadeIn(animationSpec = tween(300)) + scaleIn(initialScale = 0.92f, animationSpec = tween(300))
@@ -106,10 +121,12 @@ fun MainNavHost(
         }
     }
 
-    LaunchedEffect(state.arePermissionsNeeded) {
-        if (state.arePermissionsNeeded == true) {
-            val isAlreadyOnPermissions = navController.currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
-            if (!isAlreadyOnPermissions) {
+    LaunchedEffect(arePermissionsNeeded) {
+        if (arePermissionsNeeded == true) {
+            val currentBackStackEntry = navController.currentBackStackEntry
+            val isAlreadyOnPermissions = currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
+            
+            if (currentBackStackEntry != null && !isAlreadyOnPermissions) {
                 navController.navigate(PermissionsDestination) {
                     popUpTo(ProfileListDestination) { inclusive = true }
                     launchSingleTop = true
@@ -118,6 +135,7 @@ fun MainNavHost(
         }
     }
 }
+
 
 @Serializable
 object PermissionsDestination

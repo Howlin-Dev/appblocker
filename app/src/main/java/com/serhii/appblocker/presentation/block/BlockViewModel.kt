@@ -1,5 +1,6 @@
 package com.serhii.appblocker.presentation.block
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.ActiveBlock
@@ -37,6 +38,7 @@ class BlockViewModel(
     private fun observeActiveProfile() {
         observeActiveBlockUseCase()
             .onEach { activeBlock ->
+                Log.d("observeActiveBlockUseCase", activeBlock.toString())
                 _state.update { it.copy(activeBlock = activeBlock) }
             }
             .launchIn(viewModelScope)

@@ -15,6 +15,6 @@ class RootViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsData()
+            initialValue = null
         )
 }

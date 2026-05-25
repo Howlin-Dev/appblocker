@@ -19,8 +19,8 @@ class EntryViewModel(
     }
 
     fun checkPermissions() {
-        val missingPermissions = permissionRepository.getMissingPermissions()
-        _state.update { it.copy(arePermissionsNeeded = missingPermissions.isNotEmpty()) }
+        val arePermissionsNeeded = permissionRepository.getMissingPermissions().isNotEmpty()
+        _state.update { it.copy(arePermissionsNeeded = arePermissionsNeeded) }
     }
 }
 

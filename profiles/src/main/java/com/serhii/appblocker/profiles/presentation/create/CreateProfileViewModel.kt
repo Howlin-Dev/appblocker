@@ -26,8 +26,9 @@ class CreateProfileViewModel(
 
     private fun loadInstalledApps() {
         viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoading = true) }
             val apps = installedAppsRepository.getInstalledApps()
-            _state.update { it.copy(installedApps = apps) }
+            _state.update { it.copy(installedApps = apps, isLoading = false) }
         }
     }
 
@@ -71,6 +72,7 @@ class CreateProfileViewModel(
 }
 
 data class CreateProfileState(
+    val isLoading: Boolean = false,
     val name: String = "",
     val installedApps: List<AppInfo> = emptyList(),
     val selectedApps: Set<String> = emptySet(),

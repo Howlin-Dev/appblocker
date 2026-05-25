@@ -1,5 +1,6 @@
 package com.serhii.appblocker.profiles.presentation.list.component
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,10 +15,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,6 +54,9 @@ fun ProfileListItem(
 
     Card(
         onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        ),
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
@@ -70,7 +77,6 @@ fun ProfileListItem(
                 Text(
                     text = profile.name,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Medium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -124,6 +130,7 @@ private fun TimerButton(
         modifier = modifier
             .padding(0.dp)
             .height(40.dp),
+        elevation = ButtonDefaults.elevatedButtonElevation(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 0.dp),
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
@@ -165,7 +172,7 @@ private fun ActivateProfileButton(
                 contentDescription = "Lock"
             )
             Text(
-               "Activate",
+                "Activate",
             )
         }
     }

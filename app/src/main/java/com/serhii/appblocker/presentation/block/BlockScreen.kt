@@ -1,5 +1,6 @@
 package com.serhii.appblocker.presentation.block
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +34,13 @@ fun BlockScreen(
     val remainingMillis by viewModel.remainingTime.collectAsState()
     val state by viewModel.state.collectAsState()
 
+    // Remember if this session was timed, to avoid missing the finish event
+    // when activeBlock becomes null at the same time the timer reaches zero.
+    var wasTimed by remember { mutableStateOf(false) }
+    if (state.activeBlock?.isTimed == true) {
+        wasTimed = true
+    }
+
     val formattedTime = remember(remainingMillis) {
         formatMillis(remainingMillis)
     }
@@ -38,7 +48,7 @@ fun BlockScreen(
     BlockScreenContent(
         formattedTimeRemaining = formattedTime,
         modifier = modifier,
-        isTimed = state.activeBlock?.isTimed ?: false,
+        isTimed = state.activeBlock?.isTimed ?: wasTimed,
         onAction = { action ->
             when (action) {
                 BlockAction.OnClose -> onClose()
@@ -46,14 +56,13 @@ fun BlockScreen(
         }
     )
 
-    if (state.activeBlock?.isTimed == true) {
-        LaunchedEffect(remainingMillis) {
-            if (remainingMillis <= 0) {
-                onTimerRunsOut()
-            }
+    LaunchedEffect(remainingMillis) {
+        if (remainingMillis <= 0 && wasTimed) {
+            onTimerRunsOut()
         }
     }
 }
+
 
 @Composable
 private fun BlockScreenContent(

@@ -74,7 +74,8 @@ fun ProfileCompressedAppIconGrid(
                     // "+n" tile spanning 2 columns
                     Surface(
                         shape = RoundedCornerShape(itemWidth / 2),
-                        color = Color.White.copy(alpha = 0.1f),
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ) {
                         Box(
                             modifier = Modifier

@@ -3,10 +3,13 @@ package com.serhii.appblocker.profiles.presentation.create
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,6 +38,7 @@ fun CreateProfileScreen(
         modifier = modifier,
         name = state.name,
         installedApps = state.installedApps,
+        isLoading = state.isLoading,
         selectedAppsPackages = state.selectedApps,
         onAction = { action ->
             when (action) {
@@ -68,6 +72,7 @@ fun CreateProfileScreen(
 private fun CreateProfileScreenContent(
     name: String,
     installedApps: List<AppInfo>,
+    isLoading: Boolean,
     selectedAppsPackages: Set<String>,
     onAction: (CreateProfileAction) -> Unit,
     modifier: Modifier = Modifier,
@@ -88,7 +93,7 @@ private fun CreateProfileScreenContent(
     ) {
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -103,10 +108,23 @@ private fun CreateProfileScreenContent(
                     Text("Profile Name")
                 }
             )
+            Spacer(modifier = Modifier.size(8.dp))
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                text = "Select apps you want to block upon activating this profile",
+                style = MaterialTheme.typography.titleSmall,
+            )
             Box(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             ) {
                 InstalledAppGrid(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    isLoading = isLoading,
                     installedApps = installedApps,
                     selectedAppsPackages = selectedAppsPackages,
                     onItemClick = { onAction(CreateProfileAction.AppSelected(it)) },
@@ -125,7 +143,8 @@ private fun ProfileListScreenPreview() {
             name = "Reading",
             installedApps = emptyList(),
             selectedAppsPackages = emptySet(),
-            onAction = { }
+            onAction = { },
+            isLoading = true,
         )
     }
 }

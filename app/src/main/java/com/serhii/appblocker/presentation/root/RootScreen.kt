@@ -26,10 +26,11 @@ fun RootScreen(
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
-    ApplyLanguage(settings.language)
+    // Apply language ONLY when we have the real setting
+    settings?.let { ApplyLanguage(it.language) }
 
     AppBlockerTheme(
-        themeMode = settings.themeMode
+        themeMode = settings?.themeMode ?: com.serhii.appblocker.core.domain.model.ThemeMode.SYSTEM
     ) {
         CompositionLocalProvider(
             LocalAppIconProvider provides AppIconLoader(context = context)
@@ -37,11 +38,15 @@ fun RootScreen(
             Surface(
                 modifier = Modifier.fillMaxSize()
             ) {
-                content()
+                if (settings != null) {
+                    content()
+                }
             }
         }
     }
 }
+
+
 
 @Composable
 private fun ApplyLanguage(

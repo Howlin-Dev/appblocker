@@ -31,6 +31,7 @@ fun ManageProfileAppListScreen(
 
     ManageProfileAppListScreenContent(
         modifier = modifier,
+        isLoading = state.isLoading,
         installedApps = state.installedApps,
         selectedAppsPackages = state.selectedApps,
         onAction = { action ->
@@ -62,6 +63,7 @@ fun ManageProfileAppListScreen(
 
 @Composable
 private fun ManageProfileAppListScreenContent(
+    isLoading: Boolean,
     installedApps: List<AppInfo>,
     selectedAppsPackages: Set<String>,
     onAction: (ManageProfileAppListAction) -> Unit,
@@ -88,6 +90,7 @@ private fun ManageProfileAppListScreenContent(
                 modifier = Modifier.weight(1f)
             ) {
                 InstalledAppGrid(
+                    isLoading = isLoading,
                     installedApps = installedApps,
                     selectedAppsPackages = selectedAppsPackages,
                     onItemClick = { onAction(ManageProfileAppListAction.AppSelected(it)) },
@@ -104,6 +107,7 @@ private fun ManageProfileAppListScreenContent(
 private fun ProfileListScreenScreenPreview() {
     Surface {
         ManageProfileAppListScreenContent(
+            isLoading = true,
             installedApps = emptyList(),
             selectedAppsPackages = emptySet(),
             onAction = { }
