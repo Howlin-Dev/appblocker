@@ -1,10 +1,17 @@
 package com.serhii.appblocker.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,69 +40,80 @@ fun MainNavHost(
         navController = navController,
         startDestination = ProfileListDestination,
         modifier = modifier,
+        enterTransition = {
+            fadeIn(animationSpec = tween(300)) + scaleIn(initialScale = 0.92f, animationSpec = tween(300))
+        },
+        exitTransition = {
+            fadeOut(animationSpec = tween(300))
+        },
+        popEnterTransition = {
+            fadeIn(animationSpec = tween(300))
+        },
+        popExitTransition = {
+            fadeOut(animationSpec = tween(300)) + scaleOut(targetScale = 0.92f, animationSpec = tween(300))
+        }
     ) {
         composable<ProfileListDestination> {
             ProfileListScreen(
-                onCreateClick = { navController.navigate(CreateProfileDestination) },
-                onProfileClick = { navController.navigate(ProfileDetailDestination(it)) },
-                onSettingsClick = { navController.navigate(SettingsDestination) },
+                onCreateClick = { navController.navigateSafe(CreateProfileDestination) },
+                onProfileClick = { navController.navigateSafe(ProfileDetailDestination(it)) },
+                onSettingsClick = { navController.navigateSafe(SettingsDestination) },
             )
         }
         composable<CreateProfileDestination> {
             CreateProfileScreen(
-                onBackClick = { navController.popBackStack() },
+                onBackClick = {
+                    navController.popBackStackSafe()
+                },
             )
         }
         composable<ProfileDetailDestination> {
             val destination = it.toRoute<ProfileDetailDestination>()
             ProfileDetailScreen(
                 profileId = destination.profileId,
-                onBackClick = { navController.popBackStack() },
-                onManageListClick = { navController.navigate(ManageProfileAppListDestination(it)) },
+                onBackClick = { navController.popBackStackSafe() },
+                onManageListClick = { navController.navigateSafe(ManageProfileAppListDestination(it)) },
             )
         }
         composable<ManageProfileAppListDestination> {
             val destination = it.toRoute<ManageProfileAppListDestination>()
             ManageProfileAppListScreen(
                 profileId = destination.profileId,
-                onBackClick = { navController.popBackStack() },
+                onBackClick = { navController.popBackStackSafe() },
             )
         }
         composable<PermissionsDestination> {
             PermissionsScreen(
                 onAllPermissionsGranted = {
-                    navController.navigate(ProfileListDestination) {
-                        popUpTo(PermissionsDestination) { inclusive = true }
-                    }
-                }
-            )
-        }
-        composable<PermissionsDestination> {
-            PermissionsScreen(
-                onAllPermissionsGranted = {
-                    navController.navigate(ProfileListDestination) {
-                        popUpTo(PermissionsDestination) { inclusive = true }
+                    if (navController.currentBackStackEntry?.lifecycle?.currentState == androidx.lifecycle.Lifecycle.State.RESUMED) {
+                        navController.navigate(ProfileListDestination) {
+                            popUpTo(PermissionsDestination) { inclusive = true }
+                        }
                     }
                 }
             )
         }
         composable<SettingsDestination> {
             SettingsScreen(
-                onBackClick = { navController.popBackStack() },
-                onLanguageClick = { navController.navigate(LanguageDestination) },
+                onBackClick = { navController.popBackStackSafe() },
+                onLanguageClick = { navController.navigateSafe(LanguageDestination) },
             )
         }
         composable<LanguageDestination> {
             LanguageScreen(
-                onBackClick = { navController.popBackStack() },
+                onBackClick = { navController.popBackStackSafe() },
             )
         }
     }
 
     LaunchedEffect(state.arePermissionsNeeded) {
         if (state.arePermissionsNeeded == true) {
-            navController.navigate(PermissionsDestination) {
-                popUpTo(ProfileListDestination) { inclusive = true }
+            val isAlreadyOnPermissions = navController.currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
+            if (!isAlreadyOnPermissions) {
+                navController.navigate(PermissionsDestination) {
+                    popUpTo(ProfileListDestination) { inclusive = true }
+                    launchSingleTop = true
+                }
             }
         }
     }

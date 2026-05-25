@@ -37,7 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.presentation.component.ConfirmDialog
-import com.serhii.appblocker.profiles.presentation.detail.component.ProfileDetailAppIconGrid
+import com.serhii.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.serhii.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
@@ -229,7 +229,7 @@ private fun ProfileAppListSection(
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            ProfileDetailAppIconGrid(
+            ProfileAppIconGrid(
                 modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
                 appList = appList,
             )

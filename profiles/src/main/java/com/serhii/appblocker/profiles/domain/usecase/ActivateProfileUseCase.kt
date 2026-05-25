@@ -15,7 +15,8 @@ class ActivateProfileUseCase(
 
         blockRepository.activateProfile(
             profileId = profile.id,
-            appPackages = profile.appPackages
+            appPackages = profile.appPackages,
+            isTimed = profile.durationMillis != null
         )
     }
 }

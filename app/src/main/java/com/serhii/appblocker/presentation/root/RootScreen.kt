@@ -21,6 +21,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RootScreen(
     viewModel: RootViewModel = koinViewModel(),
+    content: @Composable () -> Unit,
 ) {
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -36,7 +37,7 @@ fun RootScreen(
             Surface(
                 modifier = Modifier.fillMaxSize()
             ) {
-                MainNavHost()
+                content()
             }
         }
     }

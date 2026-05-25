@@ -1,6 +1,5 @@
 package com.serhii.appblocker.profiles.presentation.list.component
 
-import android.R.attr.maxWidth
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,8 +25,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.serhii.appblocker.core.domain.model.AppInfo
 
 @Composable
-fun AppIconGrid(
-    profileActive: Boolean,
+fun ProfileCompressedAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
     spacing: Dp = 8.dp

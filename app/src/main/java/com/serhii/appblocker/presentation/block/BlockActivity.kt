@@ -14,6 +14,7 @@ import com.serhii.appblocker.core.domain.model.ThemeMode
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.ui.theme.AppBlockerTheme
 import com.serhii.appblocker.core.util.LocalAppIconProvider
+import com.serhii.appblocker.presentation.root.RootScreen
 import com.serhii.appblocker.util.AppIconLoader
 
 class BlockActivity : AppCompatActivity() {
@@ -21,22 +22,16 @@ class BlockActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AppBlockerTheme {
-                CompositionLocalProvider(
-                    LocalAppIconProvider provides AppIconLoader(context = this)
-                ) {
-                    Surface {
-                        BlockScreen(
-                            onClose = {
-                                goToHomeScreen()
-                                finish()
-                            },
-                            onTimerRunsOut = {
-                                finish()
-                            },
-                        )
-                    }
-                }
+            RootScreen {
+                BlockScreen(
+                    onClose = {
+                        goToHomeScreen()
+                        finish()
+                    },
+                    onTimerRunsOut = {
+                        finish()
+                    },
+                )
             }
         }
     }

@@ -27,8 +27,13 @@ class TimerRepositoryImpl(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun observeRemainingTime(): Flow<Long> =
-        dataStore.observeEndTime().flatMapLatest { endTime ->
-            if (endTime <= 0L) {
+        combine(
+            dataStore.observeEndTime(),
+            blockRepository.activeBlock
+        ) { endTime, activeBlock ->
+            endTime to activeBlock
+        }.flatMapLatest { (endTime, activeBlock) ->
+            if (endTime <= 0L && activeBlock?.isTimed == true) {
                 onTimerFinished()
                 flowOf(0L)
             } else {
@@ -39,7 +44,7 @@ class TimerRepositoryImpl(
 
                         emit(remaining)
 
-                        if (remaining <= 0L) {
+                        if (remaining <= 0L && activeBlock?.isTimed == true) {
                             onTimerFinished()
                             break
                         }

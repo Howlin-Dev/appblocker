@@ -5,11 +5,11 @@ import com.serhii.appblocker.profiles.domain.model.Profile
 import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 
 data class ProfileUi(
-    val id: Long,
-    val name: String,
-    val description: String,
-    val blockedApps: List<AppInfo>,
-    val durationMillis: Long?,
+    val id: Long = 0,
+    val name: String = "",
+    val description: String = "",
+    val blockedApps: List<AppInfo> = emptyList(),
+    val durationMillis: Long? = null,
 )
 
 // --- mapping ---

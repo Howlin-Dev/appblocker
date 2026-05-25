@@ -6,7 +6,7 @@ import com.serhii.appblocker.profiles.domain.repository.InstalledAppsRepository
 import com.serhii.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.serhii.appblocker.profiles.domain.usecase.GetProfilesUseCase
-import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveProfileUseCase
+import com.serhii.appblocker.profiles.domain.usecase.ObserveActiveBlockUseCase
 import com.serhii.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import com.serhii.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
@@ -17,8 +17,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class ProfileListViewModel(
     observeRemainingTimeUseCase: ObserveRemainingTimeUseCase,
     private val getProfilesUseCase: GetProfilesUseCase,
-    private val observeActiveProfileUseCase: ObserveActiveProfileUseCase,
+    private val observeActiveBlockUseCase: ObserveActiveBlockUseCase,
     private val activateProfileUseCase: ActivateProfileUseCase,
     private val deactivateProfileUseCase: DeactivateProfileUseCase,
     private val installedAppsRepository: InstalledAppsRepository,
@@ -47,41 +47,48 @@ class ProfileListViewModel(
             )
 
     init {
-        observeProfiles()
-        observeActiveProfile()
+        observeState()
     }
 
-    private fun observeProfiles() {
-        getProfilesUseCase()
-            .onStart { _state.update { it.copy(isLoading = true) } }
-            .map { profiles ->
-                profiles.map { it.toUi(installedAppsRepository) }
+    private fun observeState() {
+        combine(
+            getProfilesUseCase(),
+            observeActiveBlockUseCase()
+        ) { profiles, activeBlock ->
+
+            val profilesUi = profiles.map {
+                it.toUi(installedAppsRepository)
             }
-            .onEach { profilesUi ->
-                _state.update {
-                    it.copy(
-                        profiles = profilesUi,
-                        isLoading = false
-                    )
-                }
+
+            val activeProfile = profilesUi.find {
+                it.id == activeBlock?.profileId
+            }
+
+            val inactiveProfiles = profilesUi.filter {
+                it.id != activeBlock?.profileId
+            }
+
+            ProfilesListState(
+                isLoading = false,
+                activeProfile = activeProfile,
+                inactiveProfiles = inactiveProfiles
+            )
+        }
+            .onStart {
+                _state.update { it.copy(isLoading = true) }
             }
             .catch {
                 _state.update { it.copy(isLoading = false) }
             }
-            .launchIn(viewModelScope)
-    }
-
-    private fun observeActiveProfile() {
-        observeActiveProfileUseCase()
-            .onEach { activeProfileId ->
-                _state.update { it.copy(activeProfileId = activeProfileId) }
+            .onEach { newState ->
+                _state.value = newState
             }
             .launchIn(viewModelScope)
     }
 
     fun toggleProfileActivation(profile: ProfileUi) {
         viewModelScope.launch {
-            if (_state.value.activeProfileId == profile.id) {
+            if (_state.value.activeProfile?.id == profile.id) {
                 deactivateProfileUseCase()
             } else {
                 activateProfileUseCase(profile.toDomain())
@@ -108,6 +115,6 @@ class ProfileListViewModel(
 
 data class ProfilesListState(
     val isLoading: Boolean = false,
-    val profiles: List<ProfileUi> = emptyList(),
-    val activeProfileId: Long? = null,
+    val inactiveProfiles: List<ProfileUi> = emptyList(),
+    val activeProfile: ProfileUi? = null,
 )

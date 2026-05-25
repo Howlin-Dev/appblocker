@@ -1,4 +1,4 @@
-package com.serhii.appblocker.profiles.presentation.detail.component
+package com.serhii.appblocker.profiles.presentation.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -16,7 +15,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.serhii.appblocker.core.domain.model.AppInfo
 
 @Composable
-fun ProfileDetailAppIconGrid(
+fun ProfileAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
     columns: Int = 8,

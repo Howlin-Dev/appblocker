@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.presentation.component.ConfirmDialog
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.util.formatMillis
+import com.serhii.appblocker.profiles.presentation.list.component.ActiveProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
@@ -49,8 +50,8 @@ fun ProfileListScreen(
 
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
-        profiles = state.profiles,
-        activeProfileId = state.activeProfileId,
+        inactiveProfiles = state.inactiveProfiles,
+        activeProfile = state.activeProfile,
         formattedTimeRemaining = formattedTime,
         onAction = { action ->
             when (action) {
@@ -89,15 +90,15 @@ fun ProfileListScreen(
 
 @Composable
 private fun ProfileListScreenContent(
-    profiles: List<ProfileUi>,
-    activeProfileId: Long?,
+    inactiveProfiles: List<ProfileUi>,
+    activeProfile: ProfileUi?,
     formattedTimeRemaining: String,
     onAction: (ProfileListAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AppScaffold(
         modifier = modifier,
-        title = "Profiles",
+        title = "Bloq",
         floatingActionButton = {
             LargeFloatingActionButton(
                 onClick = { onAction(ProfileListAction.CreateClick) }
@@ -117,28 +118,40 @@ private fun ProfileListScreenContent(
         },
     ) {
         LazyColumn(
+            modifier = Modifier,
             contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(items = profiles) {
-                ProfileListItem(
-                    profile = it,
-                    onClick = { onAction(ProfileListAction.ProfileClick(it.id)) },
-                    onToggleProfileActivation = {
-                        onAction(
-                            ProfileListAction.ToggleProfileActivation(
-                                it
+            activeProfile?.let { activeProfile ->
+                item {
+                    ActiveProfileListItem(
+                        modifier = Modifier.animateItem(),
+                        profile = activeProfile,
+                        onUnblockClick = {
+                            onAction(
+                                ProfileListAction.ToggleProfileActivation(
+                                    activeProfile
+                                )
                             )
-                        )
+                        },
+                        formattedTimeRemaining = formattedTimeRemaining
+                    )
+                }
+            }
+            items(items = inactiveProfiles) { inactiveProfile ->
+                ProfileListItem(
+                    modifier = Modifier.animateItem(),
+                    profile = inactiveProfile,
+                    onClick = { onAction(ProfileListAction.ProfileClick(inactiveProfile.id)) },
+                    onToggleProfileActivation = {
+                        onAction(ProfileListAction.ToggleProfileActivation(inactiveProfile))
                     },
-                    isActive = activeProfileId == it.id,
-                    isAnotherProfileActive = activeProfileId != it.id && activeProfileId != null,
-                    formattedTimeRemaining = formattedTimeRemaining,
+                    isAnotherProfileActive = activeProfile != null,
                     onTimerChanged = { newTime ->
                         onAction(
                             ProfileListAction.TimerChange(
-                                it,
-                                newTime
+                                profileUi = inactiveProfile,
+                                newTime = newTime
                             )
                         )
                     }
@@ -153,9 +166,9 @@ private fun ProfileListScreenContent(
 private fun ProfileListScreenPreview() {
     Surface {
         ProfileListScreenContent(
-            profiles = emptyList(),
+            inactiveProfiles = emptyList(),
             onAction = {},
-            activeProfileId = null,
+            activeProfile = null,
             formattedTimeRemaining = "",
         )
     }

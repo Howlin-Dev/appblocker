@@ -29,6 +29,7 @@ fun BlockScreen(
     viewModel: BlockViewModel = koinViewModel(),
 ) {
     val remainingMillis by viewModel.remainingTime.collectAsState()
+    val state by viewModel.state.collectAsState()
 
     val formattedTime = remember(remainingMillis) {
         formatMillis(remainingMillis)
@@ -37,16 +38,19 @@ fun BlockScreen(
     BlockScreenContent(
         formattedTimeRemaining = formattedTime,
         modifier = modifier,
+        isTimed = state.activeBlock?.isTimed ?: false,
         onAction = { action ->
-            when(action) {
+            when (action) {
                 BlockAction.OnClose -> onClose()
             }
         }
     )
 
-    LaunchedEffect(remainingMillis) {
-        if(remainingMillis <= 0) {
-            onTimerRunsOut()
+    if (state.activeBlock?.isTimed == true) {
+        LaunchedEffect(remainingMillis) {
+            if (remainingMillis <= 0) {
+                onTimerRunsOut()
+            }
         }
     }
 }
@@ -55,6 +59,7 @@ fun BlockScreen(
 private fun BlockScreenContent(
     onAction: (BlockAction) -> Unit,
     formattedTimeRemaining: String,
+    isTimed: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -66,11 +71,12 @@ private fun BlockScreenContent(
             text = "This app is currently blocked",
             style = MaterialTheme.typography.titleLarge,
         )
-        Text(
-            text = formattedTimeRemaining,
-            style = MaterialTheme.typography.displayLarge,
-            fontSize = 120.sp
-        )
+        if (isTimed) {
+            Text(
+                text = formattedTimeRemaining,
+                style = MaterialTheme.typography.displayLarge,
+            )
+        }
         TextButton(
             onClick = { onAction(BlockAction.OnClose) }
         ) {
