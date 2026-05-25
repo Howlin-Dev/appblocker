@@ -26,9 +26,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         initialValue = -2 * width,
         targetValue = 2 * width,
         animationSpec = infiniteRepeatable(
-            animation = tween(1200, easing = LinearEasing)
+            animation = tween(1200, easing = LinearEasing),
         ),
-        label = "shimmer"
+        label = "shimmer",
     )
 
     background(
@@ -39,8 +39,8 @@ fun Modifier.shimmerEffect(): Modifier = composed {
                 Color.Gray.copy(alpha = 0.2f),
             ),
             start = Offset(startOffsetX, 0f),
-            end = Offset(startOffsetX + width, width)
-        )
+            end = Offset(startOffsetX + width, width),
+        ),
     ).onGloballyPositioned {
         size = it.size
     }

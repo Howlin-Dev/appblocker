@@ -13,7 +13,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             blockedAppsPackageNames = "pkg1,pkg2",
-            durationMillis = 1000L
+            durationMillis = 1000L,
         )
 
         val domain = entity.toDomain()
@@ -32,7 +32,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             blockedAppsPackageNames = "",
-            durationMillis = null
+            durationMillis = null,
         )
 
         val domain = entity.toDomain()
@@ -47,7 +47,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             appPackages = listOf("pkg1", "pkg2"),
-            durationMillis = 1000L
+            durationMillis = 1000L,
         )
 
         val entity = domain.toEntity()

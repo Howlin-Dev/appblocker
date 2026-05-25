@@ -58,7 +58,7 @@ fun CreateProfileScreen(
                     viewModel.onNameChange(action.name)
                 }
             }
-        }
+        },
     )
 
     LaunchedEffect(state.isCreated) {
@@ -89,11 +89,11 @@ private fun CreateProfileScreenContent(
             ) {
                 Text("Create")
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -106,7 +106,7 @@ private fun CreateProfileScreenContent(
                 onValueChange = { onAction(CreateProfileAction.NameChange(it)) },
                 label = {
                     Text("Profile Name")
-                }
+                },
             )
             Spacer(modifier = Modifier.size(8.dp))
             Text(
@@ -119,7 +119,7 @@ private fun CreateProfileScreenContent(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
+                    .weight(1f),
             ) {
                 InstalledAppGrid(
                     modifier = Modifier
@@ -128,7 +128,7 @@ private fun CreateProfileScreenContent(
                     installedApps = installedApps,
                     selectedAppsPackages = selectedAppsPackages,
                     onItemClick = { onAction(CreateProfileAction.AppSelected(it)) },
-                    columnCount = 4
+                    columnCount = 4,
                 )
             }
         }

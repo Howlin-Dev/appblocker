@@ -64,13 +64,13 @@ private fun LanguageScreenContent(
     ) {
         LazyColumn(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(items = AppLanguage.entries) {
                 LanguageItem(
                     item = it,
                     selected = it == selectedItem,
-                    onClick = { onAction(LanguageAction.LanguageChange(it)) }
+                    onClick = { onAction(LanguageAction.LanguageChange(it)) },
                 )
             }
         }
@@ -98,12 +98,12 @@ private fun LanguageItem(
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
                 text = item.title ?: "System",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }
@@ -115,7 +115,7 @@ private fun LanguageScreenPreview() {
     Surface {
         LanguageScreenContent(
             onAction = { },
-            selectedItem = AppLanguage.ENGLISH
+            selectedItem = AppLanguage.ENGLISH,
         )
     }
 }

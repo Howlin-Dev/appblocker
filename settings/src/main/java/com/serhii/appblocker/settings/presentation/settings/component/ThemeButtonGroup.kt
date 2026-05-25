@@ -20,11 +20,11 @@ import com.serhii.appblocker.core.domain.model.ThemeMode
 fun ThemeButtonGroup(
     selected: ThemeMode,
     onSelected: (ThemeMode) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         ThemeMode.entries.forEachIndexed { index, mode ->
 
@@ -34,11 +34,11 @@ fun ThemeButtonGroup(
 
             val startCorner by animateDpAsState(
                 targetValue = if (isFirst || isSelected) 24.dp else 8.dp,
-                label = "startCorner"
+                label = "startCorner",
             )
             val endCorner by animateDpAsState(
                 targetValue = if (isLast || isSelected) 24.dp else 8.dp,
-                label = "endCorner"
+                label = "endCorner",
             )
 
             Surface(
@@ -50,21 +50,21 @@ fun ThemeButtonGroup(
                     topStart = startCorner,
                     bottomStart = startCorner,
                     topEnd = endCorner,
-                    bottomEnd = endCorner
+                    bottomEnd = endCorner,
                 ),
                 color = if (isSelected) {
                     MaterialTheme.colorScheme.primary
                 } else {
                     MaterialTheme.colorScheme.surfaceContainerHighest
-                }
+                },
             ) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = stringResource(mode.titleRes),
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 }
             }

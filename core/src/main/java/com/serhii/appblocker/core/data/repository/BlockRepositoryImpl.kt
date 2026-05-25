@@ -25,7 +25,7 @@ class BlockRepositoryImpl(
         ActiveBlock(
             profileId = profileId,
             blockedPackages = prefs[BlockPreferencesKeys.LOCKED_PACKAGES]?.toList() ?: emptyList(),
-            isTimed = prefs[BlockPreferencesKeys.IS_TIMED] ?: false
+            isTimed = prefs[BlockPreferencesKeys.IS_TIMED] ?: false,
         )
     }
 

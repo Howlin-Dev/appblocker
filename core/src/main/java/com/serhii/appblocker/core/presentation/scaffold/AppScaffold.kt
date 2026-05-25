@@ -41,7 +41,7 @@ fun AppScaffold(
                         title?.let {
                             Text(
                                 text = it,
-                                style = MaterialTheme.typography.titleLarge
+                                style = MaterialTheme.typography.titleLarge,
                             )
                         }
                     },
@@ -50,7 +50,7 @@ fun AppScaffold(
                             IconButton(onClick = onBackClick) {
                                 Icon(
                                     imageVector = navigationIconImageVector,
-                                    contentDescription = "Back"
+                                    contentDescription = "Back",
                                 )
                             }
                         }
@@ -59,7 +59,7 @@ fun AppScaffold(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surface,
                         titleContentColor = MaterialTheme.colorScheme.onSurface,
-                    )
+                    ),
                 )
             }
         },
@@ -67,7 +67,7 @@ fun AppScaffold(
         snackbarHost = snackBarHost,
     ) { innerPadding ->
         Box(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
         ) {
             content(innerPadding)
         }
@@ -80,8 +80,8 @@ private fun AppScaffoldPreview() {
     Surface {
         AppScaffold(
             title = "App Blocker",
-            onBackClick = {}
-        ) { paddingValues ->
+            onBackClick = {},
+        ) {
             // Screen content here
         }
     }

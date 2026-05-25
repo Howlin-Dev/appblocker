@@ -31,7 +31,7 @@ fun ConfirmDialog(
             TextButton(
                 onClick = {
                     onConfirm()
-                }
+                },
             ) {
                 Text(confirmButtonText)
             }
@@ -40,10 +40,10 @@ fun ConfirmDialog(
             TextButton(
                 onClick = {
                     onCancel()
-                }
+                },
             ) {
                 Text(cancelButtonText)
             }
-        }
+        },
     )
 }

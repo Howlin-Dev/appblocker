@@ -40,13 +40,13 @@ fun RenameProfileDialog(
             Column(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Rename Profile",
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
@@ -63,12 +63,12 @@ fun RenameProfileDialog(
                 )
                 Row {
                     TextButton(
-                        onClick = onCancel
+                        onClick = onCancel,
                     ) {
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = { onChange(name) }
+                        onClick = { onChange(name) },
                     ) {
                         Text("Apply")
                     }

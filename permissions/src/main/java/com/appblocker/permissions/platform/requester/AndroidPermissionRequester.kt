@@ -4,7 +4,7 @@ import com.appblocker.permissions.domain.model.RequiredPermission
 import com.appblocker.permissions.platform.PermissionNavigator
 
 class PermissionRequester(
-    private val navigator: PermissionNavigator
+    private val navigator: PermissionNavigator,
 ) {
 
     fun request(permission: RequiredPermission) {

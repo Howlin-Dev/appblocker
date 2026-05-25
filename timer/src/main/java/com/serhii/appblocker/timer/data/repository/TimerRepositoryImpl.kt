@@ -6,13 +6,21 @@ import com.serhii.appblocker.timer.data.datastore.TimerDataStore
 import com.serhii.appblocker.timer.data.scheduler.TimerScheduler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class TimerRepositoryImpl(
     private val dataStore: TimerDataStore,
     private val scheduler: TimerScheduler,
     private val blockRepository: BlockRepository,
 ) : TimerRepository {
+
+    companion object {
+        private const val TICK_DELAY = 1000L
+    }
 
     override suspend fun startTimer(durationMillis: Long) {
         val endTime = System.currentTimeMillis() + durationMillis
@@ -28,7 +36,7 @@ class TimerRepositoryImpl(
     override fun observeRemainingTime(): Flow<Long> =
         combine(
             dataStore.observeEndTime(),
-            blockRepository.activeBlock
+            blockRepository.activeBlock,
         ) { endTime, activeBlock ->
             endTime to activeBlock
         }.flatMapLatest { (endTime, activeBlock) ->
@@ -48,7 +56,7 @@ class TimerRepositoryImpl(
                             break
                         }
 
-                        delay(1000)
+                        delay(TICK_DELAY)
                     }
                 }
             }

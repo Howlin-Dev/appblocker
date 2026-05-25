@@ -19,7 +19,7 @@ class SettingsViewModel(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsData()
+            initialValue = SettingsData(),
         )
 
     fun setThemeMode(themeMode: ThemeMode) {

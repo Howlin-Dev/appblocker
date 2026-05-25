@@ -30,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 fun PermissionsScreen(
     onAllPermissionsGranted: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PermissionsViewModel = koinViewModel()
+    viewModel: PermissionsViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -48,7 +48,7 @@ fun PermissionsScreen(
                     viewModel.requestPermission(action.permission)
                 }
             }
-        }
+        },
     )
 
     LaunchedEffect(state.allPermissionsGranted) {
@@ -69,7 +69,7 @@ private fun PermissionsScreenContent(
     ) {
         LazyColumn(
             contentPadding = PaddingValues(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
                 PermissionScreenInfo()
@@ -78,7 +78,7 @@ private fun PermissionsScreenContent(
                 PermissionItem(
                     title = it.title,
                     subtitle = it.subtitle,
-                    onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) }
+                    onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) },
                 )
             }
         }
@@ -93,7 +93,7 @@ private fun PermissionScreenInfo(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 200.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
     ) {
         Text(
             text = "Some permissions are needed for the application to work properly",
@@ -119,7 +119,7 @@ private fun PermissionsScreenContentPreview() {
                 RequiredPermission.Overlay,
                 RequiredPermission.UsageAccess,
             ),
-            onAction = {}
+            onAction = {},
         )
     }
 }

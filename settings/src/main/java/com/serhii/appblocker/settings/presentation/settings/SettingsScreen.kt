@@ -96,11 +96,11 @@ private fun SettingsScreenContent(
             ) {
                 Icon(
                     painter = painterResource(CoreRes.drawable.outline_day_night),
-                    contentDescription = "Theme"
+                    contentDescription = "Theme",
                 )
                 Text(
                     text = stringResource(R.string.theme),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 ThemeButtonGroup(
@@ -115,27 +115,27 @@ private fun SettingsScreenContent(
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surfaceContainer,
                 shape = RoundedCornerShape(8.dp),
-                onClick = { onAction(SettingsAction.LanguageClick) }
+                onClick = { onAction(SettingsAction.LanguageClick) },
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     Icon(
                         painter = painterResource(CoreRes.drawable.outline_language),
-                        contentDescription = "Language"
+                        contentDescription = "Language",
                     )
                     Text(
                         modifier = Modifier.weight(1f),
                         text = stringResource(R.string.language),
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                        contentDescription = "Language Navigate"
+                        contentDescription = "Language Navigate",
                     )
                 }
             }

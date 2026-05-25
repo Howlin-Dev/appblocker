@@ -64,7 +64,7 @@ fun ProfileDetailScreen(
                 ProfileDetailAction.ManageListClick -> onManageListClick(profileId)
                 is ProfileDetailAction.ProfileNameChanged -> viewModel.updateProfileName(action.name)
             }
-        }
+        },
     )
 
     LaunchedEffect(Unit) {
@@ -95,32 +95,32 @@ private fun ProfileDetailScreenContent(
             IconButton(onClick = { expanded = true }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options"
+                    contentDescription = "More options",
                 )
             }
             DropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false }
+                onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
                     text = { Text("Delete") },
                     onClick = {
                         expanded = false
                         deleteConfirmDialogShown.value = true
-                    }
+                    },
                 )
             }
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ProfileNameSection(
                 name = profile?.name.orEmpty(),
-                onRenameClick = { renameDialogShown.value = true }
+                onRenameClick = { renameDialogShown.value = true },
             )
             ProfileAppListSection(
                 appList = profile?.blockedApps.orEmpty(),
@@ -180,15 +180,15 @@ private fun ProfileNameSection(
                     text = name,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
             IconButton(
-                onClick = onRenameClick
+                onClick = onRenameClick,
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Edit"
+                    contentDescription = "Edit",
                 )
             }
         }
@@ -207,7 +207,7 @@ private fun ProfileAppListSection(
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
@@ -215,7 +215,7 @@ private fun ProfileAppListSection(
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
             ProfileAppIconGrid(
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
@@ -228,7 +228,7 @@ private fun ProfileAppListSection(
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Manage List"
+                    contentDescription = "Manage List",
                 )
             }
         }
@@ -240,7 +240,7 @@ private fun ProfileAppListSection(
 private fun ProfileDetailScreenPreview() {
     ProfileDetailScreenContent(
         profile = ProfileUi(
-            name = "Reading"
+            name = "Reading",
         ),
         onAction = { },
     )

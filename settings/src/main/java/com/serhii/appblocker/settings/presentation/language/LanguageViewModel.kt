@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 
 class LanguageViewModel(
     getSettingsUseCase: GetSettingsUseCase,
-    private val setAppLanguageUseCase: SetAppLanguageUseCase
+    private val setAppLanguageUseCase: SetAppLanguageUseCase,
 ) : ViewModel() {
 
     val settings = getSettingsUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsData()
+            initialValue = SettingsData(),
         )
 
     fun setLanguage(language: AppLanguage) {

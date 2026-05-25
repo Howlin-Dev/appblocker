@@ -13,7 +13,7 @@ fun formatMillis(millis: Long): String {
     return "%02d:%02d:%02d".format(
         hours,
         minutes,
-        seconds
+        seconds,
     )
 }
 

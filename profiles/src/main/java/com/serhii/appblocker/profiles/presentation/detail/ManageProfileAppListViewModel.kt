@@ -44,7 +44,7 @@ class ManageProfileAppListViewModel(
                     it.copy(
                         isLoading = false,
                         profile = profileUi,
-                        selectedApps = profileUi.blockedApps.map { it.packageName }.toSet()
+                        selectedApps = profileUi.blockedApps.map { it.packageName }.toSet(),
                     )
                 }
             }.onFailure {

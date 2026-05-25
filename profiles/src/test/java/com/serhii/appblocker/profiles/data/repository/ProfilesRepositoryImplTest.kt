@@ -27,7 +27,7 @@ class ProfilesRepositoryImplTest {
     @Test
     fun `getAll should return mapped profiles from dao`() = runTest {
         val entities = listOf(
-            ProfileEntity(1, "Work", "Desc", "pkg1", 1000L)
+            ProfileEntity(1, "Work", "Desc", "pkg1", 1000L),
         )
         every { profileDao.getAll() } returns flowOf(entities)
 

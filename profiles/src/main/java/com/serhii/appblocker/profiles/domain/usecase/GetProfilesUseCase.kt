@@ -5,7 +5,7 @@ import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetProfilesUseCase(
-    private val profilesRepository: ProfilesRepository
+    private val profilesRepository: ProfilesRepository,
 ) {
     operator fun invoke(): Flow<List<Profile>> = profilesRepository.getAll()
 }

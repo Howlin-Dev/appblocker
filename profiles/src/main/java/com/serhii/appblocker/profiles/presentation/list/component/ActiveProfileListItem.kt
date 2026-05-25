@@ -43,7 +43,7 @@ fun ActiveProfileListItem(
                     .height(64.dp)
                     .padding(8.dp),
                 onClick = onUnblockClick,
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text("Unblock")
             }
@@ -74,7 +74,7 @@ fun ActiveProfileListItemPreview() {
     Surface {
         ActiveProfileListItem(
             profile = ProfileUi(
-                name = "Reading"
+                name = "Reading",
             ),
             onUnblockClick = { },
             formattedTimeRemaining = "",

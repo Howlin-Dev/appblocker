@@ -7,7 +7,7 @@ import com.serhii.appblocker.profiles.presentation.list.model.toUi
 
 class GetProfileUiUseCase(
     private val profilesRepository: ProfilesRepository,
-    private val installedAppsRepository: InstalledAppsRepository
+    private val installedAppsRepository: InstalledAppsRepository,
 ) {
     suspend operator fun invoke(id: Long): ProfileUi {
         val profile = profilesRepository.getById(id)

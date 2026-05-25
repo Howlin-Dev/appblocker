@@ -26,7 +26,7 @@ class PermissionsViewModel(
         _state.update { currentState ->
             currentState.copy(
                 missingRequiredPermissions = missingPermissions,
-                allPermissionsGranted = missingPermissions.isEmpty()
+                allPermissionsGranted = missingPermissions.isEmpty(),
             )
         }
     }

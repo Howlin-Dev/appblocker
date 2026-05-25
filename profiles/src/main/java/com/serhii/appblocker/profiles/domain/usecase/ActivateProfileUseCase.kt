@@ -6,7 +6,7 @@ import com.serhii.appblocker.profiles.domain.model.Profile
 
 class ActivateProfileUseCase(
     private val blockRepository: BlockRepository,
-    private val timerRepository: TimerRepository
+    private val timerRepository: TimerRepository,
 ) {
     suspend operator fun invoke(profile: Profile) {
         profile.durationMillis?.let {
@@ -16,7 +16,7 @@ class ActivateProfileUseCase(
         blockRepository.activateProfile(
             profileId = profile.id,
             appPackages = profile.appPackages,
-            isTimed = profile.durationMillis != null
+            isTimed = profile.durationMillis != null,
         )
     }
 }

@@ -50,7 +50,7 @@ fun ProfileListItem(
     Card(
         onClick = onClick,
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
         ),
         modifier = modifier
             .fillMaxWidth()
@@ -61,19 +61,19 @@ fun ProfileListItem(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f),
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     text = profile.name,
                     style = MaterialTheme.typography.titleLarge,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 ProfileCompressedAppIconGrid(
                     appList = profile.blockedApps,
@@ -84,7 +84,7 @@ fun ProfileListItem(
                     .fillMaxHeight()
                     .width(115.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
             ) {
                 ActivateProfileButton(
                     modifier = Modifier
@@ -97,7 +97,7 @@ fun ProfileListItem(
                 TimerButton(
                     modifier = Modifier.fillMaxWidth(),
                     time = profile.durationMillis,
-                    onClick = { isTimerDialogShown.value = true }
+                    onClick = { isTimerDialogShown.value = true },
                 )
             }
         }
@@ -132,14 +132,14 @@ private fun TimerButton(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
                 text = time?.millisToTimeString() ?: "Timer",
             )
             Icon(
                 painter = painterResource(R.drawable.outline_timer),
-                contentDescription = "Timer"
+                contentDescription = "Timer",
             )
         }
     }
@@ -155,7 +155,7 @@ private fun ActivateProfileButton(
         modifier = modifier,
         onClick = onClick,
         enabled = !isAnotherProfileActive,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Column(
             modifier = Modifier.padding(vertical = 8.dp),
@@ -164,7 +164,7 @@ private fun ActivateProfileButton(
         ) {
             Icon(
                 painter = painterResource(R.drawable.outline_lock),
-                contentDescription = "Lock"
+                contentDescription = "Lock",
             )
             Text(
                 "Activate",

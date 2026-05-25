@@ -59,7 +59,7 @@ class ProfileListViewModelTest {
     fun `when profiles are fetched, state should contain them as inactive`() = runTest {
         val profiles = listOf(
             ProfileUi(1, "Work", "Work profile", emptyList(), 3600L),
-            ProfileUi(2, "Study", "Study profile", emptyList(), null)
+            ProfileUi(2, "Study", "Study profile", emptyList(), null),
         )
         every { getProfilesUiUseCase() } returns flowOf(profiles)
 
@@ -78,7 +78,7 @@ class ProfileListViewModelTest {
     fun `when a profile is active, it should be in activeProfile state`() = runTest {
         val profiles = listOf(
             ProfileUi(1, "Work", "Work profile", emptyList(), 3600L),
-            ProfileUi(2, "Study", "Study profile", emptyList(), null)
+            ProfileUi(2, "Study", "Study profile", emptyList(), null),
         )
         every { getProfilesUiUseCase() } returns flowOf(profiles)
         every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), true))
@@ -134,6 +134,6 @@ class ProfileListViewModelTest {
         observeActiveBlockUseCase,
         activateProfileUseCase,
         deactivateProfileUseCase,
-        updateProfileUseCase
+        updateProfileUseCase,
     )
 }

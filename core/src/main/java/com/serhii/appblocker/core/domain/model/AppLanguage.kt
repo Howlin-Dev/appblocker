@@ -3,7 +3,7 @@ package com.serhii.appblocker.core.domain.model
 enum class
 AppLanguage(
     val tag: String? = null,
-    val title: String? = null
+    val title: String? = null,
 ) {
     SYSTEM,
     ENGLISH("en", "English"),

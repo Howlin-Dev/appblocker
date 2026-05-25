@@ -42,7 +42,7 @@ fun InstalledAppGrid(
                     modifier = Modifier.animateItem(),
                     app = it,
                     selected = selectedAppsPackages.contains(it.packageName),
-                    onClick = { onItemClick(it.packageName) }
+                    onClick = { onItemClick(it.packageName) },
                 )
             }
         }

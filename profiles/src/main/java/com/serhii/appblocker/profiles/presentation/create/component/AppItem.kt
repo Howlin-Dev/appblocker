@@ -48,14 +48,14 @@ fun AppItem(
             MaterialTheme.colorScheme.onPrimaryContainer
         } else {
             MaterialTheme.colorScheme.onSurface
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .defaultMinSize(minHeight = 108.dp)
                 .padding(horizontal = 4.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         ) {
             Image(
                 modifier = Modifier.size(56.dp),
@@ -75,7 +75,7 @@ fun AppItem(
 
 @Composable
 fun AppItemPlaceholder(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier,
@@ -86,14 +86,14 @@ fun AppItemPlaceholder(
                 .defaultMinSize(minHeight = 108.dp)
                 .padding(horizontal = 4.dp, vertical = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically)
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
         ) {
             Box(
                 modifier = Modifier
                     .size(56.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
             Box(
                 modifier = Modifier
@@ -102,7 +102,7 @@ fun AppItemPlaceholder(
                     .height(20.dp)
                     .clip(RoundedCornerShape(4.dp))
                     .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
-                    .shimmerEffect()
+                    .shimmerEffect(),
             )
         }
     }
@@ -116,7 +116,7 @@ private fun AppItemPreview() {
             AppItem(
                 app = AppInfo("com.twitter.android", "Twitter"),
                 selected = true,
-                onClick = {}
+                onClick = {},
             )
         }
     }

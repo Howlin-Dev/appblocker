@@ -1,12 +1,14 @@
 package com.serhii.appblocker.timer.data.scheduler
 
 import android.content.Context
-import androidx.work.*
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.serhii.appblocker.timer.data.worker.TimerWorker
 import java.util.concurrent.TimeUnit
 
 class WorkManagerTimerScheduler(
-    private val context: Context
+    private val context: Context,
 ) : TimerScheduler {
 
     override fun schedule(triggerAtMillis: Long) {
@@ -21,7 +23,7 @@ class WorkManagerTimerScheduler(
             .enqueueUniqueWork(
                 WORK_NAME,
                 ExistingWorkPolicy.REPLACE,
-                request
+                request,
             )
     }
 

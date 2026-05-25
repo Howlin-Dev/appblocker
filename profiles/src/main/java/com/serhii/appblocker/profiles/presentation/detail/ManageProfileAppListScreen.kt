@@ -48,7 +48,7 @@ fun ManageProfileAppListScreen(
                     viewModel.applyChanges()
                 }
             }
-        }
+        },
     )
 
     LaunchedEffect(Unit) {
@@ -81,20 +81,20 @@ private fun ManageProfileAppListScreenContent(
             ) {
                 Text("Apply")
             }
-        }
+        },
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(32.dp)
+            verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             Box(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 InstalledAppGrid(
                     isLoading = isLoading,
                     installedApps = installedApps,
                     selectedAppsPackages = selectedAppsPackages,
                     onItemClick = { onAction(ManageProfileAppListAction.AppSelected(it)) },
-                    columnCount = 4
+                    columnCount = 4,
                 )
             }
         }
@@ -109,7 +109,7 @@ private fun ProfileListScreenScreenPreview() {
             isLoading = true,
             installedApps = emptyList(),
             selectedAppsPackages = emptySet(),
-            onAction = { }
+            onAction = { },
         )
     }
 }

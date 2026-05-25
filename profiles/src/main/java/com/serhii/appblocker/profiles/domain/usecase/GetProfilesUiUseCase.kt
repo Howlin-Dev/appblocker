@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 
 class GetProfilesUiUseCase(
     private val profilesRepository: ProfilesRepository,
-    private val installedAppsRepository: InstalledAppsRepository
+    private val installedAppsRepository: InstalledAppsRepository,
 ) {
     operator fun invoke(): Flow<List<ProfileUi>> = profilesRepository.getAll().map { profiles ->
         coroutineScope {

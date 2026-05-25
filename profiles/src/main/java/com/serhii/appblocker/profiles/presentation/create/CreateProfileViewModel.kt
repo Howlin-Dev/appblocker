@@ -55,7 +55,7 @@ class CreateProfileViewModel(
             runCatching {
                 createProfileUseCase(
                     name = currentState.name,
-                    appPackages = currentState.selectedApps.toList()
+                    appPackages = currentState.selectedApps.toList(),
                 )
             }.onFailure {
                 it.printStackTrace()

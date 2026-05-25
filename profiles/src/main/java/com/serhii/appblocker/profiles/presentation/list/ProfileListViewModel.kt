@@ -40,7 +40,7 @@ class ProfileListViewModel(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
-                initialValue = 0L
+                initialValue = 0L,
             )
 
     init {
@@ -50,7 +50,7 @@ class ProfileListViewModel(
     private fun observeState() {
         combine(
             getProfilesUiUseCase(),
-            observeActiveBlockUseCase()
+            observeActiveBlockUseCase(),
         ) { profilesUi, activeBlock ->
 
             val activeProfile = profilesUi.find {
@@ -64,7 +64,7 @@ class ProfileListViewModel(
             ProfilesListState(
                 isLoading = false,
                 activeProfile = activeProfile,
-                inactiveProfiles = inactiveProfiles
+                inactiveProfiles = inactiveProfiles,
             )
         }
             .onStart {

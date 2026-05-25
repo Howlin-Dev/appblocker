@@ -5,7 +5,7 @@ import com.serhii.appblocker.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetSettingsUseCase(
-    private val repository: SettingsRepository
+    private val repository: SettingsRepository,
 ) {
 
     operator fun invoke(): Flow<SettingsData> {

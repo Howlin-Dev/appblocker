@@ -19,27 +19,27 @@ fun ProfileAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
     columns: Int = 8,
-    itemSpacing: Dp = 6.dp
+    itemSpacing: Dp = 6.dp,
 ) {
     val rows = appList.chunked(columns)
 
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(itemSpacing)
+        verticalArrangement = Arrangement.spacedBy(itemSpacing),
     ) {
         rows.forEach { rowItems ->
             Row(
-                horizontalArrangement = Arrangement.spacedBy(itemSpacing)
+                horizontalArrangement = Arrangement.spacedBy(itemSpacing),
             ) {
                 rowItems.forEach { appInfo ->
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .aspectRatio(1f)
+                            .aspectRatio(1f),
                     ) {
                         Image(
                             painter = rememberDrawablePainter(appInfo.icon),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 }
@@ -48,7 +48,7 @@ fun ProfileAppIconGrid(
                     Spacer(
                         modifier = Modifier
                             .weight(1f)
-                            .aspectRatio(1f)
+                            .aspectRatio(1f),
                     )
                 }
             }

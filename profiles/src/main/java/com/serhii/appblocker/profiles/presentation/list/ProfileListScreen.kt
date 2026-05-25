@@ -36,7 +36,7 @@ fun ProfileListScreen(
     onSettingsClick: () -> Unit,
     onProfileClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ProfileListViewModel = koinViewModel()
+    viewModel: ProfileListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val remainingMillis by viewModel.remainingTime.collectAsState()
@@ -66,10 +66,10 @@ fun ProfileListScreen(
 
                 is ProfileListAction.TimerChange -> viewModel.updateProfileTimer(
                     action.profileUi,
-                    action.newTime
+                    action.newTime,
                 )
             }
-        }
+        },
     )
 
     if (pendingProfileForActivation.value != null) {
@@ -100,18 +100,18 @@ private fun ProfileListScreenContent(
         title = "Bloq",
         floatingActionButton = {
             LargeFloatingActionButton(
-                onClick = { onAction(ProfileListAction.CreateClick) }
+                onClick = { onAction(ProfileListAction.CreateClick) },
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         },
         actions = {
             IconButton(
-                onClick = { onAction(ProfileListAction.SettingsClick) }
+                onClick = { onAction(ProfileListAction.SettingsClick) },
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings"
+                    contentDescription = "Settings",
                 )
             }
         },
@@ -119,7 +119,7 @@ private fun ProfileListScreenContent(
         LazyColumn(
             modifier = Modifier,
             contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             activeProfile?.let { activeProfile ->
                 item {
@@ -129,11 +129,11 @@ private fun ProfileListScreenContent(
                         onUnblockClick = {
                             onAction(
                                 ProfileListAction.ToggleProfileActivation(
-                                    activeProfile
-                                )
+                                    activeProfile,
+                                ),
                             )
                         },
-                        formattedTimeRemaining = formattedTimeRemaining
+                        formattedTimeRemaining = formattedTimeRemaining,
                     )
                 }
             }
@@ -150,10 +150,10 @@ private fun ProfileListScreenContent(
                         onAction(
                             ProfileListAction.TimerChange(
                                 profileUi = inactiveProfile,
-                                newTime = newTime
-                            )
+                                newTime = newTime,
+                            ),
                         )
-                    }
+                    },
                 )
             }
         }

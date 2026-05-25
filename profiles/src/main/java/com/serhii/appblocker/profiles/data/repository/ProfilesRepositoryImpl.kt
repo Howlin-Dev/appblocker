@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ProfilesRepositoryImpl(
-    private val profileDao: ProfileDao
+    private val profileDao: ProfileDao,
 ) : ProfilesRepository {
 
     override fun getAll(): Flow<List<Profile>> {

@@ -27,7 +27,7 @@ import com.serhii.appblocker.core.domain.model.AppInfo
 fun ProfileCompressedAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
-    spacing: Dp = 8.dp
+    spacing: Dp = 8.dp,
 ) {
     val firstRow = appList.take(6)
     val hasOverflow = appList.size > 12
@@ -52,7 +52,7 @@ fun ProfileCompressedAppIconGrid(
                     Image(
                         modifier = Modifier.size(itemWidth),
                         painter = rememberDrawablePainter(it.icon),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
             }
@@ -63,7 +63,7 @@ fun ProfileCompressedAppIconGrid(
                     Image(
                         modifier = Modifier.size(itemWidth),
                         painter = rememberDrawablePainter(it.icon),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
 
@@ -72,13 +72,13 @@ fun ProfileCompressedAppIconGrid(
                     Surface(
                         shape = RoundedCornerShape(itemWidth / 2),
                         color = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     ) {
                         Box(
                             modifier = Modifier
                                 .width(itemWidth * 2 + spacing)
                                 .height(itemWidth),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 text = "+$overflowCount",
@@ -93,7 +93,7 @@ fun ProfileCompressedAppIconGrid(
                         Spacer(
                             modifier = Modifier
                                 .width(itemWidth)
-                                .height(itemWidth)
+                                .height(itemWidth),
                         )
                     }
                 }

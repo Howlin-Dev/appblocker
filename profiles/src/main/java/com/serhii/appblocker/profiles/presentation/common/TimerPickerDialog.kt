@@ -46,7 +46,7 @@ fun TimerPickerDialog(
             Column(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -64,19 +64,19 @@ fun TimerPickerDialog(
                                 modifier = Modifier.weight(1f),
                                 time = it,
                                 isSelected = it == selectedTime,
-                                onClick = { selectedTime = it }
+                                onClick = { selectedTime = it },
                             )
                         }
                     }
                 }
                 Row {
                     TextButton(
-                        onClick = onCancel
+                        onClick = onCancel,
                     ) {
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = { onConfirm(selectedTime) }
+                        onClick = { onConfirm(selectedTime) },
                     ) {
                         Text("Apply")
                     }
