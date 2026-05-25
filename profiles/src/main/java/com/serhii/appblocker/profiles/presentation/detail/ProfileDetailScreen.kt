@@ -1,6 +1,7 @@
 package com.serhii.appblocker.profiles.presentation.detail
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -153,24 +154,6 @@ private fun ProfileDetailScreenContent(
     }
 }
 
-//@Composable
-//private fun ProfileNameSection(
-//    name: String,
-//    onValueChange: (String) -> Unit,
-//    modifier: Modifier = Modifier,
-//) {
-//    OutlinedTextField(
-//        modifier = modifier,
-//        value = name,
-//        onValueChange = onValueChange,
-//        singleLine = true,
-//        maxLines = 1,
-//        placeholder = {
-//            Text(text = "Name")
-//        },
-//    )
-//}
-
 @Composable
 private fun ProfileNameSection(
     name: String,
@@ -188,13 +171,18 @@ private fun ProfileNameSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column {
+                Text(
+                    text = "Profile Name",
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                Text(
+                    text = name,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             IconButton(
                 onClick = onRenameClick
             ) {
@@ -213,30 +201,30 @@ private fun ProfileAppListSection(
     onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(
+    Box(
         modifier = modifier
             .fillMaxWidth(),
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.End
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Profile Apps:",
-                style = MaterialTheme.typography.titleLarge,
+                text = "Profile Apps",
+                style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             ProfileAppIconGrid(
-                modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                 appList = appList,
             )
             TextButton(
                 onClick = { onAction(ProfileDetailAction.ManageListClick) },
             ) {
-                Text("Manage List")
+                Text("Manage App List")
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -251,7 +239,9 @@ private fun ProfileAppListSection(
 @Composable
 private fun ProfileDetailScreenPreview() {
     ProfileDetailScreenContent(
-        profile = null,
+        profile = ProfileUi(
+            name = "Reading"
+        ),
         onAction = { },
     )
 }
