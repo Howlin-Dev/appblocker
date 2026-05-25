@@ -5,7 +5,7 @@ import com.appblocker.permissions.platform.PermissionNavigator
 
 class PermissionRequester(
     private val navigator: PermissionNavigator
-)  {
+) {
 
     fun request(permission: RequiredPermission) {
         when (permission) {

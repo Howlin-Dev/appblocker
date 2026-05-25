@@ -28,7 +28,7 @@ class BlockViewModel(
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
-                initialValue = 100L
+                initialValue = 100L,
             )
 
     init {
@@ -46,5 +46,5 @@ class BlockViewModel(
 }
 
 data class BlockState(
-    val activeBlock: ActiveBlock? = null
+    val activeBlock: ActiveBlock? = null,
 )

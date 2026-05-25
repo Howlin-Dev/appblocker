@@ -76,7 +76,8 @@ private fun PermissionsScreenContent(
             }
             items(items = missingPermissions) {
                 PermissionItem(
-                    title = it.title, subtitle = it.subtitle,
+                    title = it.title,
+                    subtitle = it.subtitle,
                     onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) }
                 )
             }

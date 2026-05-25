@@ -1,6 +1,5 @@
 package com.serhii.appblocker.profiles.presentation.list.component
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,18 +20,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,7 +45,7 @@ fun ProfileListItem(
     onToggleProfileActivation: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isTimerDialogShown by remember { mutableStateOf(false) }
+    val isTimerDialogShown = remember { mutableStateOf(false) }
 
     Card(
         onClick = onClick,
@@ -102,20 +97,20 @@ fun ProfileListItem(
                 TimerButton(
                     modifier = Modifier.fillMaxWidth(),
                     time = profile.durationMillis,
-                    onClick = { isTimerDialogShown = true }
+                    onClick = { isTimerDialogShown.value = true }
                 )
             }
         }
     }
 
-    if (isTimerDialogShown) {
+    if (isTimerDialogShown.value) {
         TimerPickerDialog(
             time = profile.durationMillis,
             onConfirm = {
                 onTimerChanged(it)
-                isTimerDialogShown = false
+                isTimerDialogShown.value = false
             },
-            onCancel = { isTimerDialogShown = false },
+            onCancel = { isTimerDialogShown.value = false },
         )
     }
 }

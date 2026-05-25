@@ -13,7 +13,6 @@ class TimerWorker(
     private val timerDataStore: TimerDataStore,
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result {
-
         blockRepository.deactivate()
         timerDataStore.clear()
         return Result.success()

@@ -14,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppLanguage
 import com.serhii.appblocker.core.ui.theme.AppBlockerTheme
 import com.serhii.appblocker.core.util.LocalAppIconProvider
-import com.serhii.appblocker.navigation.MainNavHost
 import com.serhii.appblocker.util.AppIconLoader
 import org.koin.androidx.compose.koinViewModel
 
@@ -30,13 +29,13 @@ fun RootScreen(
     settings?.let { ApplyLanguage(it.language) }
 
     AppBlockerTheme(
-        themeMode = settings?.themeMode ?: com.serhii.appblocker.core.domain.model.ThemeMode.SYSTEM
+        themeMode = settings?.themeMode ?: com.serhii.appblocker.core.domain.model.ThemeMode.SYSTEM,
     ) {
         CompositionLocalProvider(
-            LocalAppIconProvider provides AppIconLoader(context = context)
+            LocalAppIconProvider provides AppIconLoader(context = context),
         ) {
             Surface(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 if (settings != null) {
                     content()
@@ -46,11 +45,9 @@ fun RootScreen(
     }
 }
 
-
-
 @Composable
 private fun ApplyLanguage(
-    language: AppLanguage
+    language: AppLanguage,
 ) {
     LaunchedEffect(language) {
         val locales = when (language) {

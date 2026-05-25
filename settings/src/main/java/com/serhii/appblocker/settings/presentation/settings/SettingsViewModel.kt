@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     getSettingsUseCase: GetSettingsUseCase,
     private val setThemeModeUseCase: SetThemeModeUseCase,
-): ViewModel() {
+) : ViewModel() {
 
     val settings = getSettingsUseCase()
         .stateIn(

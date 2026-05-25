@@ -46,7 +46,7 @@ fun PermissionItemPreview() {
             modifier = Modifier.padding(16.dp),
             title = "Accessibility Functionality",
             subtitle = "We need many accessibility permissions for you app to work please " +
-                    "give give the permission now please",
+                "give give the permission now please",
             onClick = { },
         )
     }

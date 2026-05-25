@@ -69,8 +69,8 @@ class ManageProfileAppListViewModel(
             runCatching {
                 _state.value.profile?.toDomain()
                     ?.copy(appPackages = _state.value.selectedApps.toList())?.let {
-                    updateProfileUseCase(it)
-                }
+                        updateProfileUseCase(it)
+                    }
                 _state.update { it.copy(isLoading = false, isSaved = true) }
             }.onFailure {
                 _state.update { it.copy(isLoading = false) }

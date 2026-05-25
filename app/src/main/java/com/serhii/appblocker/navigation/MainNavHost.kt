@@ -1,7 +1,5 @@
 package com.serhii.appblocker.navigation
 
-import android.util.Log
-import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -27,7 +25,6 @@ import com.serhii.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.serhii.appblocker.profiles.presentation.list.ProfileListScreen
 import com.serhii.appblocker.settings.presentation.language.LanguageScreen
 import com.serhii.appblocker.settings.presentation.settings.SettingsScreen
-import kotlinx.serialization.Serializable
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -66,7 +63,7 @@ fun MainNavHost(
         },
         popExitTransition = {
             fadeOut(animationSpec = tween(300)) + scaleOut(targetScale = 0.92f, animationSpec = tween(300))
-        }
+        },
     ) {
         composable<ProfileListDestination> {
             ProfileListScreen(
@@ -105,7 +102,7 @@ fun MainNavHost(
                             popUpTo(PermissionsDestination) { inclusive = true }
                         }
                     }
-                }
+                },
             )
         }
         composable<SettingsDestination> {
@@ -125,7 +122,7 @@ fun MainNavHost(
         if (arePermissionsNeeded == true) {
             val currentBackStackEntry = navController.currentBackStackEntry
             val isAlreadyOnPermissions = currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
-            
+
             if (currentBackStackEntry != null && !isAlreadyOnPermissions) {
                 navController.navigate(PermissionsDestination) {
                     popUpTo(ProfileListDestination) { inclusive = true }

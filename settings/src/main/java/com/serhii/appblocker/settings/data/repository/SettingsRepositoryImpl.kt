@@ -2,11 +2,11 @@ package com.serhii.appblocker.settings.data.repository
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import com.serhii.appblocker.settings.data.datastore.SettingsKeys
-import com.serhii.appblocker.settings.data.datastore.settingsDataStore
 import com.serhii.appblocker.core.domain.model.AppLanguage
 import com.serhii.appblocker.core.domain.model.SettingsData
 import com.serhii.appblocker.core.domain.model.ThemeMode
+import com.serhii.appblocker.settings.data.datastore.SettingsKeys
+import com.serhii.appblocker.settings.data.datastore.settingsDataStore
 import com.serhii.appblocker.settings.domain.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

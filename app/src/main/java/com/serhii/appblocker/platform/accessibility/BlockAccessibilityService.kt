@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @SuppressLint("AccessibilityPolicy")
-class BlockAccessibilityService: AccessibilityService() {
+class BlockAccessibilityService : AccessibilityService() {
 
     private val blockRepository: BlockRepository by inject()
     private var blockedPackages: Set<String> = emptySet()
@@ -47,25 +47,16 @@ class BlockAccessibilityService: AccessibilityService() {
         if (blockedPackages.contains(currentPackage)) {
             Log.d("onAccessibilityEvent", "onAccessibilityEvent (contains): $currentPackage")
             lastBlockTime = now
-//            goToHomeScreen()
             launchBlockScreen()
         }
-    }
-
-    private fun goToHomeScreen() {
-        val homeIntent = Intent(Intent.ACTION_MAIN).apply {
-            addCategory(Intent.CATEGORY_HOME)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        startActivity(homeIntent)
     }
 
     private fun launchBlockScreen() {
         val intent = Intent(this, BlockActivity::class.java).apply {
             addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                        Intent.FLAG_ACTIVITY_SINGLE_TOP
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                    Intent.FLAG_ACTIVITY_SINGLE_TOP,
             )
         }
         Log.d("launchBlockScreen", "launchBlockScreen LAUNCHING")

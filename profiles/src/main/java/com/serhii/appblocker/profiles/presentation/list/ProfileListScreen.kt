@@ -17,7 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +40,7 @@ fun ProfileListScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val remainingMillis by viewModel.remainingTime.collectAsState()
-    var pendingProfileForActivation by remember { mutableStateOf<ProfileUi?>(null) }
+    val pendingProfileForActivation = remember { mutableStateOf<ProfileUi?>(null) }
 
     val formattedTime = remember(remainingMillis) {
         formatMillis(remainingMillis)
@@ -58,10 +57,11 @@ fun ProfileListScreen(
                 ProfileListAction.SettingsClick -> onSettingsClick()
                 is ProfileListAction.ProfileClick -> onProfileClick(action.id)
                 is ProfileListAction.ToggleProfileActivation -> {
-                    if (action.profile.durationMillis == null)
+                    if (action.profile.durationMillis == null) {
                         viewModel.toggleProfileActivation(action.profile)
-                    else
-                        pendingProfileForActivation = action.profile
+                    } else {
+                        pendingProfileForActivation.value = action.profile
+                    }
                 }
 
                 is ProfileListAction.TimerChange -> viewModel.updateProfileTimer(
@@ -72,15 +72,15 @@ fun ProfileListScreen(
         }
     )
 
-    if (pendingProfileForActivation != null) {
+    if (pendingProfileForActivation.value != null) {
         ConfirmDialog(
             onConfirm = {
-                pendingProfileForActivation?.let { viewModel.toggleProfileActivation(it) }
-                pendingProfileForActivation = null
+                pendingProfileForActivation.value?.let { viewModel.toggleProfileActivation(it) }
+                pendingProfileForActivation.value = null
             },
-            onCancel = { pendingProfileForActivation = null },
-            title = "Activate ${pendingProfileForActivation?.name}?",
-            text = "Profile apps will be blocked for ${pendingProfileForActivation?.durationMillis?.millisToTimeString()}",
+            onCancel = { pendingProfileForActivation.value = null },
+            title = "Activate ${pendingProfileForActivation.value?.name}?",
+            text = "Profile apps will be blocked for ${pendingProfileForActivation.value?.durationMillis?.millisToTimeString()}",
             confirmButtonText = "Activate",
             cancelButtonText = "Cancel",
         )

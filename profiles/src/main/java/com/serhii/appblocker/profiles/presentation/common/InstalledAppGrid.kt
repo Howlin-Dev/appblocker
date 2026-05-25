@@ -34,7 +34,7 @@ fun InstalledAppGrid(
             items(30) {
                 AppItemPlaceholder(
                     modifier = Modifier.animateItem(),
-                    )
+                )
             }
         } else {
             items(items = installedApps) {

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class LanguageViewModel(
     getSettingsUseCase: GetSettingsUseCase,
     private val setAppLanguageUseCase: SetAppLanguageUseCase
-): ViewModel() {
+) : ViewModel() {
 
     val settings = getSettingsUseCase()
         .stateIn(

@@ -4,7 +4,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 fun formatMillis(millis: Long): String {
-
     val totalSeconds = millis / 1000
 
     val hours = totalSeconds / 3600

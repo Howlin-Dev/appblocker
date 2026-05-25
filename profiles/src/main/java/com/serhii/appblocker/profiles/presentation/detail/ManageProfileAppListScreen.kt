@@ -101,7 +101,6 @@ private fun ManageProfileAppListScreenContent(
     }
 }
 
-
 @Preview
 @Composable
 private fun ProfileListScreenScreenPreview() {

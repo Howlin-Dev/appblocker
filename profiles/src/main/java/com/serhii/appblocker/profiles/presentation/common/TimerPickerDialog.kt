@@ -97,7 +97,7 @@ private fun TimeItem(
         modifier = modifier,
         onClick = onClick,
         shape = RoundedCornerShape(size = 6.dp),
-        color = if(isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
+        color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
     ) {
         Text(
             modifier = Modifier

@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-    */
+     */
 )
 
 @Composable
@@ -44,7 +44,7 @@ fun AppBlockerTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val darkTheme = when(themeMode) {
+    val darkTheme = when (themeMode) {
         ThemeMode.SYSTEM -> isSystemInDarkTheme()
         ThemeMode.LIGHT -> false
         ThemeMode.DARK -> true
@@ -53,9 +53,7 @@ fun AppBlockerTheme(
     val view = LocalView.current
 
     if (!view.isInEditMode) {
-
         SideEffect {
-
             val window = (view.context as Activity).window
 
             WindowCompat

@@ -7,7 +7,6 @@ import com.serhii.appblocker.timer.data.scheduler.TimerScheduler
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlin.math.max
 
 class TimerRepositoryImpl(
     private val dataStore: TimerDataStore,

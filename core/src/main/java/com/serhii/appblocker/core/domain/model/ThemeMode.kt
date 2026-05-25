@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.serhii.appblocker.core.R
 
 enum class ThemeMode(
-    @StringRes val titleRes: Int
+    @param:StringRes val titleRes: Int
 ) {
 
     LIGHT(R.string.theme_light),

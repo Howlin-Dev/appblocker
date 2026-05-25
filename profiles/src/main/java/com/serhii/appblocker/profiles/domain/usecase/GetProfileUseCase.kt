@@ -2,7 +2,6 @@ package com.serhii.appblocker.profiles.domain.usecase
 
 import com.serhii.appblocker.profiles.domain.model.Profile
 import com.serhii.appblocker.profiles.domain.repository.ProfilesRepository
-import kotlinx.coroutines.flow.Flow
 
 class GetProfileUseCase(
     private val profilesRepository: ProfilesRepository

@@ -1,6 +1,5 @@
 package com.serhii.appblocker.presentation.block
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.util.formatMillis
 import org.koin.androidx.compose.koinViewModel
 
@@ -53,7 +50,7 @@ fun BlockScreen(
             when (action) {
                 BlockAction.OnClose -> onClose()
             }
-        }
+        },
     )
 
     LaunchedEffect(remainingMillis) {
@@ -62,7 +59,6 @@ fun BlockScreen(
         }
     }
 }
-
 
 @Composable
 private fun BlockScreenContent(
@@ -74,7 +70,7 @@ private fun BlockScreenContent(
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "This app is currently blocked",
@@ -87,13 +83,12 @@ private fun BlockScreenContent(
             )
         }
         TextButton(
-            onClick = { onAction(BlockAction.OnClose) }
+            onClick = { onAction(BlockAction.OnClose) },
         ) {
             Text("Close")
         }
     }
 }
-
 
 @Composable
 @Preview

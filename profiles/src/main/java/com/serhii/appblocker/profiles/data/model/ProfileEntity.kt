@@ -27,5 +27,5 @@ fun Profile.toEntity() = ProfileEntity(
     name = name,
     description = description,
     blockedAppsPackageNames = appPackages.joinToString(","),
-            durationMillis = durationMillis,
+    durationMillis = durationMillis,
 )

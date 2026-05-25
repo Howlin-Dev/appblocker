@@ -1,8 +1,5 @@
 package com.serhii.appblocker.profiles.util
 
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
-
 internal val timerUiTimeList = listOf<Long?>(
     null,
     60_000,

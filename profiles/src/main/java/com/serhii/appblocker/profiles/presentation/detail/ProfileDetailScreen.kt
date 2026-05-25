@@ -36,8 +36,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
-import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.presentation.component.ConfirmDialog
+import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.serhii.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
@@ -84,8 +84,8 @@ private fun ProfileDetailScreenContent(
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var renameDialogShown by remember { mutableStateOf(false) }
-    var deleteConfirmDialogShown by remember { mutableStateOf(false) }
+    val renameDialogShown = remember { mutableStateOf(false) }
+    val deleteConfirmDialogShown = remember { mutableStateOf(false) }
 
     AppScaffold(
         modifier = modifier,
@@ -106,7 +106,7 @@ private fun ProfileDetailScreenContent(
                     text = { Text("Delete") },
                     onClick = {
                         expanded = false
-                        deleteConfirmDialogShown = true
+                        deleteConfirmDialogShown.value = true
                     }
                 )
             }
@@ -120,7 +120,7 @@ private fun ProfileDetailScreenContent(
         ) {
             ProfileNameSection(
                 name = profile?.name.orEmpty(),
-                onRenameClick = { renameDialogShown = true }
+                onRenameClick = { renameDialogShown.value = true }
             )
             ProfileAppListSection(
                 appList = profile?.blockedApps.orEmpty(),
@@ -129,27 +129,27 @@ private fun ProfileDetailScreenContent(
         }
     }
 
-    if (deleteConfirmDialogShown) {
+    if (deleteConfirmDialogShown.value) {
         ConfirmDialog(
             onConfirm = {
                 onAction(ProfileDetailAction.DeleteProfile)
-                deleteConfirmDialogShown = false
+                deleteConfirmDialogShown.value = false
             },
-            onCancel = { deleteConfirmDialogShown = false },
+            onCancel = { deleteConfirmDialogShown.value = false },
             title = "Delete profile?",
             text = "The action cannot be undone",
             confirmButtonText = "Delete",
             cancelButtonText = "Cancel",
         )
     }
-    if (renameDialogShown) {
+    if (renameDialogShown.value) {
         RenameProfileDialog(
             name = profile?.name.orEmpty(),
             onChange = {
                 onAction(ProfileDetailAction.ProfileNameChanged(it))
-                renameDialogShown = false
+                renameDialogShown.value = false
             },
-            onCancel = { renameDialogShown = false },
+            onCancel = { renameDialogShown.value = false },
         )
     }
 }

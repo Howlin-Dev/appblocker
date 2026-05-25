@@ -3,7 +3,6 @@ package com.serhii.appblocker.util
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.LruCache
-import androidx.compose.runtime.staticCompositionLocalOf
 import com.serhii.appblocker.core.util.AppIconProvider
 
 class AppIconLoader(context: Context) : AppIconProvider {
@@ -17,6 +16,7 @@ class AppIconLoader(context: Context) : AppIconProvider {
             cache.put(packageName, icon)
             icon
         } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
     }

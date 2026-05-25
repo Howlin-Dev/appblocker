@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class InstalledAppsRepositoryImpl(
-    private val context: Context
+    private val context: Context,
 ) : InstalledAppsRepository {
 
     private val pm = context.packageManager
@@ -32,7 +32,7 @@ class InstalledAppsRepositoryImpl(
                 AppInfo(
                     packageName = appInfo.packageName,
                     name = resolveInfo.loadLabel(pm).toString(),
-                    icon = resolveInfo.loadIcon(pm)
+                    icon = resolveInfo.loadIcon(pm),
                 )
             }
             .filterNot { it.packageName == context.packageName }

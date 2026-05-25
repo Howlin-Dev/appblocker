@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -47,7 +46,6 @@ fun ProfileCompressedAppIconGrid(
         val itemWidth = (maxWidth - totalSpacing) / 6
 
         Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
-
             // First row
             Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
                 firstRow.forEach {
@@ -61,7 +59,6 @@ fun ProfileCompressedAppIconGrid(
 
             // Second row
             Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
-
                 secondRow.forEach {
                     Image(
                         modifier = Modifier.size(itemWidth),

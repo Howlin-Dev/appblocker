@@ -13,7 +13,7 @@ import com.appblocker.permissions.domain.repository.PermissionRepository
 import com.serhii.appblocker.platform.accessibility.BlockAccessibilityService
 
 class AndroidPermissionRepository(
-    private val context: Context
+    private val context: Context,
 ) : PermissionRepository {
 
     override fun hasRequiredPermissions(): Boolean {
@@ -35,27 +35,27 @@ class AndroidPermissionRepository(
         val expectedService = ComponentName(context, BlockAccessibilityService::class.java)
         val enabledServices = Settings.Secure.getString(
             context.contentResolver,
-            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
+            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
         ) ?: return false
         return enabledServices.contains(expectedService.flattenToString())
     }
     private fun hasOverlayPermission(): Boolean {
         return Settings.canDrawOverlays(context)
-     }
+    }
     private fun hasUsageAccess(): Boolean {
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         val mode = appOps.checkOpNoThrow(
             AppOpsManager.OPSTR_GET_USAGE_STATS,
             Process.myUid(),
-            context.packageName
+            context.packageName,
         )
         return mode == AppOpsManager.MODE_ALLOWED
-     }
+    }
     private fun isIgnoringBatteryOptimizations(): Boolean {
         val packageName = context.packageName
         val pm = context.getSystemService(PowerManager::class.java)
         return pm.isIgnoringBatteryOptimizations(packageName)
-     }
+    }
 
     private fun canScheduleExactAlarms(): Boolean {
         val alarmManager = context.getSystemService(AlarmManager::class.java)

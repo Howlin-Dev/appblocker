@@ -3,7 +3,7 @@ package com.appblocker.permissions.platform.util
 import android.annotation.SuppressLint
 import android.os.Build
 
-//TODO
+// TODO
 
 @SuppressLint("PrivateApi")
 fun isMiui(): Boolean {

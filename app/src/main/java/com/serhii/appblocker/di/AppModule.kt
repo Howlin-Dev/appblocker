@@ -1,12 +1,12 @@
 package com.serhii.appblocker.di
 
-import com.serhii.appblocker.data.repository.AndroidPermissionRepository
-import com.serhii.appblocker.data.repository.InstalledAppsRepositoryImpl
 import com.appblocker.permissions.domain.repository.PermissionRepository
-import com.serhii.appblocker.navigation.entry.EntryViewModel
 import com.appblocker.permissions.platform.PermissionNavigator
 import com.appblocker.permissions.platform.requester.PermissionRequester
 import com.serhii.appblocker.core.domain.repository.InstalledAppsRepository
+import com.serhii.appblocker.data.repository.AndroidPermissionRepository
+import com.serhii.appblocker.data.repository.InstalledAppsRepositoryImpl
+import com.serhii.appblocker.navigation.entry.EntryViewModel
 import com.serhii.appblocker.presentation.block.BlockViewModel
 import com.serhii.appblocker.presentation.root.RootViewModel
 import org.koin.android.ext.koin.androidContext
@@ -27,5 +27,4 @@ val appModule = module {
     viewModelOf(::BlockViewModel)
 
     factory { KoinWorkerFactory() }
-
 }

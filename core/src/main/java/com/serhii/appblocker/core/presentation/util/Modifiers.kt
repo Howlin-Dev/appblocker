@@ -19,9 +19,9 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         mutableStateOf(IntSize.Zero)
     }
     val transition = rememberInfiniteTransition(label = "shimmer")
-    
+
     val width = if (size.width > 0) size.width.toFloat() else 1000f
-    
+
     val startOffsetX by transition.animateFloat(
         initialValue = -2 * width,
         targetValue = 2 * width,

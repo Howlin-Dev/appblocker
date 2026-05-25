@@ -26,7 +26,6 @@ fun ThemeButtonGroup(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-
         ThemeMode.entries.forEachIndexed { index, mode ->
 
             val isSelected = selected == mode
@@ -59,7 +58,6 @@ fun ThemeButtonGroup(
                     MaterialTheme.colorScheme.surfaceContainerHighest
                 }
             ) {
-
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically

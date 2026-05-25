@@ -6,4 +6,24 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.detekt)
+}
+
+subprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+
+    dependencies {
+        "detektPlugins"(rootProject.libs.detekt.formatting)
+    }
+
+    detekt {
+        buildUponDefaultConfig = true
+        allRules = false
+        config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+        autoCorrect = true
+    }
+
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+        jvmTarget = "11"
+    }
 }

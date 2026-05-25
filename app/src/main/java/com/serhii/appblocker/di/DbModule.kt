@@ -10,7 +10,7 @@ val dbModule = module {
         Room.databaseBuilder(
             androidContext(),
             AppDatabase::class.java,
-            "app_blocker_db"
+            "app_blocker_db",
         )
             .fallbackToDestructiveMigration(true)
             .build()
