@@ -1,24 +1,27 @@
 package com.appblocker.permissions.domain.model
 
-sealed class RequiredPermission(val title: String, val subtitle: String) {
+import androidx.annotation.StringRes
+import com.appblocker.permissions.R
+
+sealed class RequiredPermission(@param:StringRes val titleRes: Int, @param:StringRes val subtitleRes: Int) {
     object Accessibility : RequiredPermission(
-        "Accessibility Service (Control app usage)",
-        "Allow access to monitor and block selected apps in real time.",
+        titleRes = R.string.permission_accessibility_title,
+        subtitleRes = R.string.permission_accessibility_subtitle,
     )
     object Overlay : RequiredPermission(
-        "Overlay Permission (Show blocking screen)",
-        "Enable displaying a blocking screen when restricted apps are opened.",
+        titleRes = R.string.permission_overlay_title,
+        subtitleRes = R.string.permission_overlay_subtitle,
     )
     object UsageAccess : RequiredPermission(
-        "Usage Access (Track app activity)",
-        "Grant permission to detect which apps are currently in use.",
+        titleRes = R.string.permission_usage_title,
+        subtitleRes = R.string.permission_usage_subtitle,
     )
     object BatteryOptimization : RequiredPermission(
-        "Battery Optimization Exemption",
-        "Allow the app to stay active and enforce blocking consistently.",
+        titleRes = R.string.permission_battery_title,
+        subtitleRes = R.string.permission_battery_subtitle,
     )
     object ExactAlarm : RequiredPermission(
-        "Schedule Precise Blocking",
-        "Allow exact alarms to enforce app blocking at specific times without delay.",
+        titleRes = R.string.permission_alarm_title,
+        subtitleRes = R.string.permission_alarm_subtitle,
     )
 }

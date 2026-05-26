@@ -21,10 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhii.appblocker.core.util.millisToTimeString
+import com.serhii.appblocker.profiles.R
 import com.serhii.appblocker.profiles.util.timerUiTimeList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +52,7 @@ fun TimerPickerDialog(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Change Timer",
+                    text = stringResource(R.string.profiles_dialog_change_timer_title),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                 )
@@ -73,12 +75,12 @@ fun TimerPickerDialog(
                     TextButton(
                         onClick = onCancel,
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.profiles_button_cancel))
                     }
                     TextButton(
                         onClick = { onConfirm(selectedTime) },
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.profiles_button_apply))
                     }
                 }
             }
@@ -103,7 +105,7 @@ private fun TimeItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 4.dp),
-            text = time.millisToTimeString(),
+            text = time.millisToTimeString() ?: stringResource(R.string.profiles_no_timer),
             style = MaterialTheme.typography.labelLarge,
             textAlign = TextAlign.Center,
         )

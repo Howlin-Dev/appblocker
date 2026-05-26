@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profiles_app_title">Bloq</string>
+    <string name="profiles_content_description_add">Add</string>
+    <string name="profiles_content_description_settings">Settings</string>
+    <string name="profiles_content_description_edit">Edit</string>
+    <string name="profiles_content_description_more_options">More options</string>
+    <string name="profiles_content_description_manage_list">Manage List</string>
+
+    <string name="profiles_button_cancel">Cancel</string>
+    <string name="profiles_button_apply">Apply</string>
+    <string name="profiles_button_activate">Activate</string>
+    <string name="profiles_button_create">Create</string>
+    <string name="profiles_button_delete">Delete</string>
+
+    <string name="profiles_dialog_activate_title">Activate %1$s?</string>
+    <string name="profiles_dialog_activate_text">Profile apps will be blocked for %1$s</string>
+
+    <string name="profiles_create_title">New Profile</string>
+    <string name="profiles_name_placeholder">Profile Name...</string>
+    <string name="profiles_name_label">Profile Name</string>
+    <string name="profiles_select_apps_description">Select apps you want to block upon activating this profile</string>
+
+    <string name="profiles_detail_title">Profile</string>
+    <string name="profiles_name_section_label">Profile Name</string>
+    <string name="profiles_apps_section_label">Profile Apps</string>
+    <string name="profiles_manage_app_list_button">Manage App List</string>
+    <string name="profiles_dialog_delete_title">Delete profile?</string>
+    <string name="profiles_dialog_delete_text">The action cannot be undone</string>
+
+    <string name="profiles_manage_list_title">Manage App List</string>
+
+    <string name="profiles_dialog_change_timer_title">Change Timer</string>
+    <string name="profiles_dialog_rename_title">Rename Profile</string>
+    <string name="profiles_name_field_label">Name</string>
+
+    <string name="profiles_active_for">Active for:</string>
+    <string name="profiles_unblock_button">Unblock</string>
+    <string name="profiles_blocked_apps_label">Currently blocked apps:</string>
+
+    <string name="profiles_timer_label">Timer</string>
+    <string name="profiles_no_timer">No Timer</string>
+    <string name="profiles_content_description_lock">Lock</string>
+</resources>

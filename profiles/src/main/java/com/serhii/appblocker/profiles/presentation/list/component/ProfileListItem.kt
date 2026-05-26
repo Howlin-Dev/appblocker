@@ -28,11 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serhii.appblocker.core.R
 import com.serhii.appblocker.core.util.millisToTimeString
+import com.serhii.appblocker.profiles.R as ProfilesR
 import com.serhii.appblocker.profiles.presentation.common.TimerPickerDialog
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 
@@ -135,11 +137,11 @@ private fun TimerButton(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
-                text = time?.millisToTimeString() ?: "Timer",
+                text = time?.millisToTimeString() ?: stringResource(ProfilesR.string.profiles_timer_label),
             )
             Icon(
                 painter = painterResource(R.drawable.outline_timer),
-                contentDescription = "Timer",
+                contentDescription = stringResource(ProfilesR.string.profiles_timer_label),
             )
         }
     }
@@ -164,10 +166,10 @@ private fun ActivateProfileButton(
         ) {
             Icon(
                 painter = painterResource(R.drawable.outline_lock),
-                contentDescription = "Lock",
+                contentDescription = stringResource(ProfilesR.string.profiles_content_description_lock),
             )
             Text(
-                "Activate",
+                stringResource(ProfilesR.string.profiles_button_activate),
             )
         }
     }

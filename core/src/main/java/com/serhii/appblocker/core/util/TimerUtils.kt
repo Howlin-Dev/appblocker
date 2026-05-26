@@ -17,8 +17,8 @@ fun formatMillis(millis: Long): String {
     )
 }
 
-fun Long?.millisToTimeString(): String {
-    if (this == null) return "No Timer"
+fun Long?.millisToTimeString(): String? {
+    if (this == null) return null
     val duration = toDuration(DurationUnit.MILLISECONDS)
     return duration.toComponents { hours, minutes, _, _ ->
         val h = hours.toInt()

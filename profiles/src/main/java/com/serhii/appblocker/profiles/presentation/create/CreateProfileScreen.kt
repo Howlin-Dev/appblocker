@@ -18,11 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
+import com.serhii.appblocker.profiles.R
 import com.serhii.appblocker.profiles.presentation.common.InstalledAppGrid
 import org.koin.androidx.compose.koinViewModel
 
@@ -79,7 +81,7 @@ private fun CreateProfileScreenContent(
 ) {
     AppScaffold(
         modifier = modifier,
-        title = "New Profile",
+        title = stringResource(R.string.profiles_create_title),
         navigationIconImageVector = Icons.Default.Close,
         onBackClick = { onAction(CreateProfileAction.BackClick) },
         actions = {
@@ -87,7 +89,7 @@ private fun CreateProfileScreenContent(
                 onClick = { onAction(CreateProfileAction.CreateProfileClick) },
                 enabled = name.isNotEmpty() && selectedAppsPackages.isNotEmpty(),
             ) {
-                Text("Create")
+                Text(stringResource(R.string.profiles_button_create))
             }
         },
     ) {
@@ -101,11 +103,11 @@ private fun CreateProfileScreenContent(
                     .padding(horizontal = 24.dp),
                 value = name,
                 placeholder = {
-                    Text(text = "Profile Name...")
+                    Text(text = stringResource(R.string.profiles_name_placeholder))
                 },
                 onValueChange = { onAction(CreateProfileAction.NameChange(it)) },
                 label = {
-                    Text("Profile Name")
+                    Text(stringResource(R.string.profiles_name_label))
                 },
             )
             Spacer(modifier = Modifier.size(8.dp))
@@ -113,7 +115,7 @@ private fun CreateProfileScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
-                text = "Select apps you want to block upon activating this profile",
+                text = stringResource(R.string.profiles_select_apps_description),
                 style = MaterialTheme.typography.titleSmall,
             )
             Box(

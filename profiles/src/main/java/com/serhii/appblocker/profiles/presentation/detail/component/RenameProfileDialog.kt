@@ -19,8 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.serhii.appblocker.profiles.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +46,7 @@ fun RenameProfileDialog(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Rename Profile",
+                    text = stringResource(R.string.profiles_dialog_rename_title),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                 )
@@ -55,22 +57,22 @@ fun RenameProfileDialog(
                     singleLine = true,
                     maxLines = 1,
                     label = {
-                        Text(text = "Name")
+                        Text(text = stringResource(R.string.profiles_name_field_label))
                     },
                     placeholder = {
-                        Text(text = "Name")
+                        Text(text = stringResource(R.string.profiles_name_field_label))
                     },
                 )
                 Row {
                     TextButton(
                         onClick = onCancel,
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.profiles_button_cancel))
                     }
                     TextButton(
                         onClick = { onChange(name) },
                     ) {
-                        Text("Apply")
+                        Text(stringResource(R.string.profiles_button_apply))
                     }
                 }
             }

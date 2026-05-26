@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_accessibility_title">Спеціальні можливості (Контроль використання програм)</string>
+    <string name="permission_accessibility_subtitle">Дозвольте доступ для моніторингу та блокування вибраних програм у реальному часі.</string>
+
+    <string name="permission_overlay_title">Поверх інших вікон (Відображення екрана блокування)</string>
+    <string name="permission_overlay_subtitle">Увімкніть відображення екрана блокування при відкритті обмежених програм.</string>
+
+    <string name="permission_usage_title">Доступ до даних про використання (Відстеження активності програм)</string>
+    <string name="permission_usage_subtitle">Надайте дозвіл для виявлення того, які програми зараз використовуються.</string>
+
+    <string name="permission_battery_title">Виключення з оптимізації батареї</string>
+    <string name="permission_battery_subtitle">Дозвольте програмі залишатися активною та послідовно застосовувати блокування.</string>
+
+    <string name="permission_alarm_title">Планування точного блокування</string>
+    <string name="permission_alarm_subtitle">Дозвольте точні будильники для застосування блокування програм у певний час без затримок.</string>
+
+    <string name="permissions_screen_title">Необхідні дозволи</string>
+    <string name="permissions_screen_description">Для належної роботи програми потрібні деякі дозволи. Будь ласка, надайте їх нижче.</string>
+    <string name="permission_grant_button">Надати</string>
+</resources>

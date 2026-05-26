@@ -16,8 +16,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.serhii.appblocker.R
 import com.serhii.appblocker.core.util.formatMillis
 import org.koin.androidx.compose.koinViewModel
 
@@ -73,7 +75,7 @@ private fun BlockScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            text = "This app is currently blocked",
+            text = stringResource(R.string.block_screen_message),
             style = MaterialTheme.typography.titleLarge,
         )
         if (isTimed) {
@@ -85,7 +87,9 @@ private fun BlockScreenContent(
         TextButton(
             onClick = { onAction(BlockAction.OnClose) },
         ) {
-            Text("Close")
+            Text(
+                text = stringResource(R.string.block_screen_close_button_text),
+            )
         }
     }
 }

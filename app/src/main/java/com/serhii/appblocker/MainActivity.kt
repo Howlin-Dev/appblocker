@@ -18,10 +18,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
+        val startTime = System.currentTimeMillis()
         super.onCreate(savedInstanceState)
 
         splashScreen.setKeepOnScreenCondition {
-            rootViewModel.settings.value == null || entryViewModel.state.value.arePermissionsNeeded == null
+            val elapsed = System.currentTimeMillis() - startTime
+            elapsed < 500L || rootViewModel.settings.value == null || entryViewModel.state.value.arePermissionsNeeded == null
         }
 
         enableEdgeToEdge()

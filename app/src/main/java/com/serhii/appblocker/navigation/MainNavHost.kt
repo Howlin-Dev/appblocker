@@ -97,11 +97,11 @@ fun MainNavHost(
         composable<PermissionsDestination> {
             PermissionsScreen(
                 onAllPermissionsGranted = {
-                    if (navController.currentBackStackEntry?.lifecycle?.currentState == androidx.lifecycle.Lifecycle.State.RESUMED) {
+//                    if (navController.currentBackStackEntry?.lifecycle?.currentState == androidx.lifecycle.Lifecycle.State.RESUMED) {
                         navController.navigate(ProfileListDestination) {
                             popUpTo(PermissionsDestination) { inclusive = true }
                         }
-                    }
+//                    }
                 },
             )
         }
@@ -119,7 +119,7 @@ fun MainNavHost(
     }
 
     LaunchedEffect(arePermissionsNeeded) {
-        if (arePermissionsNeeded == true) {
+        if (arePermissionsNeeded) {
             val currentBackStackEntry = navController.currentBackStackEntry
             val isAlreadyOnPermissions = currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
 

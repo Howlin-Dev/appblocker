@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.presentation.component.ConfirmDialog
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
+import com.serhii.appblocker.profiles.R
 import com.serhii.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.serhii.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileDetailAction
@@ -89,13 +91,13 @@ private fun ProfileDetailScreenContent(
 
     AppScaffold(
         modifier = modifier,
-        title = "Profile",
+        title = stringResource(R.string.profiles_detail_title),
         onBackClick = { onAction(ProfileDetailAction.BackClick) },
         actions = {
             IconButton(onClick = { expanded = true }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
-                    contentDescription = "More options",
+                    contentDescription = stringResource(R.string.profiles_content_description_more_options),
                 )
             }
             DropdownMenu(
@@ -103,7 +105,7 @@ private fun ProfileDetailScreenContent(
                 onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
-                    text = { Text("Delete") },
+                    text = { Text(stringResource(R.string.profiles_button_delete)) },
                     onClick = {
                         expanded = false
                         deleteConfirmDialogShown.value = true
@@ -136,10 +138,10 @@ private fun ProfileDetailScreenContent(
                 deleteConfirmDialogShown.value = false
             },
             onCancel = { deleteConfirmDialogShown.value = false },
-            title = "Delete profile?",
-            text = "The action cannot be undone",
-            confirmButtonText = "Delete",
-            cancelButtonText = "Cancel",
+            title = stringResource(R.string.profiles_dialog_delete_title),
+            text = stringResource(R.string.profiles_dialog_delete_text),
+            confirmButtonText = stringResource(R.string.profiles_button_delete),
+            cancelButtonText = stringResource(R.string.profiles_button_cancel),
         )
     }
     if (renameDialogShown.value) {
@@ -173,7 +175,7 @@ private fun ProfileNameSection(
         ) {
             Column {
                 Text(
-                    text = "Profile Name",
+                    text = stringResource(R.string.profiles_name_section_label),
                     style = MaterialTheme.typography.titleSmall,
                 )
                 Text(
@@ -188,7 +190,7 @@ private fun ProfileNameSection(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Edit",
+                    contentDescription = stringResource(R.string.profiles_content_description_edit),
                 )
             }
         }
@@ -211,7 +213,7 @@ private fun ProfileAppListSection(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Profile Apps",
+                text = stringResource(R.string.profiles_apps_section_label),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
@@ -224,11 +226,11 @@ private fun ProfileAppListSection(
             TextButton(
                 onClick = { onAction(ProfileDetailAction.ManageListClick) },
             ) {
-                Text("Manage App List")
+                Text(stringResource(R.string.profiles_manage_app_list_button))
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Manage List",
+                    contentDescription = stringResource(R.string.profiles_content_description_manage_list),
                 )
             }
         }

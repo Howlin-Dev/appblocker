@@ -11,8 +11,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.appblocker.permissions.R
 
 @Composable
 fun PermissionItem(
@@ -32,7 +34,7 @@ fun PermissionItem(
                 modifier = Modifier.padding(top = 4.dp),
                 onClick = onClick,
             ) {
-                Text("Grant")
+                Text(stringResource(R.string.permission_grant_button))
             }
         }
     }

@@ -16,12 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.appblocker.permissions.R
 import com.appblocker.permissions.domain.model.RequiredPermission
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import org.koin.androidx.compose.koinViewModel
@@ -76,8 +78,8 @@ private fun PermissionsScreenContent(
             }
             items(items = missingPermissions) {
                 PermissionItem(
-                    title = it.title,
-                    subtitle = it.subtitle,
+                    title = stringResource(it.titleRes),
+                    subtitle = stringResource(it.subtitleRes),
                     onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) },
                 )
             }
@@ -94,15 +96,16 @@ private fun PermissionScreenInfo(
             .fillMaxWidth()
             .heightIn(min = 200.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Some permissions are needed for the application to work properly",
+            text = stringResource(R.string.permissions_screen_title),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
         Text(
-            text = "Some permissions are needed for the application to work properly",
+            text = stringResource(R.string.permissions_screen_description),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
         )

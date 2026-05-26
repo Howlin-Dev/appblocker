@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -25,6 +26,7 @@ import com.serhii.appblocker.core.presentation.component.ConfirmDialog
 import com.serhii.appblocker.core.presentation.scaffold.AppScaffold
 import com.serhii.appblocker.core.util.formatMillis
 import com.serhii.appblocker.core.util.millisToTimeString
+import com.serhii.appblocker.profiles.R
 import com.serhii.appblocker.profiles.presentation.list.component.ActiveProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.component.ProfileListItem
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
@@ -73,16 +75,17 @@ fun ProfileListScreen(
     )
 
     if (pendingProfileForActivation.value != null) {
+        val profile = pendingProfileForActivation.value
         ConfirmDialog(
             onConfirm = {
-                pendingProfileForActivation.value?.let { viewModel.toggleProfileActivation(it) }
+                profile?.let { viewModel.toggleProfileActivation(it) }
                 pendingProfileForActivation.value = null
             },
             onCancel = { pendingProfileForActivation.value = null },
-            title = "Activate ${pendingProfileForActivation.value?.name}?",
-            text = "Profile apps will be blocked for ${pendingProfileForActivation.value?.durationMillis?.millisToTimeString()}",
-            confirmButtonText = "Activate",
-            cancelButtonText = "Cancel",
+            title = stringResource(R.string.profiles_dialog_activate_title, profile?.name.orEmpty()),
+            text = stringResource(R.string.profiles_dialog_activate_text, profile?.durationMillis?.millisToTimeString().orEmpty()),
+            confirmButtonText = stringResource(R.string.profiles_button_activate),
+            cancelButtonText = stringResource(R.string.profiles_button_cancel),
         )
     }
 }
@@ -97,12 +100,15 @@ private fun ProfileListScreenContent(
 ) {
     AppScaffold(
         modifier = modifier,
-        title = "Bloq",
+        title = stringResource(R.string.profiles_app_title),
         floatingActionButton = {
             LargeFloatingActionButton(
                 onClick = { onAction(ProfileListAction.CreateClick) },
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.profiles_content_description_add),
+                )
             }
         },
         actions = {
@@ -111,7 +117,7 @@ private fun ProfileListScreenContent(
             ) {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    contentDescription = stringResource(R.string.profiles_content_description_settings),
                 )
             }
         },

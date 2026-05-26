@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.serhii.appblocker.profiles.R
 import com.serhii.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.serhii.appblocker.profiles.presentation.list.model.ProfileUi
 
@@ -45,11 +47,11 @@ fun ActiveProfileListItem(
                 onClick = onUnblockClick,
                 shape = RoundedCornerShape(8.dp),
             ) {
-                Text("Unblock")
+                Text(stringResource(R.string.profiles_unblock_button))
             }
         } else {
             Text(
-                text = "Active for:",
+                text = stringResource(R.string.profiles_active_for),
                 style = MaterialTheme.typography.labelMedium,
             )
             Text(
@@ -59,7 +61,7 @@ fun ActiveProfileListItem(
         }
         Text(
             modifier = Modifier.padding(8.dp),
-            text = "Currently blocked apps:",
+            text = stringResource(R.string.profiles_blocked_apps_label),
             style = MaterialTheme.typography.labelMedium,
         )
         ProfileAppIconGrid(

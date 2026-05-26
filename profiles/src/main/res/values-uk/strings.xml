@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profiles_app_title">Bloq</string>
+    <string name="profiles_content_description_add">Додати</string>
+    <string name="profiles_content_description_settings">Налаштування</string>
+    <string name="profiles_content_description_edit">Редагувати</string>
+    <string name="profiles_content_description_more_options">Додаткові опції</string>
+    <string name="profiles_content_description_manage_list">Керувати списком</string>
+
+    <string name="profiles_button_cancel">Скасувати</string>
+    <string name="profiles_button_apply">Застосувати</string>
+    <string name="profiles_button_activate">Активувати</string>
+    <string name="profiles_button_create">Створити</string>
+    <string name="profiles_button_delete">Видалити</string>
+
+    <string name="profiles_dialog_activate_title">Активувати %1$s?</string>
+    <string name="profiles_dialog_activate_text">Програми профілю будуть заблоковані на %1$s</string>
+
+    <string name="profiles_create_title">Новий профіль</string>
+    <string name="profiles_name_placeholder">Назва профілю...</string>
+    <string name="profiles_name_label">Назва профілю</string>
+    <string name="profiles_select_apps_description">Виберіть програми, які ви хочете заблокувати при активації цього профілю</string>
+
+    <string name="profiles_detail_title">Профіль</string>
+    <string name="profiles_name_section_label">Назва профілю</string>
+    <string name="profiles_apps_section_label">Програми профілю</string>
+    <string name="profiles_manage_app_list_button">Керувати списком програм</string>
+    <string name="profiles_dialog_delete_title">Видалити профіль?</string>
+    <string name="profiles_dialog_delete_text">Цю дію неможливо скасувати</string>
+
+    <string name="profiles_manage_list_title">Керувати списком програм</string>
+
+    <string name="profiles_dialog_change_timer_title">Змінити таймер</string>
+    <string name="profiles_dialog_rename_title">Перейменувати профіль</string>
+    <string name="profiles_name_field_label">Назва</string>
+
+    <string name="profiles_active_for">Активний протягом:</string>
+    <string name="profiles_unblock_button">Розблокувати</string>
+    <string name="profiles_blocked_apps_label">Заблоковані програми:</string>
+
+    <string name="profiles_timer_label">Таймер</string>
+    <string name="profiles_no_timer">Без таймера</string>
+    <string name="profiles_content_description_lock">Замок</string>
+</resources>

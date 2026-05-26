@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_accessibility_title">Accessibility Service (Control app usage)</string>
+    <string name="permission_accessibility_subtitle">Allow access to monitor and block selected apps in real time.</string>
+
+    <string name="permission_overlay_title">Overlay Permission (Show blocking screen)</string>
+    <string name="permission_overlay_subtitle">Enable displaying a blocking screen when restricted apps are opened.</string>
+
+    <string name="permission_usage_title">Usage Access (Track app activity)</string>
+    <string name="permission_usage_subtitle">Grant permission to detect which apps are currently in use.</string>
+
+    <string name="permission_battery_title">Battery Optimization Exemption</string>
+    <string name="permission_battery_subtitle">Allow the app to stay active and enforce blocking consistently.</string>
+
+    <string name="permission_alarm_title">Schedule Precise Blocking</string>
+    <string name="permission_alarm_subtitle">Allow exact alarms to enforce app blocking at specific times without delay.</string>
+
+    <string name="permissions_screen_title">Required Permissions</string>
+    <string name="permissions_screen_description">Some permissions are needed for the application to work properly. Please grant them below.</string>
+    <string name="permission_grant_button">Grant</string>
+</resources>
