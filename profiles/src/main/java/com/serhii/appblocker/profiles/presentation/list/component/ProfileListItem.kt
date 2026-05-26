@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -136,8 +137,9 @@ private fun TimerButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            val context = LocalContext.current
             Text(
-                text = time?.millisToTimeString() ?: stringResource(ProfilesR.string.profiles_timer_label),
+                text = time?.millisToTimeString(context) ?: stringResource(ProfilesR.string.profiles_timer_label),
             )
             Icon(
                 painter = painterResource(R.drawable.outline_timer),
@@ -157,6 +159,7 @@ private fun ActivateProfileButton(
         modifier = modifier,
         onClick = onClick,
         enabled = !isAnotherProfileActive,
+        contentPadding = PaddingValues(4.dp),
         shape = RoundedCornerShape(12.dp),
     ) {
         Column(

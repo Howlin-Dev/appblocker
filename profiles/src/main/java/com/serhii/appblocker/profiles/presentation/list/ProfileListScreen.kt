@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,6 +48,7 @@ fun ProfileListScreen(
     val formattedTime = remember(remainingMillis) {
         formatMillis(remainingMillis)
     }
+    val context = LocalContext.current
 
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
@@ -85,7 +87,7 @@ fun ProfileListScreen(
             title = stringResource(R.string.profiles_dialog_activate_title, profile?.name.orEmpty()),
             text = stringResource(
                 R.string.profiles_dialog_activate_text,
-                profile?.durationMillis?.millisToTimeString().orEmpty(),
+                profile?.durationMillis?.millisToTimeString(context).orEmpty(),
             ),
             confirmButtonText = stringResource(R.string.profiles_button_activate),
             cancelButtonText = stringResource(R.string.profiles_button_cancel),

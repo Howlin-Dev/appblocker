@@ -1,5 +1,7 @@
 package com.serhii.appblocker.core.util
 
+import android.content.Context
+import com.serhii.appblocker.core.R
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -17,17 +19,17 @@ fun formatMillis(millis: Long): String {
     )
 }
 
-fun Long?.millisToTimeString(): String? {
+fun Long?.millisToTimeString(context: Context): String? {
     if (this == null) return null
     val duration = toDuration(DurationUnit.MILLISECONDS)
     return duration.toComponents { hours, minutes, _, _ ->
         val h = hours.toInt()
         val m = minutes
         when {
-            h > 0 && m > 0 -> "${h}h ${m}m"
-            h > 0 -> "${h}h"
-            m > 0 -> "${m}m"
-            else -> "0m"
+            h > 0 && m > 0 -> context.getString(R.string.duration_hours_minutes, h, m)
+            h > 0 -> context.getString(R.string.duration_hours, h)
+            m > 0 -> context.getString(R.string.duration_minutes, m)
+            else -> context.getString(R.string.duration_minutes, 0)
         }
     }
 }
