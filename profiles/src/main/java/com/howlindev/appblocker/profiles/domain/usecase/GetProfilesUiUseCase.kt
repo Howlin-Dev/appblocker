@@ -1,0 +1,25 @@
+package com.howlindev.appblocker.profiles.domain.usecase
+
+import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
+import com.howlindev.appblocker.profiles.domain.repository.ProfilesRepository
+import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
+import com.howlindev.appblocker.profiles.presentation.list.model.toUi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+class GetProfilesUiUseCase(
+    private val profilesRepository: ProfilesRepository,
+    private val installedAppsRepository: InstalledAppsRepository,
+) {
+    operator fun invoke(): Flow<List<ProfileUi>> = profilesRepository.getAll().map { profiles ->
+        coroutineScope {
+            profiles.map { profile ->
+                async { profile.toUi(installedAppsRepository) }
+            }.awaitAll()
+        }
+    }
+}
+

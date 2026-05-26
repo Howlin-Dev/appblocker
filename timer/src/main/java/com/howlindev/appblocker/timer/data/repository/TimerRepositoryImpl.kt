@@ -1,0 +1,71 @@
+package com.howlindev.appblocker.timer.data.repository
+
+import com.howlindev.appblocker.core.domain.repository.BlockRepository
+import com.howlindev.appblocker.core.domain.repository.TimerRepository
+import com.howlindev.appblocker.timer.data.datastore.TimerDataStore
+import com.howlindev.appblocker.timer.data.scheduler.TimerScheduler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
+
+class TimerRepositoryImpl(
+    private val dataStore: TimerDataStore,
+    private val scheduler: TimerScheduler,
+    private val blockRepository: BlockRepository,
+) : TimerRepository {
+
+    companion object {
+        private const val TICK_DELAY = 1000L
+    }
+
+    override suspend fun startTimer(durationMillis: Long) {
+        val endTime = System.currentTimeMillis() + durationMillis
+        dataStore.setEndTime(endTime)
+        scheduler.schedule(endTime)
+    }
+
+    override suspend fun cancelTimer() {
+        onTimerFinished()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override fun observeRemainingTime(): Flow<Long> =
+        combine(
+            dataStore.observeEndTime(),
+            blockRepository.activeBlock,
+        ) { endTime, activeBlock ->
+            endTime to activeBlock
+        }.flatMapLatest { (endTime, activeBlock) ->
+            if (endTime <= 0L && activeBlock?.isTimed == true) {
+                onTimerFinished()
+                flowOf(0L)
+            } else {
+                flow {
+                    while (true) {
+                        val remaining =
+                            (endTime - System.currentTimeMillis()).coerceAtLeast(0)
+
+                        emit(remaining)
+
+                        if (remaining <= 0L && activeBlock?.isTimed == true) {
+                            onTimerFinished()
+                            break
+                        }
+
+                        delay(TICK_DELAY)
+                    }
+                }
+            }
+        }
+
+    private suspend fun onTimerFinished() {
+        scheduler.cancel()
+        dataStore.clear()
+        blockRepository.deactivate()
+    }
+}
+
