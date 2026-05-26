@@ -5,10 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -23,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -90,7 +89,7 @@ private fun BlockScreenContent(
         blockedApp?.let { app ->
             Box(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .size(80.dp),
             ) {
                 Image(
@@ -99,9 +98,16 @@ private fun BlockScreenContent(
                     contentDescription = null,
                 )
                 Icon(
-                    modifier = Modifier.size(32.dp).align(Alignment.BottomEnd),
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.BottomEnd)
+                        .background(
+                            color = MaterialTheme.colorScheme.inverseSurface,
+                            shape = CircleShape,
+                        )
+                        .padding(4.dp),
                     painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
-                    tint = MaterialTheme.colorScheme.inverseSurface,
+                    tint = MaterialTheme.colorScheme.inverseOnSurface,
                     contentDescription = "Lock",
                 )
             }
