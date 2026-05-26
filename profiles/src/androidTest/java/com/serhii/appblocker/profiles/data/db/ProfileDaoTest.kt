@@ -46,7 +46,9 @@ class ProfileDaoTest {
     @After
     @Throws(IOException::class)
     fun closeDb() {
-        db.close()
+        if (::db.isInitialized) {
+            db.close()
+        }
     }
 
     @Test

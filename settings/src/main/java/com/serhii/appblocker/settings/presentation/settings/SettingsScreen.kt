@@ -68,7 +68,7 @@ fun SettingsScreen(
 }
 
 @Composable
-private fun SettingsScreenContent(
+internal fun SettingsScreenContent(
     onAction: (SettingsAction) -> Unit,
     currentThemeMode: ThemeMode,
     modifier: Modifier = Modifier,

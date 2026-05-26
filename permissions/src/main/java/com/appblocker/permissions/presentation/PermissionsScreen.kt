@@ -61,7 +61,7 @@ fun PermissionsScreen(
 }
 
 @Composable
-private fun PermissionsScreenContent(
+internal fun PermissionsScreenContent(
     missingPermissions: List<RequiredPermission>,
     onAction: (PermissionsAction) -> Unit,
     modifier: Modifier = Modifier,
@@ -96,7 +96,7 @@ private fun PermissionScreenInfo(
             .fillMaxWidth()
             .heightIn(min = 200.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.permissions_screen_title),

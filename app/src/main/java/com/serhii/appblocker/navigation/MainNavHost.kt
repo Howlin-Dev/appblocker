@@ -98,9 +98,9 @@ fun MainNavHost(
             PermissionsScreen(
                 onAllPermissionsGranted = {
 //                    if (navController.currentBackStackEntry?.lifecycle?.currentState == androidx.lifecycle.Lifecycle.State.RESUMED) {
-                        navController.navigate(ProfileListDestination) {
-                            popUpTo(PermissionsDestination) { inclusive = true }
-                        }
+                    navController.navigate(ProfileListDestination) {
+                        popUpTo(PermissionsDestination) { inclusive = true }
+                    }
 //                    }
                 },
             )

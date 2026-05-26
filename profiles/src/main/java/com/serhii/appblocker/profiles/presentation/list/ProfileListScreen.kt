@@ -83,7 +83,10 @@ fun ProfileListScreen(
             },
             onCancel = { pendingProfileForActivation.value = null },
             title = stringResource(R.string.profiles_dialog_activate_title, profile?.name.orEmpty()),
-            text = stringResource(R.string.profiles_dialog_activate_text, profile?.durationMillis?.millisToTimeString().orEmpty()),
+            text = stringResource(
+                R.string.profiles_dialog_activate_text,
+                profile?.durationMillis?.millisToTimeString().orEmpty(),
+            ),
             confirmButtonText = stringResource(R.string.profiles_button_activate),
             cancelButtonText = stringResource(R.string.profiles_button_cancel),
         )
@@ -91,7 +94,7 @@ fun ProfileListScreen(
 }
 
 @Composable
-private fun ProfileListScreenContent(
+internal fun ProfileListScreenContent(
     inactiveProfiles: List<ProfileUi>,
     activeProfile: ProfileUi?,
     formattedTimeRemaining: String,
