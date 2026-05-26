@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.appblocker.permissions"
+    namespace = "com.howlindev.appblocker.permissions"
     compileSdk = 36
 
     defaultConfig {

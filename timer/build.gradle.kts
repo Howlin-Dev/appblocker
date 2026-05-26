@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.serhii.appblocker.timer"
+    namespace = "com.howlindev.appblocker.timer"
     compileSdk {
         version = release(36)
     }

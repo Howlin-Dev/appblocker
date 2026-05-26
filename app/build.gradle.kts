@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace = "com.serhii.appblocker"
+    namespace = "com.howlindev.appblocker"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.serhii.appblocker"
+        applicationId = "com.howlindev.appblocker"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

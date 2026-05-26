@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.serhii.appblocker.core"
+    namespace = "com.howlindev.appblocker.core"
     compileSdk = 36
 
     defaultConfig {

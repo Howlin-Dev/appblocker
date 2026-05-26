@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.serhii.appblocker.profiles"
+    namespace = "com.howlindev.appblocker.profiles"
     compileSdk {
         version = release(36)
     }
