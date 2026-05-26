@@ -37,9 +37,7 @@ fun RootScreen(
             Surface(
                 modifier = Modifier.fillMaxSize(),
             ) {
-                if (settings != null) {
-                    content()
-                }
+                content()
             }
         }
     }

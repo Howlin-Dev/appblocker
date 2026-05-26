@@ -36,17 +36,9 @@ fun MainNavHost(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val arePermissionsNeeded = state.arePermissionsNeeded
 
-    if (arePermissionsNeeded == null) {
-        return
-    }
-
-    val startDestination = remember {
-        if (arePermissionsNeeded == true) {
-            PermissionsDestination
-        } else {
-            ProfileListDestination
-        }
-    }
+    // Use a fixed start destination to ensure stable state restoration.
+    // If permissions are needed, the LaunchedEffect will handle navigation immediately.
+    val startDestination = ProfileListDestination
 
     NavHost(
         navController = navController,
@@ -119,7 +111,7 @@ fun MainNavHost(
     }
 
     LaunchedEffect(arePermissionsNeeded) {
-        if (arePermissionsNeeded) {
+        if (arePermissionsNeeded == true) {
             val currentBackStackEntry = navController.currentBackStackEntry
             val isAlreadyOnPermissions = currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
 
