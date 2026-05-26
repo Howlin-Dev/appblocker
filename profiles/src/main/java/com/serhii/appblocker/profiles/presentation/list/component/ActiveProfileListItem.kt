@@ -67,6 +67,7 @@ fun ActiveProfileListItem(
         ProfileAppIconGrid(
             appList = profile.blockedApps,
         )
+        Spacer(modifier = Modifier.padding(8.dp))
     }
 }
 

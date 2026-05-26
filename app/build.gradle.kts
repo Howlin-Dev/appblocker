@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.appcompat.v170)
+    implementation(libs.accompanist.drawablepainter)
 
     // Koin
     implementation(libs.koin.android)

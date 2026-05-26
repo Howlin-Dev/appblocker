@@ -1,8 +1,15 @@
 package com.serhii.appblocker.presentation.block
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -16,10 +23,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.serhii.appblocker.R
+import com.serhii.appblocker.core.domain.model.AppInfo
 import com.serhii.appblocker.core.util.formatMillis
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,6 +59,7 @@ fun BlockScreen(
         formattedTimeRemaining = formattedTime,
         modifier = modifier,
         isTimed = state.activeBlock?.isTimed ?: wasTimed,
+        blockedApp = state.blockedApp,
         onAction = { action ->
             when (action) {
                 BlockAction.OnClose -> onClose()
@@ -67,18 +79,43 @@ private fun BlockScreenContent(
     onAction: (BlockAction) -> Unit,
     formattedTimeRemaining: String,
     isTimed: Boolean,
+    blockedApp: AppInfo?,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        blockedApp?.let { app ->
+            Box(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(80.dp),
+            ) {
+                Image(
+                    modifier = Modifier.fillMaxSize().padding(4.dp),
+                    painter = rememberDrawablePainter(app.icon),
+                    contentDescription = null,
+                )
+                Icon(
+                    modifier = Modifier.size(32.dp).align(Alignment.BottomEnd),
+                    painter = painterResource(com.serhii.appblocker.core.R.drawable.outline_lock),
+                    tint = MaterialTheme.colorScheme.inverseSurface,
+                    contentDescription = "Lock",
+                )
+            }
+        }
         Text(
-            text = stringResource(R.string.block_screen_message),
-            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(16.dp),
+            text = stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty()),
+            style = MaterialTheme.typography.titleMedium,
         )
         if (isTimed) {
+            Text(
+                text = "Time left until unblocked:",
+                style = MaterialTheme.typography.titleMedium,
+            )
             Text(
                 text = formattedTimeRemaining,
                 style = MaterialTheme.typography.displayLarge,

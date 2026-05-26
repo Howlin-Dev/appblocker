@@ -47,19 +47,20 @@ class BlockAccessibilityService : AccessibilityService() {
         if (blockedPackages.contains(currentPackage)) {
             Log.d("onAccessibilityEvent", "onAccessibilityEvent (contains): $currentPackage")
             lastBlockTime = now
-            launchBlockScreen()
+            launchBlockScreen(currentPackage)
         }
     }
 
-    private fun launchBlockScreen() {
+    private fun launchBlockScreen(packageName: String) {
         val intent = Intent(this, BlockActivity::class.java).apply {
+            putExtra(BlockActivity.EXTRA_PACKAGE_NAME, packageName)
             addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK or
                     Intent.FLAG_ACTIVITY_CLEAR_TOP or
                     Intent.FLAG_ACTIVITY_SINGLE_TOP,
             )
         }
-        Log.d("launchBlockScreen", "launchBlockScreen LAUNCHING")
+        Log.d("launchBlockScreen", "launchBlockScreen LAUNCHING for $packageName")
         startActivity(intent)
     }
 

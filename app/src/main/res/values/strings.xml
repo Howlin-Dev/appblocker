@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Bloq</string>
-    <string name="block_screen_message">This app is currently blocked</string>
+    <string name="block_screen_message">%1$s is currently blocked by Bloq</string>
     <string name="block_screen_close_button_text">Close</string>
 </resources>
