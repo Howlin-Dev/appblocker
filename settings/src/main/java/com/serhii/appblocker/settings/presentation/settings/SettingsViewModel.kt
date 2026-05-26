@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.serhii.appblocker.core.domain.model.SettingsData
 import com.serhii.appblocker.core.domain.model.ThemeMode
 import com.serhii.appblocker.settings.domain.usecase.GetSettingsUseCase
+import com.serhii.appblocker.settings.domain.usecase.SetDynamicColorUseCase
 import com.serhii.appblocker.settings.domain.usecase.SetThemeModeUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     getSettingsUseCase: GetSettingsUseCase,
     private val setThemeModeUseCase: SetThemeModeUseCase,
+    private val setDynamicColorUseCase: SetDynamicColorUseCase,
 ) : ViewModel() {
 
     val settings = getSettingsUseCase()
@@ -25,6 +27,12 @@ class SettingsViewModel(
     fun setThemeMode(themeMode: ThemeMode) {
         viewModelScope.launch {
             setThemeModeUseCase(themeMode)
+        }
+    }
+
+    fun setDynamicColor(enabled: Boolean) {
+        viewModelScope.launch {
+            setDynamicColorUseCase(enabled)
         }
     }
 }

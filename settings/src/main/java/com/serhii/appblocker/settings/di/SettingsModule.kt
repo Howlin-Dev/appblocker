@@ -4,6 +4,7 @@ import com.serhii.appblocker.settings.data.repository.SettingsRepositoryImpl
 import com.serhii.appblocker.settings.domain.repository.SettingsRepository
 import com.serhii.appblocker.settings.domain.usecase.GetSettingsUseCase
 import com.serhii.appblocker.settings.domain.usecase.SetAppLanguageUseCase
+import com.serhii.appblocker.settings.domain.usecase.SetDynamicColorUseCase
 import com.serhii.appblocker.settings.domain.usecase.SetThemeModeUseCase
 import com.serhii.appblocker.settings.presentation.language.LanguageViewModel
 import com.serhii.appblocker.settings.presentation.settings.SettingsViewModel
@@ -20,4 +21,5 @@ val settingsModule = module {
     factory { GetSettingsUseCase(get()) }
     factory { SetThemeModeUseCase(get()) }
     factory { SetAppLanguageUseCase(get()) }
+    factory { SetDynamicColorUseCase(get()) }
 }

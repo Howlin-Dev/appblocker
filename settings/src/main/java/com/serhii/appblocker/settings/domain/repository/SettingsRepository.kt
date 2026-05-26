@@ -12,4 +12,6 @@ interface SettingsRepository {
     suspend fun setThemeMode(themeMode: ThemeMode)
 
     suspend fun setLanguage(language: AppLanguage)
+
+    suspend fun setDynamicColor(enabled: Boolean)
 }

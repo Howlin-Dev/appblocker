@@ -30,9 +30,12 @@ class SettingsRepositoryImpl(
                 }
                 ?: AppLanguage.SYSTEM
 
+            val dynamicColor = preferences[SettingsKeys.DYNAMIC_COLOR] ?: true
+
             SettingsData(
                 themeMode = themeMode,
                 language = language,
+                dynamicColor = dynamicColor,
             )
         }
 
@@ -45,6 +48,12 @@ class SettingsRepositoryImpl(
     override suspend fun setLanguage(language: AppLanguage) {
         context.settingsDataStore.edit { preferences ->
             preferences[SettingsKeys.LANGUAGE] = language.name
+        }
+    }
+
+    override suspend fun setDynamicColor(enabled: Boolean) {
+        context.settingsDataStore.edit { preferences ->
+            preferences[SettingsKeys.DYNAMIC_COLOR] = enabled
         }
     }
 }

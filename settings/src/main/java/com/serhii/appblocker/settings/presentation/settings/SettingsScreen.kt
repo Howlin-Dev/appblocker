@@ -1,5 +1,6 @@
 package com.serhii.appblocker.settings.presentation.settings
 
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,6 +51,7 @@ fun SettingsScreen(
     SettingsScreenContent(
         modifier = modifier,
         currentThemeMode = settings.themeMode,
+        isDynamicColorEnabled = settings.dynamicColor,
         onAction = { action ->
             when (action) {
                 SettingsAction.BackClick -> {
@@ -62,6 +65,10 @@ fun SettingsScreen(
                 is SettingsAction.ThemeModeSwitch -> {
                     viewModel.setThemeMode(action.themeMode)
                 }
+
+                is SettingsAction.DynamicColorSwitch -> {
+                    viewModel.setDynamicColor(action.enabled)
+                }
             }
         },
     )
@@ -71,9 +78,11 @@ fun SettingsScreen(
 internal fun SettingsScreenContent(
     onAction: (SettingsAction) -> Unit,
     currentThemeMode: ThemeMode,
+    isDynamicColorEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val isDynamicColorSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
     AppScaffold(
         modifier = modifier,
@@ -88,7 +97,7 @@ internal fun SettingsScreenContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Row(
-                modifier = modifier
+                modifier = Modifier
                     .height(64.dp)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -109,8 +118,39 @@ internal fun SettingsScreenContent(
                     onSelected = { onAction(SettingsAction.ThemeModeSwitch(it)) },
                 )
             }
+            if (isDynamicColorSupported) {
+                Surface(
+                    modifier = Modifier
+                        .height(64.dp)
+                        .fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        Icon(
+                            painter = painterResource(CoreRes.drawable.outline_format_paint),
+                            contentDescription = "Dynamic Color",
+                        )
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.dynamic_color),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                        Switch(
+                            checked = isDynamicColorEnabled,
+                            onCheckedChange = { onAction(SettingsAction.DynamicColorSwitch(it)) },
+                        )
+                    }
+                }
+            }
             Surface(
-                modifier = modifier
+                modifier = Modifier
                     .height(64.dp)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surfaceContainer,
@@ -157,6 +197,7 @@ private fun SettingsScreenPreview() {
         SettingsScreenContent(
             onAction = { },
             currentThemeMode = ThemeMode.LIGHT,
+            isDynamicColorEnabled = true,
         )
     }
 }

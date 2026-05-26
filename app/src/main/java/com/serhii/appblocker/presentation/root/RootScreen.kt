@@ -30,6 +30,7 @@ fun RootScreen(
 
     AppBlockerTheme(
         themeMode = settings?.themeMode ?: com.serhii.appblocker.core.domain.model.ThemeMode.SYSTEM,
+        dynamicColor = settings?.dynamicColor ?: true,
     ) {
         CompositionLocalProvider(
             LocalAppIconProvider provides AppIconLoader(context = context),
