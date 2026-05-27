@@ -1,6 +1,7 @@
 package com.howlindev.appblocker.platform.accessibility
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.util.Log
@@ -22,6 +23,12 @@ class BlockAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
+
+        val info = serviceInfo ?: AccessibilityServiceInfo()
+        info.flags = info.flags or
+            AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS or
+            AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS
+        serviceInfo = info
 
         serviceScope.launch {
             blockRepository.activeBlock.collect { lock ->

@@ -10,7 +10,9 @@ import android.os.Process
 import android.provider.Settings
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
+import com.howlindev.appblocker.permissions.platform.util.isMiui
 import com.howlindev.appblocker.platform.accessibility.BlockAccessibilityService
+import java.lang.reflect.Method
 
 class AndroidPermissionRepository(
     private val context: Context,
@@ -27,8 +29,30 @@ class AndroidPermissionRepository(
         if (!hasOverlayPermission()) missing.add(RequiredPermission.Overlay)
         if (!hasUsageAccess()) missing.add(RequiredPermission.UsageAccess)
         if (!isIgnoringBatteryOptimizations()) missing.add(RequiredPermission.BatteryOptimization)
+        if (isMiui() && !hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
 
         return missing
+    }
+
+    private fun hasMiuiBackgroundStartPermission(): Boolean {
+        val ops = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        return try {
+            val method: Method = ops.javaClass.getMethod(
+                "checkOp",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java,
+            )
+            val result = method.invoke(
+                ops,
+                10021, // OP_BACKGROUND_START_ACTIVITY
+                Process.myUid(),
+                context.packageName,
+            ) as Int
+            result == AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            true
+        }
     }
 
     private fun isAccessibilityEnabled(): Boolean {

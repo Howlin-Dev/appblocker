@@ -15,6 +15,9 @@
     <string name="permission_alarm_title">Планування точного блокування</string>
     <string name="permission_alarm_subtitle">Дозвольте точні будильники для застосування блокування програм у певний час без затримок.</string>
 
+    <string name="permission_miui_background_title">MIUI: Спливаючі вікна у фоні</string>
+    <string name="permission_miui_background_subtitle">Увімкніть \"Відображення спливаючих вікон під час роботи у фоновому режимі\" для пристроїв Xiaomi, щоб блокування працювало правильно.</string>
+
     <string name="permissions_screen_title">Необхідні дозволи</string>
     <string name="permissions_screen_description">Для належної роботи програми потрібні деякі дозволи. Будь ласка, надайте їх нижче.</string>
     <string name="permission_grant_button">Надати</string>

@@ -15,6 +15,9 @@
     <string name="permission_alarm_title">Schedule Precise Blocking</string>
     <string name="permission_alarm_subtitle">Allow exact alarms to enforce app blocking at specific times without delay.</string>
 
+    <string name="permission_miui_background_title">MIUI Background Pop-ups</string>
+    <string name="permission_miui_background_subtitle">Enable \"Display pop-up windows while running in the background\" for Xiaomi devices to ensure blocking works correctly.</string>
+
     <string name="permissions_screen_title">Required Permissions</string>
     <string name="permissions_screen_description">Some permissions are needed for the application to work properly. Please grant them below.</string>
     <string name="permission_grant_button">Grant</string>

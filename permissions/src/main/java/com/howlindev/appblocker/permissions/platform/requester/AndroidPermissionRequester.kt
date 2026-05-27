@@ -13,6 +13,7 @@ class PermissionRequester(
             RequiredPermission.Overlay -> navigator.openOverlaySettings()
             RequiredPermission.UsageAccess -> navigator.openUsageAccessSettings()
             RequiredPermission.BatteryOptimization -> navigator.requestBatteryOptimizationExemption()
+            RequiredPermission.MiuiBackgroundStart -> navigator.openMiuiPermissionSettings()
             else -> {}
         }
     }
