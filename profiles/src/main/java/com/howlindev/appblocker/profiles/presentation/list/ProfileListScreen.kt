@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.presentation.component.ConfirmDialog
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
+import com.howlindev.appblocker.core.presentation.scaffold.getGoogleFontFamily
 import com.howlindev.appblocker.core.util.formatMillis
 import com.howlindev.appblocker.core.util.millisToTimeString
 import com.howlindev.appblocker.profiles.R
@@ -106,6 +107,7 @@ internal fun ProfileListScreenContent(
     AppScaffold(
         modifier = modifier,
         title = stringResource(R.string.profiles_app_title),
+        titleFontFamily = getGoogleFontFamily("Rubik Mono One"),
         floatingActionButton = {
             LargeFloatingActionButton(
                 onClick = { onAction(ProfileListAction.CreateClick) },

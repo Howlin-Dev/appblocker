@@ -18,13 +18,19 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import com.howlindev.appblocker.core.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScaffold(
     modifier: Modifier = Modifier,
     title: String? = null,
+    titleFontFamily: FontFamily? = MaterialTheme.typography.titleLarge.fontFamily,
+    titleFontWeight: FontWeight? = MaterialTheme.typography.titleLarge.fontWeight,
     onBackClick: (() -> Unit)? = null,
     navigationIconImageVector: ImageVector = Icons.AutoMirrored.Filled.ArrowBack,
     actions: @Composable RowScope.() -> Unit = {},
@@ -41,7 +47,8 @@ fun AppScaffold(
                         title?.let {
                             Text(
                                 text = it,
-                                style = MaterialTheme.typography.titleLarge,
+                                fontFamily = titleFontFamily,
+                                fontWeight = titleFontWeight,
                             )
                         }
                     },
@@ -80,6 +87,7 @@ private fun AppScaffoldPreview() {
     Surface {
         AppScaffold(
             title = "App Blocker",
+            titleFontFamily = getGoogleFontFamily("Lobster"),
             onBackClick = {},
         ) {
             // Screen content here
