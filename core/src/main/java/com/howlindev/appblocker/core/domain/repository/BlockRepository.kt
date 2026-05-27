@@ -8,4 +8,3 @@ interface BlockRepository {
     suspend fun activateProfile(profileId: Long, appPackages: List<String>, isTimed: Boolean)
     suspend fun deactivate()
 }
-

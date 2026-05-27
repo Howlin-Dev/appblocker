@@ -9,22 +9,21 @@ import com.howlindev.appblocker.di.dbModule
 import com.howlindev.appblocker.profiles.di.profilesModule
 import com.howlindev.appblocker.settings.di.settingsModule
 import com.howlindev.appblocker.timer.di.timerModule
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.core.context.startKoin
+import org.koin.core.component.get
+import org.koin.core.context.GlobalContext
 
 class AppBlockerApplication : Application(), Configuration.Provider {
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
-            .setWorkerFactory(getKoin().get<KoinWorkerFactory>())
+            .setWorkerFactory(GlobalContext.get().get<KoinWorkerFactory>())
             .build()
 
     override fun onCreate() {
-        super.onCreate()
-
         startKoin {
             androidLogger()
             androidContext(this@AppBlockerApplication)
@@ -38,6 +37,7 @@ class AppBlockerApplication : Application(), Configuration.Provider {
                 settingsModule,
             )
         }
+        super.onCreate()
     }
 }
 

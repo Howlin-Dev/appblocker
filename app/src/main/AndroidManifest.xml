@@ -14,7 +14,7 @@
     </queries>
 
     <application
-        android:name=".AppBlockerApplication"
+        android:name="com.howlindev.appblocker.AppBlockerApplication"
         android:localeConfig="@xml/locales_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"

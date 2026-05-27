@@ -5,4 +5,3 @@ data class ActiveBlock(
     val blockedPackages: List<String>,
     val isTimed: Boolean,
 )
-

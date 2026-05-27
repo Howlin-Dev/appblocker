@@ -18,6 +18,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+plugins {
+    id("com.google.gms.google-services") version "4.3.15" apply false
+}
 
 rootProject.name = "App Blocker"
 include(":app")
