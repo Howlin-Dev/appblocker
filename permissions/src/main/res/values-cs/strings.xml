@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_accessibility_title">Služba usnadnění (Kontrola používání aplikací)</string>
+    <string name="permission_accessibility_subtitle">Povolit přístup ke sledování a blokování vybraných aplikací v reálném čase.</string>
+
+    <string name="permission_overlay_title">Oprávnění k překrytí (Zobrazení blokovací obrazovky)</string>
+    <string name="permission_overlay_subtitle">Povolit zobrazení blokovací obrazovky při otevření omezených aplikací.</string>
+
+    <string name="permission_usage_title">Přístup k údajům o používání (Sledování aktivity aplikací)</string>
+    <string name="permission_usage_subtitle">Udělit oprávnění ke zjištění, které aplikace jsou aktuálně používány.</string>
+
+    <string name="permission_battery_title">Výjimka z optimalizace baterie</string>
+    <string name="permission_battery_subtitle">Povolit aplikaci zůstat aktivní a důsledně vynucovat blokování.</string>
+
+    <string name="permission_alarm_title">Plánování přesného blokování</string>
+    <string name="permission_alarm_subtitle">Povolit přesné budíky pro vynucení blokování aplikací v konkrétní časy bez zpoždění.</string>
+
+    <string name="permission_miui_background_title">MIUI vyskakovací okna na pozadí</string>
+    <string name="permission_miui_background_subtitle">Povolte „Zobrazovat vyskakovací okna při běhu na pozadí“ pro zařízení Xiaomi, aby blokování fungovalo správně.</string>
+
+    <string name="permissions_screen_title">Vyžadovaná oprávnění</string>
+    <string name="permissions_screen_description">Některá oprávnění jsou nezbytná pro správné fungování aplikace. Udělte je prosím níže.</string>
+    <string name="permission_grant_button">Udělit</string>
+</resources>

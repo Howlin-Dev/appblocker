@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="theme_system">System</string>
-    <string name="theme_light">Light</string>
-    <string name="theme_dark">Dark</string>
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
 
     <string name="duration_hours_minutes">%1$dh %2$dm</string>
     <string name="duration_hours">%1$dh</string>
     <string name="duration_minutes">%1$dm</string>
 
-    <string name="lock_icon_content_description">Lock</string>
+    <string name="lock_icon_content_description">Candado</string>
 </resources>

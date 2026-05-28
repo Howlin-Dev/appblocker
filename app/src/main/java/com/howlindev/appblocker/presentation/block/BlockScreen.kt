@@ -108,7 +108,7 @@ private fun BlockScreenContent(
                         .padding(4.dp),
                     painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
                     tint = MaterialTheme.colorScheme.inverseOnSurface,
-                    contentDescription = "Lock",
+                    contentDescription = stringResource(com.howlindev.appblocker.core.R.string.lock_icon_content_description),
                 )
             }
         }
@@ -119,7 +119,7 @@ private fun BlockScreenContent(
         )
         if (isTimed) {
             Text(
-                text = "Time left until unblocked:",
+                text = stringResource(R.string.block_screen_time_left_label),
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(

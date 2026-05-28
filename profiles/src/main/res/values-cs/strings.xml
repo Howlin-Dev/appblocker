@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profiles_content_description_add">Přidat</string>
+    <string name="profiles_content_description_settings">Nastavení</string>
+    <string name="profiles_content_description_edit">Upravit</string>
+    <string name="profiles_content_description_more_options">Další možnosti</string>
+    <string name="profiles_content_description_manage_list">Spravovat seznam</string>
+
+    <string name="profiles_button_cancel">Zrušit</string>
+    <string name="profiles_button_apply">Použít</string>
+    <string name="profiles_button_activate">Aktivovat</string>
+    <string name="profiles_button_create">Vytvořit</string>
+    <string name="profiles_button_delete">Smazat</string>
+
+    <string name="profiles_dialog_activate_title">Aktivovat %1$s?</string>
+    <string name="profiles_dialog_activate_text">Aplikace v profilu budou zablokovány na %1$s</string>
+
+    <string name="profiles_create_title">Nový profil</string>
+    <string name="profiles_name_placeholder">Název profilu…</string>
+    <string name="profiles_name_label">Název profilu</string>
+    <string name="profiles_select_apps_description">Vyberte aplikace, které chcete zablokovat při aktivaci tohoto profilu</string>
+
+    <string name="profiles_detail_title">Profil</string>
+    <string name="profiles_name_section_label">Název profilu</string>
+    <string name="profiles_apps_section_label">Aplikace v profilu</string>
+    <string name="profiles_manage_app_list_button">Spravovat seznam aplikací</string>
+    <string name="profiles_dialog_delete_title">Smazat profil?</string>
+    <string name="profiles_dialog_delete_text">Tuto akci nelze vzít zpět</string>
+
+    <string name="profiles_manage_list_title">Spravovat seznam aplikací</string>
+
+    <string name="profiles_dialog_change_timer_title">Změnit časovač</string>
+    <string name="profiles_dialog_rename_title">Přejmenovat profil</string>
+    <string name="profiles_name_field_label">Název</string>
+
+    <string name="profiles_active_for">Aktivní po dobu:</string>
+    <string name="profiles_unblock_button">Odblokovat</string>
+    <string name="profiles_blocked_apps_label">Aktuálně zablokované aplikace:</string>
+
+    <string name="profiles_timer_label">Časovač</string>
+    <string name="profiles_no_timer">Bez časovače</string>
+    <string name="profiles_content_description_lock">Zámek</string>
+</resources>

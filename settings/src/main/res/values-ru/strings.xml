@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Настройки</string>
+    <string name="theme">Тема</string>
+    <string name="language">Язык</string>
+    <string name="dynamic_color">Динамические цвета</string>
+    <string name="app_version">Версия приложения: %s</string>
+</resources>

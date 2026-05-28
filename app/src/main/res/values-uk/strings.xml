@@ -1,0 +1,5 @@
+<resources>
+    <string name="block_screen_message">%1$s наразі заблоковано Bloq</string>
+    <string name="block_screen_close_button_text">Закрити</string>
+    <string name="block_screen_time_left_label">Залишилося до розблокування:</string>
+</resources>

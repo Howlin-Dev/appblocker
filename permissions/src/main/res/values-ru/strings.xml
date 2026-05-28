@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_accessibility_title">Спец. возможности (Контроль использования)</string>
+    <string name="permission_accessibility_subtitle">Разрешите доступ для мониторинга и блокировки выбранных приложений в реальном времени.</string>
+
+    <string name="permission_overlay_title">Поверх других окон (Экран блокировки)</string>
+    <string name="permission_overlay_subtitle">Включите отображение экрана блокировки при открытии ограниченных приложений.</string>
+
+    <string name="permission_usage_title">Доступ к данным об использовании (Отслеживание активности)</string>
+    <string name="permission_usage_subtitle">Предоставьте разрешение для определения того, какие приложения сейчас используются.</string>
+
+    <string name="permission_battery_title">Исключение из оптимизации батареи</string>
+    <string name="permission_battery_subtitle">Разрешите приложению оставаться активным и последовательно применять блокировку.</string>
+
+    <string name="permission_alarm_title">Планирование точной блокировки</string>
+    <string name="permission_alarm_subtitle">Разрешите точные будильники для применения блокировки приложений в определенное время без задержек.</string>
+
+    <string name="permission_miui_background_title">MIUI: Всплывающие окна в фоне</string>
+    <string name="permission_miui_background_subtitle">Включите \"Отображение всплывающих окон во время работы в фоновом режиме\" для устройств Xiaomi, чтобы блокировка работала правильно.</string>
+
+    <string name="permissions_screen_title">Необходимые разрешения</string>
+    <string name="permissions_screen_description">Для правильной работы приложения требуются некоторые разрешения. Пожалуйста, предоставьте их ниже.</string>
+    <string name="permission_grant_button">Предоставить</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_accessibility_title">Servicio de Accesibilidad (Control de uso de apps)</string>
+    <string name="permission_accessibility_subtitle">Permitir el acceso para monitorear y bloquear las aplicaciones seleccionadas en tiempo real.</string>
+
+    <string name="permission_overlay_title">Permiso de Superposición (Mostrar pantalla de bloqueo)</string>
+    <string name="permission_overlay_subtitle">Permitir la visualización de una pantalla de bloqueo cuando se abren aplicaciones restringidas.</string>
+
+    <string name="permission_usage_title">Acceso de Uso (Rastrear actividad de apps)</string>
+    <string name="permission_usage_subtitle">Otorgar permiso para detectar qué aplicaciones se están utilizando actualmente.</string>
+
+    <string name="permission_battery_title">Exención de Optimización de Batería</string>
+    <string name="permission_battery_subtitle">Permitir que la aplicación permanezca activa y aplique el bloqueo de manera constante.</string>
+
+    <string name="permission_alarm_title">Programar Bloqueo Preciso</string>
+    <string name="permission_alarm_subtitle">Permitir alarmas precisas para aplicar el bloqueo de aplicaciones en momentos específicos sin demora.</string>
+
+    <string name="permission_miui_background_title">Ventanas emergentes de fondo de MIUI</string>
+    <string name="permission_miui_background_subtitle">Habilite \"Mostrar ventanas emergentes mientras se ejecuta en segundo plano\" para dispositivos Xiaomi para asegurar que el bloqueo funcione correctamente.</string>
+
+    <string name="permissions_screen_title">Permisos Requeridos</string>
+    <string name="permissions_screen_description">Se necesitan algunos permisos para que la aplicación funcione correctamente. Por favor, otórgalos a continuación.</string>
+    <string name="permission_grant_button">Otorgar</string>
+</resources>

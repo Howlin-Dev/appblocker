@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profiles_content_description_add">Añadir</string>
+    <string name="profiles_content_description_settings">Ajustes</string>
+    <string name="profiles_content_description_edit">Editar</string>
+    <string name="profiles_content_description_more_options">Más opciones</string>
+    <string name="profiles_content_description_manage_list">Gestionar lista</string>
+
+    <string name="profiles_button_cancel">Cancelar</string>
+    <string name="profiles_button_apply">Aplicar</string>
+    <string name="profiles_button_activate">Activar</string>
+    <string name="profiles_button_create">Crear</string>
+    <string name="profiles_button_delete">Eliminar</string>
+
+    <string name="profiles_dialog_activate_title">¿Activar %1$s?</string>
+    <string name="profiles_dialog_activate_text">Las aplicaciones del perfil se bloquearán durante %1$s</string>
+
+    <string name="profiles_create_title">Nuevo perfil</string>
+    <string name="profiles_name_placeholder">Nombre del perfil…</string>
+    <string name="profiles_name_label">Nombre del perfil</string>
+    <string name="profiles_select_apps_description">Selecciona las aplicaciones que deseas bloquear al activar este perfil</string>
+
+    <string name="profiles_detail_title">Perfil</string>
+    <string name="profiles_name_section_label">Nombre del perfil</string>
+    <string name="profiles_apps_section_label">Aplicaciones del perfil</string>
+    <string name="profiles_manage_app_list_button">Gestionar lista de aplicaciones</string>
+    <string name="profiles_dialog_delete_title">¿Eliminar perfil?</string>
+    <string name="profiles_dialog_delete_text">Esta acción no se puede deshacer</string>
+
+    <string name="profiles_manage_list_title">Gestionar lista de aplicaciones</string>
+
+    <string name="profiles_dialog_change_timer_title">Cambiar temporizador</string>
+    <string name="profiles_dialog_rename_title">Renombrar perfil</string>
+    <string name="profiles_name_field_label">Nombre</string>
+
+    <string name="profiles_active_for">Activo durante:</string>
+    <string name="profiles_unblock_button">Desbloquear</string>
+    <string name="profiles_blocked_apps_label">Aplicaciones bloqueadas actualmente:</string>
+
+    <string name="profiles_timer_label">Temporizador</string>
+    <string name="profiles_no_timer">Sin temporizador</string>
+    <string name="profiles_content_description_lock">Candado</string>
+</resources>

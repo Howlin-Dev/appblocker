@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profiles_content_description_add">Добавить</string>
+    <string name="profiles_content_description_settings">Настройки</string>
+    <string name="profiles_content_description_edit">Изменить</string>
+    <string name="profiles_content_description_more_options">Другие параметры</string>
+    <string name="profiles_content_description_manage_list">Управление списком</string>
+
+    <string name="profiles_button_cancel">Отмена</string>
+    <string name="profiles_button_apply">Применить</string>
+    <string name="profiles_button_activate">Активировать</string>
+    <string name="profiles_button_create">Создать</string>
+    <string name="profiles_button_delete">Удалить</string>
+
+    <string name="profiles_dialog_activate_title">Активировать %1$s?</string>
+    <string name="profiles_dialog_activate_text">Приложения профиля будут заблокированы на %1$s</string>
+
+    <string name="profiles_create_title">Новый профиль</string>
+    <string name="profiles_name_placeholder">Название профиля…</string>
+    <string name="profiles_name_label">Название профиля</string>
+    <string name="profiles_select_apps_description">Выберите приложения, которые вы хотите заблокировать при активации этого профиля</string>
+
+    <string name="profiles_detail_title">Профиль</string>
+    <string name="profiles_name_section_label">Название профиля</string>
+    <string name="profiles_apps_section_label">Приложения профиля</string>
+    <string name="profiles_manage_app_list_button">Управление списком приложений</string>
+    <string name="profiles_dialog_delete_title">Удалить профиль?</string>
+    <string name="profiles_dialog_delete_text">Это действие нельзя отменить</string>
+
+    <string name="profiles_manage_list_title">Управление списком приложений</string>
+
+    <string name="profiles_dialog_change_timer_title">Изменить таймер</string>
+    <string name="profiles_dialog_rename_title">Переименовать профиль</string>
+    <string name="profiles_name_field_label">Название</string>
+
+    <string name="profiles_active_for">Активен:</string>
+    <string name="profiles_unblock_button">Разблокировать</string>
+    <string name="profiles_blocked_apps_label">Заблокированные приложения:</string>
+
+    <string name="profiles_timer_label">Таймер</string>
+    <string name="profiles_no_timer">Без таймера</string>
+    <string name="profiles_content_description_lock">Замок</string>
+</resources>

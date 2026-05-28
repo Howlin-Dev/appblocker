@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Nastavení</string>
+    <string name="theme">Motiv</string>
+    <string name="language">Jazyk</string>
+    <string name="dynamic_color">Dynamické barvy</string>
+    <string name="app_version">Verze aplikace: %s</string>
+</resources>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="block_screen_message">%1$s está bloqueado actualmente por Bloq</string>
+    <string name="block_screen_close_button_text">Cerrar</string>
+    <string name="block_screen_time_left_label">Tiempo restante hasta el desbloqueo:</string>
+</resources>
