@@ -29,7 +29,7 @@
 
     <string name="profiles_manage_list_title">Gestionar lista de aplicaciones</string>
 
-    <string name="profiles_dialog_change_timer_title">Cambiar temporizador</string>
+    <string name="profiles_dialog_change_timer_title">Cambiar minutero</string>
     <string name="profiles_dialog_rename_title">Renombrar perfil</string>
     <string name="profiles_name_field_label">Nombre</string>
 
@@ -37,7 +37,7 @@
     <string name="profiles_unblock_button">Desbloquear</string>
     <string name="profiles_blocked_apps_label">Aplicaciones bloqueadas actualmente:</string>
 
-    <string name="profiles_timer_label">Temporizador</string>
-    <string name="profiles_no_timer">Sin temporizador</string>
+    <string name="profiles_timer_label">Minutero</string>
+    <string name="profiles_no_timer">Sin minutero</string>
     <string name="profiles_content_description_lock">Candado</string>
 </resources>

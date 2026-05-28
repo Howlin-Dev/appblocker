@@ -1,9 +1,14 @@
 package com.howlindev.appblocker.profiles.presentation.common
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
@@ -59,12 +64,16 @@ fun TimerPickerDialog(
                 )
                 timerValues.chunked(3).forEach { chunk ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Min),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         chunk.forEach {
                             TimeItem(
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight(),
                                 time = it,
                                 isSelected = it == selectedTime,
                                 onClick = { selectedTime = it },
@@ -103,14 +112,19 @@ private fun TimeItem(
         shape = RoundedCornerShape(size = 6.dp),
         color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
     ) {
-        Text(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(vertical = 8.dp, horizontal = 4.dp),
-            text = time.millisToTimeString(context) ?: stringResource(R.string.profiles_no_timer),
-            style = MaterialTheme.typography.labelLarge,
-            textAlign = TextAlign.Center,
-        )
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = time.millisToTimeString(context)
+                    ?: stringResource(R.string.profiles_no_timer),
+                style = MaterialTheme.typography.labelLarge,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
