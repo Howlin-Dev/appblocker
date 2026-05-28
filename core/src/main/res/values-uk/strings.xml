@@ -5,8 +5,10 @@
     <string name="theme_dark">Темна</string>
 
     <string name="duration_hours_minutes">%1$dг %2$dхв</string>
+    <string name="duration_hours_minutes_seconds">%1$dг %2$dхв %3$dс</string>
     <string name="duration_hours">%1$dг</string>
     <string name="duration_minutes">%1$dхв</string>
+    <string name="duration_minutes_seconds">%1$dхв %2$dс</string>
 
     <string name="lock_icon_content_description">Замок</string>
 </resources>

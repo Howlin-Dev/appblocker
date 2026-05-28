@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 import com.howlindev.appblocker.R
 import com.howlindev.appblocker.core.domain.model.AppInfo
-import com.howlindev.appblocker.core.util.formatMillis
+import com.howlindev.appblocker.core.util.millisToTimerString
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -42,6 +43,7 @@ fun BlockScreen(
 ) {
     val remainingMillis by viewModel.remainingTime.collectAsState()
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
 
     // Remember if this session was timed, to avoid missing the finish event
     // when activeBlock becomes null at the same time the timer reaches zero.
@@ -51,7 +53,7 @@ fun BlockScreen(
     }
 
     val formattedTime = remember(remainingMillis) {
-        formatMillis(remainingMillis)
+        remainingMillis.millisToTimerString(context)
     }
 
     BlockScreenContent(

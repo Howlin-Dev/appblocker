@@ -13,12 +13,14 @@ class TimerUtilsTest {
     private val context = mockk<Context>()
 
     @Test
-    fun `formatMillis should format correctly`() {
-        assertEquals("00:00:00", formatMillis(0))
-        assertEquals("00:00:01", formatMillis(1000))
-        assertEquals("00:01:00", formatMillis(60000))
-        assertEquals("01:00:00", formatMillis(3600000))
-        assertEquals("01:01:01", formatMillis(3661000))
+    fun `millisToTimerString should format correctly`() {
+        every { context.getString(R.string.duration_hours_minutes_seconds, 1, 1, 1) } returns "1h 1m 1s"
+        every { context.getString(R.string.duration_minutes_seconds, 1, 0) } returns "1m 0s"
+        every { context.getString(R.string.duration_minutes_seconds, 0, 1) } returns "0m 1s"
+
+        assertEquals("1h 1m 1s", 3661000L.millisToTimerString(context))
+        assertEquals("1m 0s", 60000L.millisToTimerString(context))
+        assertEquals("0m 1s", 1000L.millisToTimerString(context))
     }
 
     @Test
@@ -39,4 +41,3 @@ class TimerUtilsTest {
         assertEquals("0m", 0L.millisToTimeString(context))
     }
 }
-

@@ -27,7 +27,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.presentation.component.ConfirmDialog
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.core.presentation.scaffold.getGoogleFontFamily
-import com.howlindev.appblocker.core.util.formatMillis
+import com.howlindev.appblocker.core.util.millisToTimerString
 import com.howlindev.appblocker.core.util.millisToTimeString
 import com.howlindev.appblocker.profiles.R
 import com.howlindev.appblocker.profiles.presentation.list.component.ActiveProfileListItem
@@ -47,10 +47,10 @@ fun ProfileListScreen(
     val remainingMillis by viewModel.remainingTime.collectAsState()
     val pendingProfileForActivation = remember { mutableStateOf<ProfileUi?>(null) }
 
-    val formattedTime = remember(remainingMillis) {
-        formatMillis(remainingMillis)
-    }
     val context = LocalContext.current
+    val formattedTime = remember(remainingMillis, context) {
+        remainingMillis.millisToTimerString(context)
+    }
 
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
