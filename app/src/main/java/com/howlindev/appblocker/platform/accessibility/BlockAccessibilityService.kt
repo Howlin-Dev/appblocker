@@ -35,6 +35,12 @@ class BlockAccessibilityService : AccessibilityService() {
                 blockedPackages = lock?.blockedPackages?.toSet() ?: emptySet()
             }
         }
+
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivity(intent)
+        }
     }
 
     private var lastBlockTime = 0L

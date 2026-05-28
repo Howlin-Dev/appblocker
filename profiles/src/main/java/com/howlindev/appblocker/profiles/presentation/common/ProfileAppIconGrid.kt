@@ -19,7 +19,7 @@ fun ProfileAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
     columns: Int = 8,
-    itemSpacing: Dp = 6.dp,
+    itemSpacing: Dp = 8.dp,
 ) {
     val rows = appList.chunked(columns)
 
