@@ -15,6 +15,9 @@
     <string name="permission_alarm_title">Programar Bloqueo Preciso</string>
     <string name="permission_alarm_subtitle">Permitir alarmas precisas para aplicar el bloqueo de aplicaciones en momentos específicos sin demora.</string>
 
+    <string name="permission_notification_listener_title">Acceso a Notificaciones (Bloquear notificaciones de apps)</string>
+    <string name="permission_notification_listener_subtitle">Otorga permiso para descartar automáticamente las notificaciones de las aplicaciones bloqueadas.</string>
+
     <string name="permission_miui_background_title">Ventanas emergentes de fondo de MIUI</string>
     <string name="permission_miui_background_subtitle">Habilite \"Mostrar ventanas emergentes mientras se ejecuta en segundo plano\" para dispositivos Xiaomi para asegurar que el bloqueo funcione correctamente.</string>
 

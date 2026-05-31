@@ -24,6 +24,10 @@ sealed class RequiredPermission(@param:StringRes val titleRes: Int, @param:Strin
         titleRes = R.string.permission_alarm_title,
         subtitleRes = R.string.permission_alarm_subtitle,
     )
+    object NotificationListener : RequiredPermission(
+        titleRes = R.string.permission_notification_listener_title,
+        subtitleRes = R.string.permission_notification_listener_subtitle,
+    )
     object MiuiBackgroundStart : RequiredPermission(
         titleRes = R.string.permission_miui_background_title,
         subtitleRes = R.string.permission_miui_background_subtitle,

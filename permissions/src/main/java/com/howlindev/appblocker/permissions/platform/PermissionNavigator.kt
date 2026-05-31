@@ -32,6 +32,14 @@ class PermissionNavigator(private val context: Context) {
         )
     }
 
+    fun openNotificationListenerSettings() {
+        context.startActivity(
+            Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            },
+        )
+    }
+
     fun requestBatteryOptimizationExemption() {
         val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
         intent.data = "package:${context.packageName}".toUri()

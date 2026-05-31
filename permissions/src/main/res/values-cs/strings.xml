@@ -15,6 +15,9 @@
     <string name="permission_alarm_title">Plánování přesného blokování</string>
     <string name="permission_alarm_subtitle">Povolit přesné budíky pro vynucení blokování aplikací v konkrétní časy bez zpoždění.</string>
 
+    <string name="permission_notification_listener_title">Přístup k oznámením (Blokování oznámení aplikací)</string>
+    <string name="permission_notification_listener_subtitle">Udělte oprávnění k automatickému odstraňování oznámení ze zablokovaných aplikací.</string>
+
     <string name="permission_miui_background_title">MIUI vyskakovací okna na pozadí</string>
     <string name="permission_miui_background_subtitle">Povolte „Zobrazovat vyskakovací okna při běhu na pozadí“ pro zařízení Xiaomi, aby blokování fungovalo správně.</string>
 

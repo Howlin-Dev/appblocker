@@ -28,6 +28,7 @@ class AndroidPermissionRepository(
         if (!isAccessibilityEnabled()) missing.add(RequiredPermission.Accessibility)
         if (!hasOverlayPermission()) missing.add(RequiredPermission.Overlay)
         if (!hasUsageAccess()) missing.add(RequiredPermission.UsageAccess)
+        if (!isNotificationListenerEnabled()) missing.add(RequiredPermission.NotificationListener)
         if (!isIgnoringBatteryOptimizations()) missing.add(RequiredPermission.BatteryOptimization)
         if (isMiui() && !hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
 
@@ -79,6 +80,15 @@ class AndroidPermissionRepository(
         val packageName = context.packageName
         val pm = context.getSystemService(PowerManager::class.java)
         return pm.isIgnoringBatteryOptimizations(packageName)
+    }
+
+    private fun isNotificationListenerEnabled(): Boolean {
+        val enabledListeners = Settings.Secure.getString(
+            context.contentResolver,
+            "enabled_notification_listeners",
+        )
+        val componentName = ComponentName(context, "com.howlindev.appblocker.platform.notification.BlockNotificationListenerService")
+        return enabledListeners?.contains(componentName.flattenToString()) == true
     }
 
     private fun canScheduleExactAlarms(): Boolean {
