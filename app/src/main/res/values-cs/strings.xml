@@ -2,4 +2,10 @@
     <string name="block_screen_message">Aplikace %1$s je momentálně zablokována aplikací Bloq</string>
     <string name="block_screen_close_button_text">Zavřít</string>
     <string name="block_screen_time_left_label">Čas do odblokování:</string>
+
+    <string name="notification_channel_name">Aktivní profil</string>
+    <string name="notification_channel_description">Zobrazuje informace o aktuálně aktivním profilu blokování</string>
+    <string name="notification_active_profile_title">%1$s je aktivní</string>
+    <string name="notification_active_profile_body">%1$d aplikací zablokováno.</string>
+    <string name="notification_active_profile_timer">Zbývající čas: %1$s</string>
 </resources>
