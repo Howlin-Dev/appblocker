@@ -1,13 +1,16 @@
 package com.howlindev.appblocker.data.repository
 
+import android.Manifest
 import android.app.AlarmManager
 import android.app.AppOpsManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
 import com.howlindev.appblocker.permissions.platform.util.isMiui
@@ -30,9 +33,21 @@ class AndroidPermissionRepository(
         if (!hasUsageAccess()) missing.add(RequiredPermission.UsageAccess)
         if (!isNotificationListenerEnabled()) missing.add(RequiredPermission.NotificationListener)
         if (!isIgnoringBatteryOptimizations()) missing.add(RequiredPermission.BatteryOptimization)
+        if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications)
         if (isMiui() && !hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
 
         return missing
+    }
+
+    private fun hasPostNotificationPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
     }
 
     private fun hasMiuiBackgroundStartPermission(): Boolean {

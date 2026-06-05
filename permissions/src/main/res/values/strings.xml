@@ -24,4 +24,7 @@
     <string name="permissions_screen_title">Required Permissions</string>
     <string name="permissions_screen_description">Some permissions are needed for the application to work properly. Please grant them below.</string>
     <string name="permission_grant_button">Grant</string>
+
+    <string name="permission_post_notifications_title">Notification Permission</string>
+    <string name="permission_post_notifications_subtitle">Allow the app to show a persistent notification with the active profile status and remaining time.</string>
 </resources>

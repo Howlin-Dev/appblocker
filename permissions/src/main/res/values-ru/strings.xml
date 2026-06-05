@@ -24,4 +24,7 @@
     <string name="permissions_screen_title">Необходимые разрешения</string>
     <string name="permissions_screen_description">Для правильной работы приложения требуются некоторые разрешения. Пожалуйста, предоставьте их ниже.</string>
     <string name="permission_grant_button">Предоставить</string>
+
+    <string name="permission_post_notifications_title">Разрешение на уведомления</string>
+    <string name="permission_post_notifications_subtitle">Разрешите приложению показывать постоянное уведомление со статусом активного профиля и оставшимся временем.</string>
 </resources>

@@ -24,4 +24,7 @@
     <string name="permissions_screen_title">Permisos Requeridos</string>
     <string name="permissions_screen_description">Se necesitan algunos permisos para que la aplicación funcione correctamente. Por favor, otórgalos a continuación.</string>
     <string name="permission_grant_button">Otorgar</string>
+
+    <string name="permission_post_notifications_title">Permiso de Notificación</string>
+    <string name="permission_post_notifications_subtitle">Permitir que la aplicación muestre una notificación persistente con el estado del perfil activo y el tiempo restante.</string>
 </resources>
