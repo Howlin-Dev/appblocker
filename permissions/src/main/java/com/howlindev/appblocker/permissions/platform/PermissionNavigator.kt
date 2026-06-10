@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.core.net.toUri
+import androidx.core.content.edit
 
 class PermissionNavigator(private val context: Context) {
 
     fun openAccessibilitySettings() {
+        setExpectingReturn()
         context.startActivity(
             Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -17,6 +19,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun openOverlaySettings() {
+        setExpectingReturn()
         val intent = Intent(
             Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
             "package:${context.packageName}".toUri(),
@@ -26,6 +29,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun openUsageAccessSettings() {
+        setExpectingReturn()
         context.startActivity(
             Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -34,6 +38,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun openNotificationListenerSettings() {
+        setExpectingReturn()
         context.startActivity(
             Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -42,6 +47,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun requestBatteryOptimizationExemption() {
+        setExpectingReturn()
         val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
         intent.data = "package:${context.packageName}".toUri()
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -49,6 +55,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun openMiuiPermissionSettings() {
+        setExpectingReturn()
         try {
             val intent = Intent("miui.intent.action.APP_PERM_EDITOR")
             intent.setClassName(
@@ -67,6 +74,7 @@ class PermissionNavigator(private val context: Context) {
     }
 
     fun openAppNotificationSettings() {
+        setExpectingReturn()
         val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
                 putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
@@ -76,6 +84,32 @@ class PermissionNavigator(private val context: Context) {
             TODO("VERSION.SDK_INT < O")
         }
         context.startActivity(intent)
+    }
+
+    private fun setExpectingReturn() {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit {
+                putLong(KEY_LAST_OPEN_TIME, System.currentTimeMillis())
+            }
+    }
+
+    companion object {
+        private const val PREFS_NAME = "permission_navigator_prefs"
+        private const val KEY_LAST_OPEN_TIME = "last_settings_open_time"
+        private const val MAX_RETURN_DELAY_MS = 10 * 60 * 1000L
+
+        fun shouldAutoReturn(context: Context): Boolean {
+            val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            val lastOpenTime = prefs.getLong(KEY_LAST_OPEN_TIME, 0L)
+            val now = System.currentTimeMillis()
+            val shouldReturn = (now - lastOpenTime) < MAX_RETURN_DELAY_MS
+
+            if (shouldReturn) {
+                prefs.edit { remove(KEY_LAST_OPEN_TIME) }
+            }
+            
+            return shouldReturn
+        }
     }
 }
 
