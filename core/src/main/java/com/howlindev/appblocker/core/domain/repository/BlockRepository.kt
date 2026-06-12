@@ -5,6 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface BlockRepository {
     val activeBlock: Flow<ActiveBlock?>
-    suspend fun activateProfile(profileId: Long, appPackages: List<String>, isTimed: Boolean)
+    suspend fun activateProfile(
+        profileId: Long,
+        appPackages: List<String>,
+        blockedWebsites: List<String>,
+        isTimed: Boolean,
+    )
     suspend fun deactivate()
 }

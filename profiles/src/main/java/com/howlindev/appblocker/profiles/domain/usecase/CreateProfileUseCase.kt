@@ -9,15 +9,16 @@ class CreateProfileUseCase(
     suspend operator fun invoke(
         name: String,
         appPackages: List<String>,
+        blockedWebsites: List<String> = emptyList(),
     ) {
         val profile = Profile(
             id = 0,
             name = name,
             description = "",
             appPackages = appPackages,
+            blockedWebsites = blockedWebsites,
             durationMillis = null,
         )
         repository.insert(profile)
     }
 }
-

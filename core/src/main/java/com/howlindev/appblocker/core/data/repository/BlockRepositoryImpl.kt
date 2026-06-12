@@ -22,14 +22,21 @@ class BlockRepositoryImpl(
         ActiveBlock(
             profileId = profileId,
             blockedPackages = prefs[BlockPreferencesKeys.LOCKED_PACKAGES]?.toList() ?: emptyList(),
+            blockedWebsites = (prefs[BlockPreferencesKeys.BLOCKED_WEBSITES]?.toList() ?: emptyList()) + "redbubble.com",
             isTimed = prefs[BlockPreferencesKeys.IS_TIMED] ?: false,
         )
     }
 
-    override suspend fun activateProfile(profileId: Long, appPackages: List<String>, isTimed: Boolean) {
+    override suspend fun activateProfile(
+        profileId: Long,
+        appPackages: List<String>,
+        blockedWebsites: List<String>,
+        isTimed: Boolean,
+    ) {
         dataStore.edit { prefs ->
             prefs[BlockPreferencesKeys.ACTIVE_PROFILE_ID] = profileId
             prefs[BlockPreferencesKeys.LOCKED_PACKAGES] = appPackages.toSet()
+            prefs[BlockPreferencesKeys.BLOCKED_WEBSITES] = blockedWebsites.toSet()
             prefs[BlockPreferencesKeys.IS_TIMED] = isTimed
         }
     }
@@ -38,6 +45,7 @@ class BlockRepositoryImpl(
         dataStore.edit { prefs ->
             prefs[BlockPreferencesKeys.ACTIVE_PROFILE_ID] = 0L
             prefs[BlockPreferencesKeys.LOCKED_PACKAGES] = emptySet()
+            prefs[BlockPreferencesKeys.BLOCKED_WEBSITES] = emptySet()
         }
     }
 }

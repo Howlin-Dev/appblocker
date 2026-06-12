@@ -13,6 +13,7 @@ val Context.blockDataStore: DataStore<Preferences> by preferencesDataStore(name 
 object BlockPreferencesKeys {
     val ACTIVE_PROFILE_ID = longPreferencesKey("active_profile_id")
     val LOCKED_PACKAGES = stringSetPreferencesKey("locked_packages")
+    val BLOCKED_WEBSITES = stringSetPreferencesKey("blocked_websites")
     val IS_TIMED = booleanPreferencesKey("is_timed")
 }
 

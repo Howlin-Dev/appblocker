@@ -11,6 +11,7 @@ data class ProfileEntity(
     val name: String,
     val description: String,
     val blockedAppsPackageNames: String,
+    val blockedWebsites: String = "",
     val durationMillis: Long?,
 )
 
@@ -19,6 +20,7 @@ fun ProfileEntity.toDomain() = Profile(
     name = name,
     description = description,
     appPackages = if (blockedAppsPackageNames.isEmpty()) emptyList() else blockedAppsPackageNames.split(","),
+    blockedWebsites = if (blockedWebsites.isEmpty()) emptyList() else blockedWebsites.split(","),
     durationMillis = durationMillis,
 )
 
@@ -27,6 +29,6 @@ fun Profile.toEntity() = ProfileEntity(
     name = name,
     description = description,
     blockedAppsPackageNames = appPackages.joinToString(","),
+    blockedWebsites = blockedWebsites.joinToString(","),
     durationMillis = durationMillis,
 )
-

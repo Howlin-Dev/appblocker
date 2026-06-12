@@ -5,6 +5,7 @@ data class Profile(
     val name: String,
     val description: String,
     val appPackages: List<String>,
+    val blockedWebsites: List<String>,
     val durationMillis: Long?,
 )
 

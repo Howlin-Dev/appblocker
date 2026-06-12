@@ -16,6 +16,7 @@ class ActivateProfileUseCase(
         blockRepository.activateProfile(
             profileId = profile.id,
             appPackages = profile.appPackages,
+            blockedWebsites = profile.blockedWebsites,
             isTimed = profile.durationMillis != null,
         )
     }

@@ -184,7 +184,14 @@ private fun ProfileListItemPreview() {
     Surface {
         ProfileListItem(
             modifier = Modifier.padding(16.dp),
-            profile = ProfileUi(0L, "Working Out", "", emptyList(), null),
+            profile = ProfileUi(
+                id = 0L,
+                name = "Working Out",
+                description = "",
+                blockedApps = emptyList(),
+                blockedWebsites = listOf("redbubble.com"),
+                durationMillis = null
+            ),
             onClick = {},
             onTimerChanged = {},
             onToggleProfileActivation = {},

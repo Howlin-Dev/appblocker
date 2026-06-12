@@ -9,6 +9,7 @@ data class ProfileUi(
     val name: String = "",
     val description: String = "",
     val blockedApps: List<AppInfo> = emptyList(),
+    val blockedWebsites: List<String> = emptyList(),
     val durationMillis: Long? = null,
 )
 
@@ -22,6 +23,7 @@ suspend fun Profile.toUi(installedAppsRepository: InstalledAppsRepository): Prof
         blockedApps = appPackages.map {
             installedAppsRepository.getAppInfo(it)
         },
+        blockedWebsites = blockedWebsites,
         durationMillis = durationMillis,
     )
 }
@@ -32,7 +34,7 @@ fun ProfileUi.toDomain(): Profile {
         name = name,
         description = description,
         appPackages = blockedApps.map { it.packageName },
+        blockedWebsites = blockedWebsites,
         durationMillis = durationMillis,
     )
 }
-
