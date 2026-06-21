@@ -15,5 +15,6 @@ object BlockPreferencesKeys {
     val LOCKED_PACKAGES = stringSetPreferencesKey("locked_packages")
     val BLOCKED_WEBSITES = stringSetPreferencesKey("blocked_websites")
     val IS_TIMED = booleanPreferencesKey("is_timed")
+    val SUGGESTED_WEBSITES = stringSetPreferencesKey("suggested_websites")
 }
 

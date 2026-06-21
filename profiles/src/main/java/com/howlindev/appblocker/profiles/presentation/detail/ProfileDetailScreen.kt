@@ -128,6 +128,10 @@ private fun ProfileDetailScreenContent(
                 appList = profile?.blockedApps.orEmpty(),
                 onAction = onAction,
             )
+            ProfileWebsiteListSection(
+                websites = profile?.blockedWebsites.orEmpty(),
+                onAction = onAction,
+            )
         }
     }
 
@@ -227,6 +231,64 @@ private fun ProfileAppListSection(
                 onClick = { onAction(ProfileDetailAction.ManageListClick) },
             ) {
                 Text(stringResource(R.string.profiles_manage_app_list_button))
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = stringResource(R.string.profiles_content_description_manage_list),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProfileWebsiteListSection(
+    websites: List<String>,
+    onAction: (ProfileDetailAction) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Profile Websites",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            
+            Column(
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp).fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                if (websites.isEmpty()) {
+                    Text(
+                        text = "No websites blocked",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    websites.forEach { website ->
+                        Text(
+                            text = website,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(vertical = 4.dp)
+                        )
+                    }
+                }
+            }
+            
+            TextButton(
+                onClick = { onAction(ProfileDetailAction.ManageListClick) },
+            ) {
+                Text("Manage Website List")
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,

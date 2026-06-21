@@ -22,7 +22,7 @@ class BlockRepositoryImpl(
         ActiveBlock(
             profileId = profileId,
             blockedPackages = prefs[BlockPreferencesKeys.LOCKED_PACKAGES]?.toList() ?: emptyList(),
-            blockedWebsites = (prefs[BlockPreferencesKeys.BLOCKED_WEBSITES]?.toList() ?: emptyList()) + "redbubble.com",
+            blockedWebsites = prefs[BlockPreferencesKeys.BLOCKED_WEBSITES]?.toList() ?: emptyList(),
             isTimed = prefs[BlockPreferencesKeys.IS_TIMED] ?: false,
         )
     }
