@@ -132,9 +132,12 @@ private fun CreateProfileScreenContent(
                 Text(stringResource(R.string.profiles_button_create))
             }
         },
-    ) {
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(vertical = 16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             OutlinedTextField(
@@ -235,7 +238,7 @@ private fun WebsitesPage(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
+            .padding(start = 24.dp, end = 24.dp, top = 0.dp, bottom = 0.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(

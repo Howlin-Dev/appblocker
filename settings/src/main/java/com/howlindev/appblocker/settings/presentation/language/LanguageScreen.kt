@@ -61,9 +61,11 @@ private fun LanguageScreenContent(
         modifier = modifier,
         title = stringResource(R.string.language),
         onBackClick = { onAction(LanguageAction.BackClick) },
-    ) {
+    ) { paddingValues ->
         LazyColumn(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             items(items = AppLanguage.entries) {

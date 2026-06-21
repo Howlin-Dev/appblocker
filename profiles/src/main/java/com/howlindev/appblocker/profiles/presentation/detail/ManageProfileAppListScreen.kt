@@ -3,6 +3,8 @@ package com.howlindev.appblocker.profiles.presentation.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Surface
@@ -84,8 +86,9 @@ private fun ManageProfileAppListScreenContent(
                 Text(stringResource(R.string.profiles_button_apply))
             }
         },
-    ) {
+    ) { paddingValues ->
         Column(
+            modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(32.dp),
         ) {
             Box(

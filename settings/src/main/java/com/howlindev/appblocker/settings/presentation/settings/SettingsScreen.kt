@@ -88,9 +88,10 @@ internal fun SettingsScreenContent(
         modifier = modifier,
         title = stringResource(R.string.settings),
         onBackClick = { onAction(SettingsAction.BackClick) },
-    ) {
+    ) { paddingValues ->
         Column(
             modifier = Modifier
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),

@@ -73,11 +73,7 @@ fun AppScaffold(
         floatingActionButton = floatingActionButton,
         snackbarHost = snackBarHost,
     ) { innerPadding ->
-        Box(
-            modifier = Modifier.padding(innerPadding),
-        ) {
-            content(innerPadding)
-        }
+        content(innerPadding)
     }
 }
 
