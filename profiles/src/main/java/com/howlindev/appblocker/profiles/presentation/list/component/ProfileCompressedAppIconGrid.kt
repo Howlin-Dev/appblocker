@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,78 +28,86 @@ import com.howlindev.appblocker.core.domain.model.AppInfo
 fun ProfileCompressedAppIconGrid(
     appList: List<AppInfo>,
     modifier: Modifier = Modifier,
+    columns: Int = 6,
+    maxRows: Int = 2,
     spacing: Dp = 8.dp,
 ) {
-    val firstRow = appList.take(6)
-    val hasOverflow = appList.size > 12
-    val secondRowRaw = appList.drop(6).take(6)
+    val maxTotalSpots = columns * maxRows
+    val showOverflow = appList.size > maxTotalSpots
 
-    val secondRow = if (hasOverflow) {
-        secondRowRaw.take(4) // leave space for "+n" tile
-    } else {
-        secondRowRaw
-    }
+    // If showing overflow, we use 2 spots for the "+N" tile if total items > 12 (or whatever maxTotalSpots is)
+    val overflowSpan = if (showOverflow) 2 else 0
+    val displayCount = if (showOverflow) maxTotalSpots - overflowSpan else appList.size
+    val overflowCount = appList.size - displayCount
 
-    val overflowCount = (appList.size - (12 - 2)).coerceAtLeast(0)
-
-    BoxWithConstraints(modifier) {
-        val totalSpacing = spacing * 5
-        val itemWidth = (maxWidth - totalSpacing) / 6
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val itemSize = (maxWidth - (spacing * (columns - 1))) / columns
 
         Column(verticalArrangement = Arrangement.spacedBy(spacing)) {
-            // First row
-            Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
-                firstRow.forEach {
-                    Image(
-                        modifier = Modifier.size(itemWidth),
-                        painter = rememberDrawablePainter(it.icon),
-                        contentDescription = null,
-                    )
-                }
-            }
+            for (rowIndex in 0 until maxRows) {
+                val rowStart = rowIndex * columns
+                val isLastRow = rowIndex == maxRows - 1
 
-            // Second row
-            Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
-                secondRow.forEach {
-                    Image(
-                        modifier = Modifier.size(itemWidth),
-                        painter = rememberDrawablePainter(it.icon),
-                        contentDescription = null,
-                    )
-                }
+                Row(horizontalArrangement = Arrangement.spacedBy(spacing)) {
+                    var columnIndex = 0
+                    while (columnIndex < columns) {
+                        val itemIndex = rowStart + columnIndex
 
-                if (hasOverflow) {
-                    // "+n" tile spanning 2 columns
-                    Surface(
-                        shape = RoundedCornerShape(itemWidth / 2),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
-                        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .width(itemWidth * 2 + spacing)
-                                .height(itemWidth),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Text(
-                                text = "+$overflowCount",
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.SemiBold,
-                            )
+                        when {
+                            itemIndex < displayCount -> {
+                                Image(
+                                    painter = rememberDrawablePainter(appList[itemIndex].icon),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(itemSize),
+                                )
+                                columnIndex++
+                            }
+                            showOverflow && isLastRow && columnIndex >= columns - overflowSpan -> {
+                                // Double span overflow tile
+                                val tileWidth = (itemSize * overflowSpan) + (spacing * (overflowSpan - 1))
+                                OverflowTile(
+                                    count = overflowCount,
+                                    width = tileWidth,
+                                    height = itemSize,
+                                )
+                                columnIndex += overflowSpan
+                            }
+                            else -> {
+                                Spacer(modifier = Modifier.size(itemSize))
+                                columnIndex++
+                            }
                         }
                     }
-                } else {
-                    // fill remaining slots (optional, keeps alignment)
-                    repeat(6 - secondRow.size) {
-                        Spacer(
-                            modifier = Modifier
-                                .width(itemWidth)
-                                .height(itemWidth),
-                        )
-                    }
                 }
+
+                // Stop drawing rows if we've reached the end of the list and don't need the overflow tile
+                if (rowStart + columns >= displayCount && (!showOverflow || !isLastRow)) break
             }
         }
     }
 }
 
+@Composable
+private fun OverflowTile(
+    count: Int,
+    width: Dp,
+    height: Dp,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier
+            .width(width)
+            .height(height),
+        shape = RoundedCornerShape(percent = 50),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                text = "+$count",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+    }
+}

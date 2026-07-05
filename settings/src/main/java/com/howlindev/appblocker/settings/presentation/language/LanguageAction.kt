@@ -6,4 +6,3 @@ sealed interface LanguageAction {
     data object BackClick : LanguageAction
     data class LanguageChange(val language: AppLanguage) : LanguageAction
 }
-

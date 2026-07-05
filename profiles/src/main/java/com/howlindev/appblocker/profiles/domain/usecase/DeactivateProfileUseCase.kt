@@ -9,4 +9,3 @@ class DeactivateProfileUseCase(
         blockRepository.deactivate()
     }
 }
-

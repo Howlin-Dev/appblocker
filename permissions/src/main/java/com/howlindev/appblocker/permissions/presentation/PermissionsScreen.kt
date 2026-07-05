@@ -24,9 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.permissions.R
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
-import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -128,4 +128,3 @@ private fun PermissionsScreenContentPreview() {
         )
     }
 }
-

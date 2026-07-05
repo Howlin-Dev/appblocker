@@ -9,4 +9,3 @@ class SetDynamicColorUseCase(
         repository.setDynamicColor(enabled)
     }
 }
-

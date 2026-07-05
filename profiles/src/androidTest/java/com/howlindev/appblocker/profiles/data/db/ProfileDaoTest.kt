@@ -59,6 +59,7 @@ class ProfileDaoTest {
             name = "Work",
             description = "Work profile",
             blockedAppsPackageNames = "com.android.settings,com.google.android.youtube",
+            blockedWebsites = "youtube.com,facebook.com",
             durationMillis = 3600000L
         )
         profileDao.insert(profile)
@@ -74,6 +75,7 @@ class ProfileDaoTest {
             name = "Work",
             description = "Work profile",
             blockedAppsPackageNames = "com.android.settings",
+            blockedWebsites = "",
             durationMillis = 3600000L
         )
         profileDao.insert(profile)
@@ -93,6 +95,7 @@ class ProfileDaoTest {
             name = "Work",
             description = "Work profile",
             blockedAppsPackageNames = "com.android.settings",
+            blockedWebsites = "",
             durationMillis = 3600000L
         )
         profileDao.insert(profile)

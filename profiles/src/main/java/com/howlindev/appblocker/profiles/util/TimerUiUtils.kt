@@ -13,4 +13,3 @@ internal val timerUiTimeList = listOf<Long?>(
     100 * 60_000,
     120 * 60_000,
 )
-

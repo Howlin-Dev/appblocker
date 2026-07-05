@@ -9,4 +9,3 @@ sealed interface ProfileListAction {
     data class TimerChange(val profileUi: ProfileUi, val newTime: Long?) : ProfileListAction
     data class ToggleProfileActivation(val profile: ProfileUi) : ProfileListAction
 }
-

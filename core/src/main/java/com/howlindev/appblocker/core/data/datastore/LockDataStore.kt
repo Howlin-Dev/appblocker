@@ -17,4 +17,3 @@ object BlockPreferencesKeys {
     val IS_TIMED = booleanPreferencesKey("is_timed")
     val SUGGESTED_WEBSITES = stringSetPreferencesKey("suggested_websites")
 }
-

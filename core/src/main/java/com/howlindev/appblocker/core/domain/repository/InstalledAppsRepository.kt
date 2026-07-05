@@ -6,4 +6,3 @@ interface InstalledAppsRepository {
     suspend fun getInstalledApps(): List<AppInfo>
     suspend fun getAppInfo(packageName: String): AppInfo
 }
-

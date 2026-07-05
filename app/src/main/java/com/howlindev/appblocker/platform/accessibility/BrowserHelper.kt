@@ -8,7 +8,7 @@ object BrowserHelper {
         "com.opera.browser",
         "com.duckduckgo.mobile.android",
         "com.brave.browser",
-        "com.sec.android.app.sbrowser"
+        "com.sec.android.app.sbrowser",
     )
 
     fun isBrowser(packageName: String): Boolean {

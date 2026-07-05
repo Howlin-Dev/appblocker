@@ -18,4 +18,3 @@ class TimerWorker(
         return Result.success()
     }
 }
-

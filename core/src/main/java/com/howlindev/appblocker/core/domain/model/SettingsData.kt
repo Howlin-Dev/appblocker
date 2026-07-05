@@ -5,4 +5,3 @@ data class SettingsData(
     val language: AppLanguage = AppLanguage.SYSTEM,
     val dynamicColor: Boolean = true,
 )
-

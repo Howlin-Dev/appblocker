@@ -11,4 +11,3 @@ enum class ThemeMode(
     DARK(R.string.theme_dark),
     SYSTEM(R.string.theme_system),
 }
-

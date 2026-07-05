@@ -39,7 +39,7 @@ class BlockViewModel(
 
     init {
         observeActiveProfile()
-        
+
         savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_PACKAGE_NAME, null)
             .onEach { pkg ->
                 pkg?.let { loadBlockedAppInfo(it) }

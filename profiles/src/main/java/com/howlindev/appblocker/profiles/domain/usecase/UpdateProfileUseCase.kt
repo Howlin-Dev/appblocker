@@ -8,4 +8,3 @@ class UpdateProfileUseCase(
 ) {
     suspend operator fun invoke(profile: Profile) = profilesRepository.update(profile)
 }
-

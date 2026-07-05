@@ -8,4 +8,3 @@ data class Profile(
     val blockedWebsites: List<String>,
     val durationMillis: Long?,
 )
-

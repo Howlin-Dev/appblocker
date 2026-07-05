@@ -3,8 +3,8 @@ package com.howlindev.appblocker.profiles.presentation.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -263,7 +263,7 @@ private fun ProfileWebsiteListSection(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Profile Websites",
+                text = stringResource(R.string.profiles_websites_section_label),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
@@ -274,19 +274,19 @@ private fun ProfileWebsiteListSection(
                 modifier = Modifier
                     .padding(top = 16.dp, bottom = 8.dp)
                     .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 if (websites.isEmpty()) {
                     Text(
-                        text = "No websites blocked",
+                        text = stringResource(R.string.profiles_no_websites_blocked),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 } else {
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         websites.forEach { website ->
                             Surface(
@@ -308,7 +308,7 @@ private fun ProfileWebsiteListSection(
             TextButton(
                 onClick = { onAction(ProfileDetailAction.ManageWebsiteListClick) },
             ) {
-                Text("Manage Website List")
+                Text(stringResource(R.string.profiles_manage_website_list_button))
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -329,4 +329,3 @@ private fun ProfileDetailScreenPreview() {
         onAction = { },
     )
 }
-

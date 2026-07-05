@@ -40,4 +40,3 @@ data class PermissionsState(
     val missingRequiredPermissions: List<RequiredPermission> = emptyList(),
     val allPermissionsGranted: Boolean = false,
 )
-

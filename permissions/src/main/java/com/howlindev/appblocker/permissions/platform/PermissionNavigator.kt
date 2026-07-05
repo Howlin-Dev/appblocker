@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
-import androidx.core.net.toUri
 import androidx.core.content.edit
+import androidx.core.net.toUri
 
 class PermissionNavigator(private val context: Context) {
 
@@ -107,9 +107,8 @@ class PermissionNavigator(private val context: Context) {
             if (shouldReturn) {
                 prefs.edit { remove(KEY_LAST_OPEN_TIME) }
             }
-            
+
             return shouldReturn
         }
     }
 }
-

@@ -7,4 +7,3 @@ fun Context.appVersion(): String {
         .getPackageInfo(packageName, 0)
         .versionName ?: "Unknown"
 }
-

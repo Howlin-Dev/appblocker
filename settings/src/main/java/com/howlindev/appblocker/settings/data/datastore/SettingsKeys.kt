@@ -11,4 +11,3 @@ object SettingsKeys {
 
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
 }
-

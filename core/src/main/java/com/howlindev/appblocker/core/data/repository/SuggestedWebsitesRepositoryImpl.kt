@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class SuggestedWebsitesRepositoryImpl(
-    context: Context
+    context: Context,
 ) : SuggestedWebsitesRepository {
 
     private val dataStore = context.blockDataStore
@@ -20,7 +20,7 @@ class SuggestedWebsitesRepositoryImpl(
         "linkedin.com", "whatsapp.com", "messenger.com", "telegram.org", "discord.com",
         "tumblr.com", "quora.com", "medium.com", "9gag.com", "buzzfeed.com",
         "hulu.com", "disneyplus.com", "primevideo.com", "hbomax.com", "spotify.com",
-        "soundcloud.com", "steamcommunity.com", "epicgames.com", "roblox.com", "minecraft.net"
+        "soundcloud.com", "steamcommunity.com", "epicgames.com", "roblox.com", "minecraft.net",
     )
 
     override fun getSuggestedWebsites(): Flow<Set<String>> = dataStore.data.map { prefs ->

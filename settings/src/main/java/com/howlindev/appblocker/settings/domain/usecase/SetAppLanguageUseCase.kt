@@ -11,4 +11,3 @@ class SetAppLanguageUseCase(
         repository.setLanguage(language)
     }
 }
-

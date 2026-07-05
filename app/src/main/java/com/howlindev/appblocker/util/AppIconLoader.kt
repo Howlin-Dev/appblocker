@@ -21,4 +21,3 @@ class AppIconLoader(context: Context) : AppIconProvider {
         }
     }
 }
-

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="profiles_app_title">Bloq</string>
+    <string name="profiles_app_title" translatable="false">Bloq</string>
     <string name="profiles_content_description_add">Add</string>
     <string name="profiles_content_description_settings">Settings</string>
     <string name="profiles_content_description_edit">Edit</string>
@@ -17,7 +17,7 @@
     <string name="profiles_dialog_activate_text">Profile apps will be blocked for %1$s</string>
 
     <string name="profiles_create_title">New Profile</string>
-    <string name="profiles_name_placeholder">Profile Name...</string>
+    <string name="profiles_name_placeholder">Profile Name…</string>
     <string name="profiles_name_label">Profile Name</string>
     <string name="profiles_select_apps_description">Select apps you want to block upon activating this profile</string>
 
@@ -41,4 +41,14 @@
     <string name="profiles_timer_label">Timer</string>
     <string name="profiles_no_timer">No Timer</string>
     <string name="profiles_content_description_lock">Lock</string>
+
+    <string name="profiles_websites_section_label">Profile Websites</string>
+    <string name="profiles_manage_website_list_button">Manage Website List</string>
+    <string name="profiles_no_websites_blocked">No websites blocked</string>
+    <string name="profiles_add_website_label">Add Website (e.g. youtube.com)</string>
+    <string name="profiles_content_description_add_website">Add Website</string>
+    <string name="profiles_content_description_remove_website">Remove Suggested Website</string>
+
+    <string name="profiles_tab_apps">Apps</string>
+    <string name="profiles_tab_websites">Websites</string>
 </resources>

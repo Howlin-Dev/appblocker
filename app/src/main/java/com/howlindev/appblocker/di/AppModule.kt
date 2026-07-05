@@ -1,12 +1,12 @@
 package com.howlindev.appblocker.di
 
-import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
-import com.howlindev.appblocker.permissions.platform.PermissionNavigator
-import com.howlindev.appblocker.permissions.platform.requester.PermissionRequester
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
 import com.howlindev.appblocker.data.repository.AndroidPermissionRepository
 import com.howlindev.appblocker.data.repository.InstalledAppsRepositoryImpl
 import com.howlindev.appblocker.navigation.entry.EntryViewModel
+import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
+import com.howlindev.appblocker.permissions.platform.PermissionNavigator
+import com.howlindev.appblocker.permissions.platform.requester.PermissionRequester
 import com.howlindev.appblocker.platform.notification.manager.BlockNotificationManager
 import com.howlindev.appblocker.presentation.block.BlockViewModel
 import com.howlindev.appblocker.presentation.root.RootViewModel
@@ -31,4 +31,3 @@ val appModule = module {
 
     factory { KoinWorkerFactory() }
 }
-

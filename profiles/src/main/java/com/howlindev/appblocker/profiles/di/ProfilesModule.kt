@@ -46,4 +46,3 @@ val profilesModule = module {
     factory { AddSuggestedWebsiteUseCase(get()) }
     factory { RemoveSuggestedWebsiteUseCase(get()) }
 }
-

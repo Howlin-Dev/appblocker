@@ -40,4 +40,14 @@
     <string name="profiles_timer_label">Minutero</string>
     <string name="profiles_no_timer">Sin minutero</string>
     <string name="profiles_content_description_lock">Candado</string>
+
+    <string name="profiles_websites_section_label">Sitios web del perfil</string>
+    <string name="profiles_manage_website_list_button">Gestionar lista de sitios web</string>
+    <string name="profiles_no_websites_blocked">No hay sitios web bloqueados</string>
+    <string name="profiles_add_website_label">Añadir sitio web (ej. youtube.com)</string>
+    <string name="profiles_content_description_add_website">Añadir sitio web</string>
+    <string name="profiles_content_description_remove_website">Eliminar sitio web sugerido</string>
+
+    <string name="profiles_tab_apps">Aplicaciones</string>
+    <string name="profiles_tab_websites">Sitios web</string>
 </resources>

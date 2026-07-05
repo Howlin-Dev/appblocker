@@ -134,13 +134,13 @@ private fun WebsiteBlockHeader() {
         modifier = Modifier
             .padding(8.dp)
             .size(80.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Icon(
             painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_globe),
             contentDescription = null,
             modifier = Modifier.size(64.dp),
-            tint = MaterialTheme.colorScheme.primary
+            tint = MaterialTheme.colorScheme.primary,
         )
         Icon(
             modifier = Modifier
@@ -182,7 +182,9 @@ private fun AppBlockHeader(blockedApp: AppInfo?) {
                     .padding(4.dp),
                 painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
                 tint = MaterialTheme.colorScheme.inverseOnSurface,
-                contentDescription = stringResource(com.howlindev.appblocker.core.R.string.lock_icon_content_description),
+                contentDescription = stringResource(
+                    com.howlindev.appblocker.core.R.string.lock_icon_content_description,
+                ),
             )
         }
     }
@@ -197,7 +199,7 @@ fun BlockScreenPreview() {
             formattedTimeRemaining = "00:05",
             isTimed = true,
             blockedApp = null,
-            blockedWebsite = "facebook.com"
+            blockedWebsite = "facebook.com",
         )
     }
 }

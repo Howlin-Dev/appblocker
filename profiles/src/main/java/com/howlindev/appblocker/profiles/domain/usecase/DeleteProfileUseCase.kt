@@ -7,4 +7,3 @@ class DeleteProfileUseCase(
 ) {
     suspend operator fun invoke(id: Long) = profilesRepository.delete(id)
 }
-

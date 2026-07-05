@@ -34,4 +34,3 @@ class ProfilesRepositoryImpl(
         profileDao.deleteById(profileId)
     }
 }
-

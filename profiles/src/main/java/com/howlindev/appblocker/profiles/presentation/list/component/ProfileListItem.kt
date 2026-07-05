@@ -70,14 +70,42 @@ fun ProfileListItem(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f),
-                verticalArrangement = Arrangement.SpaceBetween,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(
-                    text = profile.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = profile.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    if (profile.blockedWebsites.isNotEmpty()) {
+                        Surface(
+                            shape = RoundedCornerShape(100),
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(4.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = profile.blockedWebsites.size.toString(),
+                                    style = MaterialTheme.typography.labelLarge,
+                                )
+                                Icon(
+                                    painter = painterResource(R.drawable.outline_globe),
+                                    contentDescription = "Globe",
+                                )
+                            }
+                        }
+                    }
+                }
                 ProfileCompressedAppIconGrid(
                     appList = profile.blockedApps,
                 )
@@ -139,7 +167,8 @@ private fun TimerButton(
         ) {
             val context = LocalContext.current
             Text(
-                text = time?.millisToTimeString(context) ?: stringResource(ProfilesR.string.profiles_timer_label),
+                text = time?.millisToTimeString(context)
+                    ?: stringResource(ProfilesR.string.profiles_timer_label),
             )
             Icon(
                 painter = painterResource(R.drawable.outline_timer),
@@ -190,7 +219,7 @@ private fun ProfileListItemPreview() {
                 description = "",
                 blockedApps = emptyList(),
                 blockedWebsites = listOf("redbubble.com"),
-                durationMillis = null
+                durationMillis = null,
             ),
             onClick = {},
             onTimerChanged = {},
@@ -199,4 +228,3 @@ private fun ProfileListItemPreview() {
         )
     }
 }
-

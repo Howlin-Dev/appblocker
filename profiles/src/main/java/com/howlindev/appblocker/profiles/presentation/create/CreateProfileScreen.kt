@@ -150,7 +150,7 @@ private fun CreateProfileScreenContent(
                             pagerState.animateScrollToPage(0)
                         }
                     },
-                    text = { Text("Apps") },
+                    text = { Text(stringResource(R.string.profiles_tab_apps)) },
                 )
                 Tab(
                     selected = pagerState.currentPage == 1,
@@ -159,7 +159,7 @@ private fun CreateProfileScreenContent(
                             pagerState.animateScrollToPage(1)
                         }
                     },
-                    text = { Text("Websites") },
+                    text = { Text(stringResource(R.string.profiles_tab_websites)) },
                 )
             }
 

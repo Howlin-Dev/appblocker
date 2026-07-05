@@ -8,4 +8,3 @@ class GetInstalledAppsUseCase(
 ) {
     suspend operator fun invoke(): List<AppInfo> = repository.getInstalledApps()
 }
-

@@ -5,4 +5,3 @@ sealed interface ManageProfileAppListAction {
     data object ApplyClick : ManageProfileAppListAction
     data object BackClick : ManageProfileAppListAction
 }
-

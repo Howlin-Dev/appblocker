@@ -15,8 +15,8 @@ class ProfileListScreenTest {
     @Test
     fun profileList_rendersProfiles() {
         val inactiveProfiles = listOf(
-            ProfileUi(id = 1, name = "Work", blockedApps = emptyList()),
-            ProfileUi(id = 2, name = "Study", blockedApps = emptyList())
+            ProfileUi(id = 1, name = "Work", blockedApps = emptyList(), blockedWebsites = emptyList()),
+            ProfileUi(id = 2, name = "Study", blockedApps = emptyList(), blockedWebsites = emptyList())
         )
 
         composeTestRule.setContent {
@@ -38,6 +38,7 @@ class ProfileListScreenTest {
             id = 1,
             name = "Reading",
             blockedApps = emptyList(),
+            blockedWebsites = emptyList(),
             durationMillis = 1800000L // 30 mins
         )
 

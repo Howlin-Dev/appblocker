@@ -14,4 +14,3 @@ class GetProfileUiUseCase(
         return profile.toUi(installedAppsRepository)
     }
 }
-

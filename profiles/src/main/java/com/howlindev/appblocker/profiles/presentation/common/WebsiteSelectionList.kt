@@ -11,7 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -25,7 +25,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.howlindev.appblocker.profiles.R
 
 @Composable
 fun WebsiteSelectionList(
@@ -53,7 +55,7 @@ fun WebsiteSelectionList(
                 modifier = Modifier.weight(1f),
                 value = websiteInput,
                 onValueChange = { websiteInput = it },
-                label = { Text("Add Website (e.g. example.com)") },
+                label = { Text(stringResource(R.string.profiles_add_website_label)) },
                 singleLine = true,
             )
             IconButton(
@@ -64,7 +66,7 @@ fun WebsiteSelectionList(
                     }
                 },
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Website")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.profiles_content_description_add_website))
             }
         }
 
@@ -82,17 +84,17 @@ fun WebsiteSelectionList(
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     ) {
                         Checkbox(
                             checked = selectedWebsites.contains(website),
-                            onCheckedChange = { onWebsiteSelected(website) }
+                            onCheckedChange = { onWebsiteSelected(website) },
                         )
                         Text(text = website, modifier = Modifier.padding(start = 8.dp))
                     }
-                    
+
                     IconButton(onClick = { onWebsiteRemoved(website) }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Remove Suggested Website")
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.profiles_content_description_remove_website))
                     }
                 }
                 HorizontalDivider()

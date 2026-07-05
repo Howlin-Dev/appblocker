@@ -111,4 +111,3 @@ data class ProfilesListState(
     val inactiveProfiles: List<ProfileUi> = emptyList(),
     val activeProfile: ProfileUi? = null,
 )
-

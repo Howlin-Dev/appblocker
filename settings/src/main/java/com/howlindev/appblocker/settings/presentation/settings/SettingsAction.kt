@@ -8,4 +8,3 @@ sealed interface SettingsAction {
     data class ThemeModeSwitch(val themeMode: ThemeMode) : SettingsAction
     data class DynamicColorSwitch(val enabled: Boolean) : SettingsAction
 }
-

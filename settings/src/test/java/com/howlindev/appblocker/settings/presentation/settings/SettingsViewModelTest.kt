@@ -67,4 +67,3 @@ class SettingsViewModelTest {
         coVerify { setThemeModeUseCase(ThemeMode.LIGHT) }
     }
 }
-

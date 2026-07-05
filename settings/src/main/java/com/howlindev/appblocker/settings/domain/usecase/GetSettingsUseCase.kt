@@ -12,4 +12,3 @@ class GetSettingsUseCase(
         return repository.settings
     }
 }
-

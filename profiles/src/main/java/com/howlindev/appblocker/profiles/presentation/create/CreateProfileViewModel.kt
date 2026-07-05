@@ -101,7 +101,7 @@ class CreateProfileViewModel(
                 createProfileUseCase(
                     name = currentState.name,
                     appPackages = currentState.selectedApps.toList(),
-                    blockedWebsites = currentState.selectedWebsites.toList()
+                    blockedWebsites = currentState.selectedWebsites.toList(),
                 )
             }.onFailure {
                 it.printStackTrace()

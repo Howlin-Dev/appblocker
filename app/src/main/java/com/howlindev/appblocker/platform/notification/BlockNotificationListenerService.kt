@@ -25,7 +25,7 @@ class BlockNotificationListenerService : NotificationListenerService() {
         serviceScope.launch {
             blockRepository.activeBlock.collect { lock ->
                 blockedPackages = lock?.blockedPackages?.toSet() ?: emptySet()
-                
+
                 // If a block is active, we might want to clear existing notifications from blocked apps
                 if (blockedPackages.isNotEmpty()) {
                     cancelNotificationsFromBlockedApps()
@@ -46,7 +46,7 @@ class BlockNotificationListenerService : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
         val packageName = sbn?.packageName ?: return
-        
+
         if (blockedPackages.contains(packageName)) {
             Log.d("NotificationListener", "Blocking notification from $packageName")
             cancelNotification(sbn.key)

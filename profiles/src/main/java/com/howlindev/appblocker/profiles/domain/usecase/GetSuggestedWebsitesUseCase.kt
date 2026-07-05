@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class GetSuggestedWebsitesUseCase(
-    private val repository: SuggestedWebsitesRepository
+    private val repository: SuggestedWebsitesRepository,
 ) {
     operator fun invoke(): Flow<List<String>> = repository.getSuggestedWebsites().map { it.toList().sorted() }
 }

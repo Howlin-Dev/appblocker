@@ -11,4 +11,3 @@ class SetThemeModeUseCase(
         repository.setThemeMode(themeMode)
     }
 }
-

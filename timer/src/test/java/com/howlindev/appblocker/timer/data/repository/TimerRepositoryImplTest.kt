@@ -41,4 +41,3 @@ class TimerRepositoryImplTest {
         coVerify { blockRepository.deactivate() }
     }
 }
-

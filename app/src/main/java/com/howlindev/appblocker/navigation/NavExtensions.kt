@@ -14,4 +14,3 @@ fun NavHostController.navigateSafe(route: Any) {
         navigate(route)
     }
 }
-

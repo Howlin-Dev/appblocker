@@ -75,4 +75,3 @@ class PermissionsViewModelTest {
         verify { requestPermissionUseCase(permission) }
     }
 }
-

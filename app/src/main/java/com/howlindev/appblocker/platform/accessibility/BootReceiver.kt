@@ -10,4 +10,3 @@ class BootReceiver : BroadcastReceiver() {
 //        }
     }
 }
-

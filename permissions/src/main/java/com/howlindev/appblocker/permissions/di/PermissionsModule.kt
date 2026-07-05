@@ -12,4 +12,3 @@ val permissionsModule = module {
     factory { GetMissingPermissionsUseCase(get()) }
     factory { RequestPermissionUseCase(get()) }
 }
-

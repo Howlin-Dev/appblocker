@@ -31,4 +31,3 @@ object SettingsDestination
 
 @Serializable
 object LanguageDestination
-

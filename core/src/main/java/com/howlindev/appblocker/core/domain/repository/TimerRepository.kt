@@ -7,4 +7,3 @@ interface TimerRepository {
     suspend fun cancelTimer()
     fun observeRemainingTime(): Flow<Long>
 }
-

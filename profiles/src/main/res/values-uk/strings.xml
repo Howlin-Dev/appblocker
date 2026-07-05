@@ -17,7 +17,7 @@
     <string name="profiles_dialog_activate_text">Програми профілю будуть заблоковані на %1$s</string>
 
     <string name="profiles_create_title">Новий профіль</string>
-    <string name="profiles_name_placeholder">Назва профілю...</string>
+    <string name="profiles_name_placeholder">Назва профілю…</string>
     <string name="profiles_name_label">Назва профілю</string>
     <string name="profiles_select_apps_description">Виберіть програми, які ви хочете заблокувати при активації цього профілю</string>
 
@@ -41,4 +41,14 @@
     <string name="profiles_timer_label">Таймер</string>
     <string name="profiles_no_timer">Без таймера</string>
     <string name="profiles_content_description_lock">Замок</string>
+
+    <string name="profiles_websites_section_label">Вебсайти профілю</string>
+    <string name="profiles_manage_website_list_button">Керувати списком вебсайтів</string>
+    <string name="profiles_no_websites_blocked">Немає заблокованих вебсайтів</string>
+    <string name="profiles_add_website_label">Додати вебсайт (напр. youtube.com)</string>
+    <string name="profiles_content_description_add_website">Додати вебсайт</string>
+    <string name="profiles_content_description_remove_website">Видалити запропонований вебсайт</string>
+
+    <string name="profiles_tab_apps">Програми</string>
+    <string name="profiles_tab_websites">Вебсайти</string>
 </resources>

@@ -27,9 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.presentation.component.ConfirmDialog
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
-import com.howlindev.appblocker.core.presentation.scaffold.getGoogleFontFamily
-import com.howlindev.appblocker.core.util.millisToTimerString
 import com.howlindev.appblocker.core.util.millisToTimeString
+import com.howlindev.appblocker.core.util.millisToTimerString
 import com.howlindev.appblocker.profiles.R
 import com.howlindev.appblocker.profiles.presentation.list.component.ActiveProfileListItem
 import com.howlindev.appblocker.profiles.presentation.list.component.ProfileListItem
@@ -187,4 +186,3 @@ private fun ProfileListScreenPreview() {
         )
     }
 }
-

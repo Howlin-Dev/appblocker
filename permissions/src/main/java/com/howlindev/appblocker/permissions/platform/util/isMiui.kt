@@ -16,4 +16,3 @@ fun isMiui(): Boolean {
     } catch (e: Exception) { "" }
     return prop.isNotEmpty()
 }
-

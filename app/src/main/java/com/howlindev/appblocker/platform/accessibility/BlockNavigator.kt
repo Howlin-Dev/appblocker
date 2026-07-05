@@ -3,8 +3,8 @@ package com.howlindev.appblocker.platform.accessibility
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.howlindev.appblocker.presentation.block.BlockActivity
 import androidx.core.net.toUri
+import com.howlindev.appblocker.presentation.block.BlockActivity
 
 object BlockNavigator {
 
@@ -14,9 +14,11 @@ object BlockNavigator {
             // Force the browser to navigate to a safe page and clear the task stack
             val intent = Intent(Intent.ACTION_VIEW, "https://www.google.com".toUri()).apply {
                 setPackage(browserPackage)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or 
-                         Intent.FLAG_ACTIVITY_CLEAR_TOP or 
-                         Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP,
+                )
             }
             context.startActivity(intent)
         } catch (e: Exception) {

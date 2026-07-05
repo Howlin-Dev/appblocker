@@ -15,4 +15,3 @@ interface SettingsRepository {
 
     suspend fun setDynamicColor(enabled: Boolean)
 }
-

@@ -86,4 +86,3 @@ data class ManageProfileAppListState(
     val selectedApps: Set<String> = emptySet(),
     val isSaved: Boolean = false,
 )
-

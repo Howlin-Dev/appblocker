@@ -10,4 +10,3 @@ class RequestPermissionUseCase(
         permissionRequester.request(permission)
     }
 }
-

@@ -6,4 +6,3 @@ interface PermissionRepository {
     fun hasRequiredPermissions(): Boolean
     fun getMissingPermissions(): List<RequiredPermission>
 }
-

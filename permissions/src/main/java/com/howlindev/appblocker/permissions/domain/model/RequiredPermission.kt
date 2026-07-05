@@ -37,4 +37,3 @@ sealed class RequiredPermission(@param:StringRes val titleRes: Int, @param:Strin
         subtitleRes = R.string.permission_post_notifications_subtitle,
     )
 }
-

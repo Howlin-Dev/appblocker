@@ -53,7 +53,7 @@ class BlockNotificationManager(
         val title = context.getString(R.string.notification_active_profile_title, profile.name)
         val appsCount = profile.appPackages.size
         val body = context.getString(R.string.notification_active_profile_body, appsCount)
-        
+
         val timerText = if (activeBlock.isTimed) {
             context.getString(R.string.notification_active_profile_timer, remainingMillis.millisToTimerString(context))
         } else {
@@ -64,7 +64,10 @@ class BlockNotificationManager(
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val pendingIntent = PendingIntent.getActivity(
-            context, 0, intent, PendingIntent.FLAG_IMMUTABLE
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE,
         )
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)

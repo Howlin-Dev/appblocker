@@ -27,11 +27,11 @@ class BlockAccessibilityService : AccessibilityService() {
 
         val info = serviceInfo ?: AccessibilityServiceInfo()
         info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED or
-                AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+            AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
         info.flags = info.flags or
-                AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS or
-                AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS or
-                AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
+            AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS or
+            AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS or
+            AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
         serviceInfo = info
 
         serviceScope.launch {
@@ -67,7 +67,7 @@ class BlockAccessibilityService : AccessibilityService() {
                     handleWebsiteBlocking(event)
                 }
             }
-            else -> {  }
+            else -> { }
         }
     }
 
@@ -98,13 +98,13 @@ class BlockAccessibilityService : AccessibilityService() {
                 val now = System.currentTimeMillis()
                 val cooldown = if (url == lastBlockedUrl) 5000L else 1500L
                 if (now - lastBlockTime < cooldown) return
-                
+
                 lastBlockTime = now
                 lastBlockedUrl = url
 
                 Log.d("handleWebsiteBlocking", "Blocking website: $url")
                 val browserPackage = event.packageName?.toString() ?: ""
-                
+
                 serviceScope.launch {
                     BlockNavigator.navigateBrowserAway(this@BlockAccessibilityService, browserPackage)
                     kotlinx.coroutines.delay(300)

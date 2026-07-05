@@ -27,7 +27,7 @@ class ProfilesRepositoryImplTest {
     @Test
     fun `getAll should return mapped profiles from dao`() = runTest {
         val entities = listOf(
-            ProfileEntity(1, "Work", "Desc", "pkg1", 1000L),
+            ProfileEntity(1, "Work", "Desc", "pkg1", "", 1000L),
         )
         every { profileDao.getAll() } returns flowOf(entities)
 
@@ -41,7 +41,7 @@ class ProfilesRepositoryImplTest {
 
     @Test
     fun `getById should return mapped profile`() = runTest {
-        val entity = ProfileEntity(1, "Work", "Desc", "pkg1", 1000L)
+        val entity = ProfileEntity(1, "Work", "Desc", "pkg1", "", 1000L)
         coEvery { profileDao.getById(1) } returns entity
 
         val result = repository.getById(1)
@@ -56,7 +56,7 @@ class ProfilesRepositoryImplTest {
 
     @Test
     fun `insert should delegate to dao`() = runTest {
-        val profile = Profile(1, "Work", "Desc", listOf("pkg1"), 1000L)
+        val profile = Profile(1, "Work", "Desc", listOf("pkg1"), emptyList(), 1000L)
         coEvery { profileDao.insert(any()) } returns Unit
 
         repository.insert(profile)
@@ -73,4 +73,3 @@ class ProfilesRepositoryImplTest {
         coVerify { profileDao.deleteById(1) }
     }
 }
-

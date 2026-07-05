@@ -16,8 +16,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.howlindev.appblocker.permissions.presentation.PermissionsScreen
 import com.howlindev.appblocker.navigation.entry.EntryViewModel
+import com.howlindev.appblocker.permissions.presentation.PermissionsScreen
 import com.howlindev.appblocker.profiles.presentation.create.CreateProfileScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppListScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileWebsiteListScreen
@@ -132,4 +132,3 @@ fun MainNavHost(
         }
     }
 }
-

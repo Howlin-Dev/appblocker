@@ -9,4 +9,3 @@ class GetProfilesUseCase(
 ) {
     operator fun invoke(): Flow<List<Profile>> = profilesRepository.getAll()
 }
-

@@ -15,4 +15,3 @@ val coreModule = module {
     factory { ObserveActiveBlockUseCase(get()) }
     factory { ObserveRemainingTimeUseCase(get()) }
 }
-

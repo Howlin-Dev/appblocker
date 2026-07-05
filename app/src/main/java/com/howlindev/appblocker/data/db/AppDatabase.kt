@@ -9,4 +9,3 @@ import com.howlindev.appblocker.profiles.data.model.ProfileEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
 }
-

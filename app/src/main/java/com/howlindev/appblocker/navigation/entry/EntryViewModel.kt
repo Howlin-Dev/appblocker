@@ -27,4 +27,3 @@ class EntryViewModel(
 data class EntryState(
     val arePermissionsNeeded: Boolean? = null,
 )
-

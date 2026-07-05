@@ -116,7 +116,7 @@ private fun TimeItem(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(vertical = 8.dp, horizontal = 4.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = time.millisToTimeString(context)
@@ -143,4 +143,3 @@ private fun TimerPickerDialogPreview() {
 //        )
     }
 }
-

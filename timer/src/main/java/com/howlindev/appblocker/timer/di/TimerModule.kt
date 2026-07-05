@@ -31,4 +31,3 @@ val timerModule = module {
         )
     }
 }
-

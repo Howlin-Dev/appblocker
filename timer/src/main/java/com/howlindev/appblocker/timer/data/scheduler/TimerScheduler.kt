@@ -4,4 +4,3 @@ interface TimerScheduler {
     fun schedule(triggerAtMillis: Long)
     fun cancel()
 }
-

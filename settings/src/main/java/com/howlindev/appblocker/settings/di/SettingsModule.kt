@@ -23,4 +23,3 @@ val settingsModule = module {
     factory { SetAppLanguageUseCase(get()) }
     factory { SetDynamicColorUseCase(get()) }
 }
-

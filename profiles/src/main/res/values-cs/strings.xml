@@ -40,4 +40,14 @@
     <string name="profiles_timer_label">Časovač</string>
     <string name="profiles_no_timer">Bez časovače</string>
     <string name="profiles_content_description_lock">Zámek</string>
+
+    <string name="profiles_websites_section_label">Webové stránky profilu</string>
+    <string name="profiles_manage_website_list_button">Spravovat seznam webů</string>
+    <string name="profiles_no_websites_blocked">Žádné blokované webové stránky</string>
+    <string name="profiles_add_website_label">Přidat webovou stránku (např. youtube.com)</string>
+    <string name="profiles_content_description_add_website">Přidat webovou stránku</string>
+    <string name="profiles_content_description_remove_website">Odebrat navrhovaný web</string>
+
+    <string name="profiles_tab_apps">Aplikace</string>
+    <string name="profiles_tab_websites">Webové stránky</string>
 </resources>

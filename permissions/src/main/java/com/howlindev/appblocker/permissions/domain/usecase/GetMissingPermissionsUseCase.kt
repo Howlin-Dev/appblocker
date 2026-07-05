@@ -8,4 +8,3 @@ class GetMissingPermissionsUseCase(
 ) {
     operator fun invoke(): List<RequiredPermission> = repository.getMissingPermissions()
 }
-

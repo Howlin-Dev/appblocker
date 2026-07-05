@@ -58,8 +58,8 @@ class ProfileListViewModelTest {
     @Test
     fun `when profiles are fetched, state should contain them as inactive`() = runTest {
         val profiles = listOf(
-            ProfileUi(1, "Work", "Work profile", emptyList(), 3600L),
-            ProfileUi(2, "Study", "Study profile", emptyList(), null),
+            ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L),
+            ProfileUi(2, "Study", "Study profile", emptyList(), emptyList(), null),
         )
         every { getProfilesUiUseCase() } returns flowOf(profiles)
 
@@ -77,11 +77,11 @@ class ProfileListViewModelTest {
     @Test
     fun `when a profile is active, it should be in activeProfile state`() = runTest {
         val profiles = listOf(
-            ProfileUi(1, "Work", "Work profile", emptyList(), 3600L),
-            ProfileUi(2, "Study", "Study profile", emptyList(), null),
+            ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L),
+            ProfileUi(2, "Study", "Study profile", emptyList(), emptyList(), null),
         )
         every { getProfilesUiUseCase() } returns flowOf(profiles)
-        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), true))
+        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), true))
 
         viewModel = createViewModel()
         testDispatcher.scheduler.advanceUntilIdle()
@@ -97,7 +97,7 @@ class ProfileListViewModelTest {
 
     @Test
     fun `toggleProfileActivation should call activate when no active profile`() = runTest {
-        val profiles = listOf(ProfileUi(1, "Work", "Work profile", emptyList(), 3600L))
+        val profiles = listOf(ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L))
         every { getProfilesUiUseCase() } returns flowOf(profiles)
         coEvery { activateProfileUseCase(any()) } returns Unit
 
@@ -113,9 +113,9 @@ class ProfileListViewModelTest {
 
     @Test
     fun `toggleProfileActivation should call deactivate when toggling active profile`() = runTest {
-        val profiles = listOf(ProfileUi(1, "Work", "Work profile", emptyList(), 3600L))
+        val profiles = listOf(ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L))
         every { getProfilesUiUseCase() } returns flowOf(profiles)
-        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), true))
+        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), true))
         coEvery { deactivateProfileUseCase() } returns Unit
 
         viewModel = createViewModel()
@@ -137,4 +137,3 @@ class ProfileListViewModelTest {
         updateProfileUseCase,
     )
 }
-

@@ -68,4 +68,3 @@ data class ProfileDetailState(
     val profile: ProfileUi? = null,
     val isProfileDeleted: Boolean = false,
 )
-

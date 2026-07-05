@@ -51,4 +51,3 @@ class InstalledAppsRepositoryImpl(
         AppInfo(packageName, name, icon).also { cache.put(packageName, it) }
     }
 }
-

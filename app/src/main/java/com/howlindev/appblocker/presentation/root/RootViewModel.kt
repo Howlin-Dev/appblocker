@@ -34,4 +34,3 @@ class RootViewModel(
         }.launchIn(viewModelScope)
     }
 }
-

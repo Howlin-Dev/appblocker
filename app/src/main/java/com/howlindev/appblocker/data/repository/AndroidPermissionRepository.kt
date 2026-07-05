@@ -102,7 +102,8 @@ class AndroidPermissionRepository(
             context.contentResolver,
             "enabled_notification_listeners",
         )
-        val componentName = ComponentName(context, "com.howlindev.appblocker.platform.notification.BlockNotificationListenerService")
+        val componentName =
+            ComponentName(context, "com.howlindev.appblocker.platform.notification.BlockNotificationListenerService")
         return enabledListeners?.contains(componentName.flattenToString()) == true
     }
 
@@ -115,4 +116,3 @@ class AndroidPermissionRepository(
         }
     }
 }
-

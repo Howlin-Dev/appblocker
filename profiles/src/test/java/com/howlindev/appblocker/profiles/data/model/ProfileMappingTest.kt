@@ -13,6 +13,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             blockedAppsPackageNames = "pkg1,pkg2",
+            blockedWebsites = "site1,site2",
             durationMillis = 1000L,
         )
 
@@ -22,6 +23,7 @@ class ProfileMappingTest {
         assertEquals(entity.name, domain.name)
         assertEquals(entity.description, domain.description)
         assertEquals(listOf("pkg1", "pkg2"), domain.appPackages)
+        assertEquals(listOf("site1", "site2"), domain.blockedWebsites)
         assertEquals(entity.durationMillis, domain.durationMillis)
     }
 
@@ -32,6 +34,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             blockedAppsPackageNames = "",
+            blockedWebsites = "",
             durationMillis = null,
         )
 
@@ -47,6 +50,7 @@ class ProfileMappingTest {
             name = "Work",
             description = "Work desc",
             appPackages = listOf("pkg1", "pkg2"),
+            blockedWebsites = listOf("site1", "site2"),
             durationMillis = 1000L,
         )
 
@@ -56,7 +60,7 @@ class ProfileMappingTest {
         assertEquals(domain.name, entity.name)
         assertEquals(domain.description, entity.description)
         assertEquals("pkg1,pkg2", entity.blockedAppsPackageNames)
+        assertEquals("site1,site2", entity.blockedWebsites)
         assertEquals(domain.durationMillis, entity.durationMillis)
     }
 }
-

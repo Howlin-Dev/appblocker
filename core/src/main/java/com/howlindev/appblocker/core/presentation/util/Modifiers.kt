@@ -45,4 +45,3 @@ fun Modifier.shimmerEffect(): Modifier = composed {
         size = it.size
     }
 }
-

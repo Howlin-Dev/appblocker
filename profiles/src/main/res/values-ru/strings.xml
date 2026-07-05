@@ -40,4 +40,14 @@
     <string name="profiles_timer_label">Таймер</string>
     <string name="profiles_no_timer">Без таймера</string>
     <string name="profiles_content_description_lock">Замок</string>
+
+    <string name="profiles_websites_section_label">Веб-сайты профиля</string>
+    <string name="profiles_manage_website_list_button">Управление списком веб-сайтов</string>
+    <string name="profiles_no_websites_blocked">Нет заблокированных веб-сайтов</string>
+    <string name="profiles_add_website_label">Добавить веб-сайт (напр. youtube.com)</string>
+    <string name="profiles_content_description_add_website">Добавить веб-сайт</string>
+    <string name="profiles_content_description_remove_website">Удалить предложенный веб-сайт</string>
+
+    <string name="profiles_tab_apps">Приложения</string>
+    <string name="profiles_tab_websites">Веб-сайты</string>
 </resources>

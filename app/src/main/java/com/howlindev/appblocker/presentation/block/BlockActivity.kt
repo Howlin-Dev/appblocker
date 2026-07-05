@@ -57,4 +57,3 @@ class BlockActivity : AppCompatActivity() {
         const val EXTRA_WEBSITE_URL = "extra_website_url"
     }
 }
-

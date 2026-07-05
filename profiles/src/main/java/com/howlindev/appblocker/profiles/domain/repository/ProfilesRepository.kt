@@ -10,4 +10,3 @@ interface ProfilesRepository {
     suspend fun update(profile: Profile)
     suspend fun delete(profileId: Long)
 }
-

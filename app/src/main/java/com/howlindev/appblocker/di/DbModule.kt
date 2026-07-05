@@ -18,4 +18,3 @@ val dbModule = module {
 
     single { get<AppDatabase>().profileDao() }
 }
-

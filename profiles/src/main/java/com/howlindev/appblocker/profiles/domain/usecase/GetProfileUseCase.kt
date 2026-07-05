@@ -8,4 +8,3 @@ class GetProfileUseCase(
 ) {
     suspend operator fun invoke(id: Long): Profile = profilesRepository.getById(id)
 }
-

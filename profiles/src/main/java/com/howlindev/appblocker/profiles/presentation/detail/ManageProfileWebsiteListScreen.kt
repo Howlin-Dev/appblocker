@@ -74,7 +74,7 @@ private fun ManageProfileWebsiteListScreenContent(
 ) {
     AppScaffold(
         modifier = modifier,
-        title = "Manage Website List",
+        title = stringResource(R.string.profiles_manage_website_list_button),
         navigationIconImageVector = Icons.Default.Close,
         onBackClick = { onAction(ManageProfileWebsiteListAction.BackClick) },
         actions = {

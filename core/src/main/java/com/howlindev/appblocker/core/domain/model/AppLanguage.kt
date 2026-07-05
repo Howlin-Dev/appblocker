@@ -12,4 +12,3 @@ AppLanguage(
     CZECH("cs", "Český"),
     RUSSIAN("ru", "Русский"),
 }
-
