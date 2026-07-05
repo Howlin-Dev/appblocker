@@ -8,7 +8,6 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -21,6 +20,7 @@ import com.howlindev.appblocker.permissions.presentation.PermissionsScreen
 import com.howlindev.appblocker.navigation.entry.EntryViewModel
 import com.howlindev.appblocker.profiles.presentation.create.CreateProfileScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppListScreen
+import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileWebsiteListScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.howlindev.appblocker.profiles.presentation.list.ProfileListScreen
 import com.howlindev.appblocker.settings.presentation.language.LanguageScreen
@@ -76,12 +76,20 @@ fun MainNavHost(
             ProfileDetailScreen(
                 profileId = destination.profileId,
                 onBackClick = { navController.popBackStackSafe() },
-                onManageListClick = { navController.navigateSafe(ManageProfileAppListDestination(it)) },
+                onManageAppListClick = { navController.navigateSafe(ManageProfileAppListDestination(it)) },
+                onManageWebsiteListClick = { navController.navigateSafe(ManageProfileWebsiteListDestination(it)) },
             )
         }
         composable<ManageProfileAppListDestination> {
             val destination = it.toRoute<ManageProfileAppListDestination>()
             ManageProfileAppListScreen(
+                profileId = destination.profileId,
+                onBackClick = { navController.popBackStackSafe() },
+            )
+        }
+        composable<ManageProfileWebsiteListDestination> {
+            val destination = it.toRoute<ManageProfileWebsiteListDestination>()
+            ManageProfileWebsiteListScreen(
                 profileId = destination.profileId,
                 onBackClick = { navController.popBackStackSafe() },
             )

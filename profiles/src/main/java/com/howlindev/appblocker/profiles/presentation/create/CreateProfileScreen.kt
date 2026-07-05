@@ -1,27 +1,15 @@
 package com.howlindev.appblocker.profiles.presentation.create
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -32,11 +20,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,6 +30,7 @@ import com.howlindev.appblocker.core.domain.model.AppInfo
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.profiles.R
 import com.howlindev.appblocker.profiles.presentation.common.InstalledAppGrid
+import com.howlindev.appblocker.profiles.presentation.common.WebsiteSelectionList
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -215,84 +200,15 @@ private fun CreateProfileScreenContent(
                     }
 
                     1 -> {
-                        WebsitesPage(
+                        WebsiteSelectionList(
                             suggestedWebsites = suggestedWebsites,
                             selectedWebsites = selectedWebsites,
-                            onAction = onAction,
+                            onWebsiteSelected = { onAction(CreateProfileAction.WebsiteSelected(it)) },
+                            onCustomWebsiteAdded = { onAction(CreateProfileAction.CustomWebsiteAdded(it)) },
+                            onWebsiteRemoved = { onAction(CreateProfileAction.WebsiteRemoved(it)) },
                         )
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-private fun WebsitesPage(
-    suggestedWebsites: List<String>,
-    selectedWebsites: Set<String>,
-    onAction: (CreateProfileAction) -> Unit,
-) {
-    var websiteInput by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 24.dp, end = 24.dp, top = 0.dp, bottom = 0.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            OutlinedTextField(
-                modifier = Modifier.weight(1f),
-                value = websiteInput,
-                onValueChange = { websiteInput = it },
-                label = { Text("Add Website (e.g. example.com)") },
-                singleLine = true,
-            )
-            IconButton(
-                onClick = {
-                    if (websiteInput.isNotBlank()) {
-                        onAction(CreateProfileAction.CustomWebsiteAdded(websiteInput.trim()))
-                        websiteInput = ""
-                    }
-                },
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Website")
-            }
-        }
-
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(suggestedWebsites) { website ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onAction(CreateProfileAction.WebsiteSelected(website)) },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Checkbox(
-                            checked = selectedWebsites.contains(website),
-                            onCheckedChange = { onAction(CreateProfileAction.WebsiteSelected(website)) }
-                        )
-                        Text(text = website, modifier = Modifier.padding(start = 8.dp))
-                    }
-                    
-                    IconButton(onClick = { onAction(CreateProfileAction.WebsiteRemoved(website)) }) {
-                        Icon(Icons.Default.Delete, contentDescription = "Remove Suggested Website")
-                    }
-                }
-                HorizontalDivider()
             }
         }
     }

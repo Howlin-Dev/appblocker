@@ -50,7 +50,8 @@ import org.koin.androidx.compose.koinViewModel
 fun ProfileDetailScreen(
     profileId: Long,
     onBackClick: () -> Unit,
-    onManageListClick: (Long) -> Unit,
+    onManageAppListClick: (Long) -> Unit,
+    onManageWebsiteListClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileDetailViewModel = koinViewModel(),
 ) {
@@ -63,7 +64,8 @@ fun ProfileDetailScreen(
             when (action) {
                 ProfileDetailAction.BackClick -> onBackClick()
                 ProfileDetailAction.DeleteProfile -> viewModel.deleteProfile()
-                ProfileDetailAction.ManageListClick -> onManageListClick(profileId)
+                ProfileDetailAction.ManageAppListClick -> onManageAppListClick(profileId)
+                ProfileDetailAction.ManageWebsiteListClick -> onManageWebsiteListClick(profileId)
                 is ProfileDetailAction.ProfileNameChanged -> viewModel.updateProfileName(action.name)
             }
         },
@@ -229,7 +231,7 @@ private fun ProfileAppListSection(
                 appList = appList,
             )
             TextButton(
-                onClick = { onAction(ProfileDetailAction.ManageListClick) },
+                onClick = { onAction(ProfileDetailAction.ManageAppListClick) },
             ) {
                 Text(stringResource(R.string.profiles_manage_app_list_button))
                 Spacer(modifier = Modifier.width(8.dp))
@@ -287,7 +289,7 @@ private fun ProfileWebsiteListSection(
             }
             
             TextButton(
-                onClick = { onAction(ProfileDetailAction.ManageListClick) },
+                onClick = { onAction(ProfileDetailAction.ManageWebsiteListClick) },
             ) {
                 Text("Manage Website List")
                 Spacer(modifier = Modifier.width(8.dp))

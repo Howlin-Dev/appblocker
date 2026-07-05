@@ -17,6 +17,7 @@ import com.howlindev.appblocker.profiles.domain.usecase.RemoveSuggestedWebsiteUs
 import com.howlindev.appblocker.profiles.domain.usecase.UpdateProfileUseCase
 import com.howlindev.appblocker.profiles.presentation.create.CreateProfileViewModel
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppListViewModel
+import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileWebsiteListViewModel
 import com.howlindev.appblocker.profiles.presentation.detail.ProfileDetailViewModel
 import com.howlindev.appblocker.profiles.presentation.list.ProfileListViewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -29,6 +30,7 @@ val profilesModule = module {
     viewModelOf(::CreateProfileViewModel)
     viewModelOf(::ProfileDetailViewModel)
     viewModelOf(::ManageProfileAppListViewModel)
+    viewModelOf(::ManageProfileWebsiteListViewModel)
 
     factory { GetProfilesUseCase(get()) }
     factory { GetProfilesUiUseCase(get(), get()) }

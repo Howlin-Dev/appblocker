@@ -22,6 +22,11 @@ data class ManageProfileAppListDestination(
 )
 
 @Serializable
+data class ManageProfileWebsiteListDestination(
+    val profileId: Long,
+)
+
+@Serializable
 object SettingsDestination
 
 @Serializable
