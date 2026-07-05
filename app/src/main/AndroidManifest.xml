@@ -74,6 +74,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -98,6 +99,7 @@
             android:taskAffinity=""
             android:showWhenLocked="true"
             android:turnScreenOn="true"
+            android:screenOrientation="fullSensor"
             android:exported="true"
             tools:targetApi="27" />
     </application>

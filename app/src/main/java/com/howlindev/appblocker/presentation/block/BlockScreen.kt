@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
@@ -45,8 +46,6 @@ fun BlockScreen(
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
-    // Remember if this session was timed, to avoid missing the finish event
-    // when activeBlock becomes null at the same time the timer reaches zero.
     var wasTimed by remember { mutableStateOf(false) }
     if (state.activeBlock?.isTimed == true) {
         wasTimed = true
@@ -61,6 +60,7 @@ fun BlockScreen(
         modifier = modifier,
         isTimed = state.activeBlock?.isTimed ?: wasTimed,
         blockedApp = state.blockedApp,
+        blockedWebsite = state.blockedWebsite,
         onAction = { action ->
             when (action) {
                 BlockAction.OnClose -> onClose()
@@ -81,44 +81,33 @@ private fun BlockScreenContent(
     formattedTimeRemaining: String,
     isTimed: Boolean,
     blockedApp: AppInfo?,
+    blockedWebsite: String?,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        blockedApp?.let { app ->
-            Box(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .size(80.dp),
-            ) {
-                Image(
-                    modifier = Modifier.fillMaxSize().padding(4.dp),
-                    painter = rememberDrawablePainter(app.icon),
-                    contentDescription = null,
-                )
-                Icon(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.BottomEnd)
-                        .background(
-                            color = MaterialTheme.colorScheme.inverseSurface,
-                            shape = CircleShape,
-                        )
-                        .padding(4.dp),
-                    painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
-                    tint = MaterialTheme.colorScheme.inverseOnSurface,
-                    contentDescription = stringResource(com.howlindev.appblocker.core.R.string.lock_icon_content_description),
-                )
-            }
+        if (blockedWebsite != null) {
+            WebsiteBlockHeader()
+        } else {
+            AppBlockHeader(blockedApp)
         }
+
+        val message = if (blockedWebsite != null) {
+            "The webpage $blockedWebsite was blocked because it's in your block list"
+        } else {
+            stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty())
+        }
+
         Text(
             modifier = Modifier.padding(16.dp),
-            text = stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty()),
+            text = message,
             style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center,
         )
+
         if (isTimed) {
             Text(
                 text = stringResource(R.string.block_screen_time_left_label),
@@ -140,13 +129,75 @@ private fun BlockScreenContent(
 }
 
 @Composable
-@Preview
-fun BlockScreenPreview() {
-    Surface {
-        BlockScreen(
-            onClose = { },
-            onTimerRunsOut = { },
+private fun WebsiteBlockHeader() {
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(80.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_globe),
+            contentDescription = null,
+            modifier = Modifier.size(64.dp),
+            tint = MaterialTheme.colorScheme.primary
+        )
+        Icon(
+            modifier = Modifier
+                .size(32.dp)
+                .align(Alignment.BottomEnd)
+                .background(
+                    color = MaterialTheme.colorScheme.inverseSurface,
+                    shape = CircleShape,
+                )
+                .padding(4.dp),
+            painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
+            tint = MaterialTheme.colorScheme.inverseOnSurface,
+            contentDescription = null,
         )
     }
 }
 
+@Composable
+private fun AppBlockHeader(blockedApp: AppInfo?) {
+    blockedApp?.let { app ->
+        Box(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(80.dp),
+        ) {
+            Image(
+                modifier = Modifier.fillMaxSize().padding(4.dp),
+                painter = rememberDrawablePainter(app.icon),
+                contentDescription = null,
+            )
+            Icon(
+                modifier = Modifier
+                    .size(32.dp)
+                    .align(Alignment.BottomEnd)
+                    .background(
+                        color = MaterialTheme.colorScheme.inverseSurface,
+                        shape = CircleShape,
+                    )
+                    .padding(4.dp),
+                painter = painterResource(com.howlindev.appblocker.core.R.drawable.baseline_lock),
+                tint = MaterialTheme.colorScheme.inverseOnSurface,
+                contentDescription = stringResource(com.howlindev.appblocker.core.R.string.lock_icon_content_description),
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+fun BlockScreenPreview() {
+    Surface {
+        BlockScreenContent(
+            onAction = {},
+            formattedTimeRemaining = "00:05",
+            isTimed = true,
+            blockedApp = null,
+            blockedWebsite = "facebook.com"
+        )
+    }
+}

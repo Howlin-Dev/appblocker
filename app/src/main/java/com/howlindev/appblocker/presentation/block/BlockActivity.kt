@@ -38,6 +38,10 @@ class BlockActivity : AppCompatActivity() {
         if (packageName != null) {
             viewModel.updateBlockedPackage(packageName)
         }
+        val websiteUrl = intent.getStringExtra(EXTRA_WEBSITE_URL)
+        if (websiteUrl != null) {
+            viewModel.updateBlockedWebsite(websiteUrl)
+        }
     }
 
     private fun goToHomeScreen() {
@@ -50,6 +54,7 @@ class BlockActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PACKAGE_NAME = "extra_package_name"
+        const val EXTRA_WEBSITE_URL = "extra_website_url"
     }
 }
 

@@ -108,7 +108,7 @@ class BlockAccessibilityService : AccessibilityService() {
                 serviceScope.launch {
                     BlockNavigator.navigateBrowserAway(this@BlockAccessibilityService, browserPackage)
                     kotlinx.coroutines.delay(300)
-                    BlockNavigator.launchBlockScreen(this@BlockAccessibilityService, browserPackage)
+                    BlockNavigator.launchBlockScreen(this@BlockAccessibilityService, browserPackage, url)
                 }
             } else if (lastBlockedUrl != null && !url.contains(lastBlockedUrl!!)) {
                 lastBlockedUrl = null

@@ -45,10 +45,20 @@ class BlockViewModel(
                 pkg?.let { loadBlockedAppInfo(it) }
             }
             .launchIn(viewModelScope)
+
+        savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_WEBSITE_URL, null)
+            .onEach { url ->
+                _state.update { it.copy(blockedWebsite = url) }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun updateBlockedPackage(packageName: String) {
         savedStateHandle[BlockActivity.EXTRA_PACKAGE_NAME] = packageName
+    }
+
+    fun updateBlockedWebsite(websiteUrl: String) {
+        savedStateHandle[BlockActivity.EXTRA_WEBSITE_URL] = websiteUrl
     }
 
     private fun loadBlockedAppInfo(packageName: String) {
@@ -72,5 +82,5 @@ class BlockViewModel(
 data class BlockState(
     val activeBlock: ActiveBlock? = null,
     val blockedApp: AppInfo? = null,
+    val blockedWebsite: String? = null,
 )
-
