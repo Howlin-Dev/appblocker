@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -124,12 +125,12 @@ private fun ProfileDetailScreenContent(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ProfileNameSection(
                 name = profile?.name.orEmpty(),
                 onRenameClick = { renameDialogShown.value = true },
             )
+            Spacer(modifier = Modifier.size(24.dp))
             ProfileAppListSection(
                 appList = profile?.blockedApps.orEmpty(),
                 onAction = onAction,
@@ -286,7 +287,7 @@ private fun ProfileWebsiteListSection(
                     FlowRow(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
                         websites.forEach { website ->
                             Surface(

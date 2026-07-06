@@ -80,7 +80,6 @@ private fun ManageProfileWebsiteListScreenContent(
         actions = {
             TextButton(
                 onClick = { onAction(ManageProfileWebsiteListAction.ApplyClick) },
-                enabled = selectedWebsites.isNotEmpty(),
             ) {
                 Text(stringResource(R.string.profiles_button_apply))
             }
