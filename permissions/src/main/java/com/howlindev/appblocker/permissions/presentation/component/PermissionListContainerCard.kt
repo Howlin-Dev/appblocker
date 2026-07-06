@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -32,32 +30,36 @@ import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 
 @Composable
 fun PermissionListContainerCard(
-    modifier: Modifier = Modifier,
     missingPermissions: List<RequiredPermission>,
+    onShowInfoClick: (RequiredPermission) -> Unit,
+    onGrantClick: (RequiredPermission) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors().copy(
             containerColor = MaterialTheme.colorScheme.error,
-            contentColor = MaterialTheme.colorScheme.onError
+            contentColor = MaterialTheme.colorScheme.onError,
         ),
     ) {
         Column(modifier = Modifier.padding(4.dp)) {
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
+                style = MaterialTheme.typography.labelMedium,
                 text = stringResource(R.string.permissions_screen_description),
             )
-            Spacer(modifier = Modifier.size(12.dp))
+            Spacer(modifier = Modifier.size(8.dp))
             Surface(shape = RoundedCornerShape(8.dp)) {
-                LazyColumn {
-                    itemsIndexed(items = missingPermissions) { idx, item ->
+                Column {
+                    missingPermissions.forEachIndexed { idx, permission ->
                         PermissionListContainerItem(
-                            title = stringResource(item.titleRes),
-                            onShowInfoClick = {},
-                            onGrantClick = {},
+                            title = stringResource(permission.titleRes),
+                            onShowInfoClick = { onShowInfoClick(permission) },
+                            onGrantClick = { onGrantClick(permission) },
                         )
-                        if (idx < missingPermissions.size - 1)
+                        if (idx < missingPermissions.size - 1) {
                             HorizontalDivider()
+                        }
                     }
                 }
             }
@@ -72,36 +74,35 @@ private fun PermissionListContainerItem(
     onShowInfoClick: () -> Unit,
     onGrantClick: () -> Unit,
 ) {
-    Surface() {
-        Row(
-            modifier = modifier.padding(horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+    Row(
+        modifier = modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .weight(1f),
+            text = title,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        IconButton(
+            onClick = onShowInfoClick,
         ) {
-            Text(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-                    .weight(1f),
-                text = title,
-                maxLines = 2,
+            Icon(
+                painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_info),
+                contentDescription = null,
             )
-            IconButton(
-                onClick = onShowInfoClick,
-            ) {
-                Icon(
-                    painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_info),
-                    contentDescription = null,
-                )
-            }
-            Button(
-                onClick = onGrantClick,
-                colors = ButtonDefaults.buttonColors().copy(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                )
-            ) {
-                Text(stringResource(R.string.permission_grant_button))
-            }
+        }
+        Button(
+            onClick = onGrantClick,
+            colors = ButtonDefaults.buttonColors().copy(
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError,
+            ),
+            shape = RoundedCornerShape(8.dp),
+        ) {
+            Text(stringResource(R.string.permission_grant_button))
         }
     }
 }
@@ -114,5 +115,7 @@ private fun PermissionListContainerItemPreview() {
             RequiredPermission.Overlay,
             RequiredPermission.UsageAccess,
         ),
+        onShowInfoClick = {},
+        onGrantClick = {},
     )
 }

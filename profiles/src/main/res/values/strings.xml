@@ -37,6 +37,7 @@
     <string name="profiles_active_for">Active for:</string>
     <string name="profiles_unblock_button">Unblock</string>
     <string name="profiles_blocked_apps_label">Currently blocked apps:</string>
+    <string name="profiles_blocked_websites_label">Currently blocked websites:</string>
 
     <string name="profiles_timer_label">Timer</string>
     <string name="profiles_no_timer">No Timer</string>

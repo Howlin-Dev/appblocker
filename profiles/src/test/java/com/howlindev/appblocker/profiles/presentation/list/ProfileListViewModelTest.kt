@@ -4,6 +4,8 @@ import app.cash.turbine.test
 import com.howlindev.appblocker.core.domain.model.ActiveBlock
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
+import com.howlindev.appblocker.permissions.domain.usecase.GetMissingPermissionsUseCase
+import com.howlindev.appblocker.permissions.domain.usecase.RequestPermissionUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.GetProfilesUiUseCase
@@ -38,6 +40,8 @@ class ProfileListViewModelTest {
     private val activateProfileUseCase = mockk<ActivateProfileUseCase>()
     private val deactivateProfileUseCase = mockk<DeactivateProfileUseCase>()
     private val updateProfileUseCase = mockk<UpdateProfileUseCase>()
+    private val getMissingPermissionsUseCase = mockk<GetMissingPermissionsUseCase>()
+    private val requestPermissionUseCase = mockk<RequestPermissionUseCase>()
 
     private lateinit var viewModel: ProfileListViewModel
 
@@ -48,6 +52,7 @@ class ProfileListViewModelTest {
         every { observeRemainingTimeUseCase() } returns flowOf(0L)
         every { getProfilesUiUseCase() } returns flowOf(emptyList())
         every { observeActiveBlockUseCase() } returns flowOf(null)
+        every { getMissingPermissionsUseCase() } returns emptyList()
     }
 
     @After
@@ -135,5 +140,7 @@ class ProfileListViewModelTest {
         activateProfileUseCase,
         deactivateProfileUseCase,
         updateProfileUseCase,
+        getMissingPermissionsUseCase,
+        requestPermissionUseCase,
     )
 }

@@ -36,6 +36,7 @@
     <string name="profiles_active_for">Aktivní po dobu:</string>
     <string name="profiles_unblock_button">Odblokovat</string>
     <string name="profiles_blocked_apps_label">Aktuálně zablokované aplikace:</string>
+    <string name="profiles_blocked_websites_label">Aktuálně zablokované webové stránky:</string>
 
     <string name="profiles_timer_label">Časovač</string>
     <string name="profiles_no_timer">Bez časovače</string>

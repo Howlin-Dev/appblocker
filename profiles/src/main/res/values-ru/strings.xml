@@ -36,6 +36,7 @@
     <string name="profiles_active_for">Активен:</string>
     <string name="profiles_unblock_button">Разблокировать</string>
     <string name="profiles_blocked_apps_label">Заблокированные приложения:</string>
+    <string name="profiles_blocked_websites_label">Заблокированные веб-сайты:</string>
 
     <string name="profiles_timer_label">Таймер</string>
     <string name="profiles_no_timer">Без таймера</string>

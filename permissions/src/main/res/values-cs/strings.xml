@@ -24,6 +24,7 @@
     <string name="permissions_screen_title">Vyžadovaná oprávnění</string>
     <string name="permissions_screen_description">Některá oprávnění jsou nezbytná pro správné fungování aplikace. Udělte je prosím níže.</string>
     <string name="permission_grant_button">Udělit</string>
+    <string name="permission_dismiss_button">Zavřít</string>
 
     <string name="permission_post_notifications_title">Oprávnění k oznámení</string>
     <string name="permission_post_notifications_subtitle">Povolit aplikaci zobrazovat trvalé oznámení se stavem aktivního profilu a zbývajícím časem.</string>

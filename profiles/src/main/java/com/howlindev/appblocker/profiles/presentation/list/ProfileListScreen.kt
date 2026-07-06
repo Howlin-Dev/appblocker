@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,16 +25,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.howlindev.appblocker.core.presentation.component.ConfirmDialog
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.core.util.millisToTimeString
 import com.howlindev.appblocker.core.util.millisToTimerString
+import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
+import com.howlindev.appblocker.permissions.presentation.component.PermissionListContainerCard
 import com.howlindev.appblocker.profiles.R
 import com.howlindev.appblocker.profiles.presentation.list.component.ActiveProfileListItem
 import com.howlindev.appblocker.profiles.presentation.list.component.ProfileListItem
 import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
 import org.koin.androidx.compose.koinViewModel
+import com.howlindev.appblocker.permissions.R as PermissionR
 
 @Composable
 fun ProfileListScreen(
@@ -46,16 +53,25 @@ fun ProfileListScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val remainingMillis by viewModel.remainingTime.collectAsState()
     val pendingProfileForActivation = remember { mutableStateOf<ProfileUi?>(null) }
+    val infoPermission = remember { mutableStateOf<RequiredPermission?>(null) }
 
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val formattedTime = remember(remainingMillis, context) {
         remainingMillis.millisToTimerString(context)
+    }
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewModel.checkPermissions()
+        }
     }
 
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
         inactiveProfiles = state.inactiveProfiles,
         activeProfile = state.activeProfile,
+        missingPermissions = state.missingPermissions,
         formattedTimeRemaining = formattedTime,
         onAction = { action ->
             when (action) {
@@ -74,9 +90,29 @@ fun ProfileListScreen(
                     action.profileUi,
                     action.newTime,
                 )
+
+                is ProfileListAction.GrantPermission -> viewModel.requestPermission(action.permission)
+                is ProfileListAction.ShowPermissionInfo -> {
+                    infoPermission.value = action.permission
+                }
             }
         },
     )
+
+    if (infoPermission.value != null) {
+        val permission = infoPermission.value!!
+        ConfirmDialog(
+            onConfirm = {
+                viewModel.requestPermission(permission)
+                infoPermission.value = null
+            },
+            onCancel = { infoPermission.value = null },
+            title = stringResource(permission.titleRes),
+            text = stringResource(permission.subtitleRes),
+            confirmButtonText = stringResource(PermissionR.string.permission_grant_button),
+            cancelButtonText = stringResource(PermissionR.string.permission_dismiss_button),
+        )
+    }
 
     if (pendingProfileForActivation.value != null) {
         val profile = pendingProfileForActivation.value
@@ -101,6 +137,7 @@ fun ProfileListScreen(
 internal fun ProfileListScreenContent(
     inactiveProfiles: List<ProfileUi>,
     activeProfile: ProfileUi?,
+    missingPermissions: List<RequiredPermission>,
     formattedTimeRemaining: String,
     onAction: (ProfileListAction) -> Unit,
     modifier: Modifier = Modifier,
@@ -135,6 +172,17 @@ internal fun ProfileListScreenContent(
             contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            if (missingPermissions.isNotEmpty()) {
+                item {
+                    PermissionListContainerCard(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        missingPermissions = missingPermissions,
+                        onShowInfoClick = { onAction(ProfileListAction.ShowPermissionInfo(it)) },
+                        onGrantClick = { onAction(ProfileListAction.GrantPermission(it)) },
+                    )
+                }
+            }
+
             activeProfile?.let { activeProfile ->
                 item {
                     ActiveProfileListItem(
@@ -183,6 +231,7 @@ private fun ProfileListScreenPreview() {
             onAction = {},
             activeProfile = null,
             formattedTimeRemaining = "",
+            missingPermissions = emptyList(),
         )
     }
 }

@@ -1,6 +1,8 @@
 package com.howlindev.appblocker.profiles.presentation.list.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -59,14 +61,43 @@ fun ActiveProfileListItem(
                 style = MaterialTheme.typography.displayLarge,
             )
         }
-        Text(
-            modifier = Modifier.padding(8.dp),
-            text = stringResource(R.string.profiles_blocked_apps_label),
-            style = MaterialTheme.typography.labelMedium,
-        )
-        ProfileAppIconGrid(
-            appList = profile.blockedApps,
-        )
+        if (profile.blockedApps.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = stringResource(R.string.profiles_blocked_apps_label),
+                style = MaterialTheme.typography.labelMedium,
+            )
+            ProfileAppIconGrid(
+                appList = profile.blockedApps,
+            )
+        }
+
+        if (profile.blockedWebsites.isNotEmpty()) {
+            Text(
+                modifier = Modifier.padding(8.dp),
+                text = stringResource(R.string.profiles_blocked_websites_label),
+                style = MaterialTheme.typography.labelMedium,
+            )
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                profile.blockedWebsites.forEach { website ->
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+                            text = website,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
+                    }
+                }
+            }
+        }
         Spacer(modifier = Modifier.padding(8.dp))
     }
 }

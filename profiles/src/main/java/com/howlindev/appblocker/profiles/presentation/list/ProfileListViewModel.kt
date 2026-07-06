@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
+import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
+import com.howlindev.appblocker.permissions.domain.usecase.GetMissingPermissionsUseCase
+import com.howlindev.appblocker.permissions.domain.usecase.RequestPermissionUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.DeactivateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.GetProfilesUiUseCase
@@ -14,11 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,6 +29,8 @@ class ProfileListViewModel(
     private val activateProfileUseCase: ActivateProfileUseCase,
     private val deactivateProfileUseCase: DeactivateProfileUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
+    private val getMissingPermissionsUseCase: GetMissingPermissionsUseCase,
+    private val requestPermissionUseCase: RequestPermissionUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ProfilesListState())
@@ -47,41 +48,43 @@ class ProfileListViewModel(
         observeState()
     }
 
-    private fun observeState() {
-        combine(
-            getProfilesUiUseCase(),
-            observeActiveBlockUseCase(),
-        ) { profilesUi, activeBlock ->
-
-            val activeProfile = profilesUi.find {
-                it.id == activeBlock?.profileId
-            }
-
-            val inactiveProfiles = profilesUi.filter {
-                it.id != activeBlock?.profileId
-            }
-
-            ProfilesListState(
-                isLoading = false,
-                activeProfile = activeProfile,
-                inactiveProfiles = inactiveProfiles,
-            )
+    fun checkPermissions() {
+        viewModelScope.launch {
+            _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
+            // Some permissions (like Accessibility) have latency when being enabled in settings.
+            // Check again after a short delay to ensure state is synchronized.
+            kotlinx.coroutines.delay(500)
+            _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
         }
-            .onStart {
-                _state.update { it.copy(isLoading = true) }
-            }
-            .catch {
-                _state.update { it.copy(isLoading = false) }
-            }
-            .onEach { newState ->
-                _state.value = newState
-            }
-            .launchIn(viewModelScope)
+    }
+
+    fun requestPermission(permission: RequiredPermission) {
+        requestPermissionUseCase(permission)
+    }
+
+    private fun observeState() {
+        viewModelScope.launch {
+            combine(
+                getProfilesUiUseCase(),
+                observeActiveBlockUseCase(),
+            ) { profilesUi, activeBlock ->
+                val activeProfile = profilesUi.find { it.id == activeBlock?.profileId }
+                val inactiveProfiles = profilesUi.filter { it.id != activeBlock?.profileId }
+
+                _state.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        inactiveProfiles = inactiveProfiles,
+                        activeProfile = activeProfile,
+                    )
+                }
+            }.collect {}
+        }
     }
 
     fun toggleProfileActivation(profile: ProfileUi) {
         viewModelScope.launch {
-            if (_state.value.activeProfile?.id == profile.id) {
+            if (state.value.activeProfile?.id == profile.id) {
                 deactivateProfileUseCase()
             } else {
                 activateProfileUseCase(profile.toDomain())
@@ -98,7 +101,6 @@ class ProfileListViewModel(
             _state.update { it.copy(isLoading = true) }
             runCatching {
                 updateProfileUseCase(profile.toDomain())
-//                _state.update { it.copy(isLoading = false, profiles = _state.value.profiles.) }
             }.onFailure {
                 _state.update { it.copy(isLoading = false) }
             }
@@ -110,4 +112,5 @@ data class ProfilesListState(
     val isLoading: Boolean = false,
     val inactiveProfiles: List<ProfileUi> = emptyList(),
     val activeProfile: ProfileUi? = null,
+    val missingPermissions: List<RequiredPermission> = emptyList(),
 )

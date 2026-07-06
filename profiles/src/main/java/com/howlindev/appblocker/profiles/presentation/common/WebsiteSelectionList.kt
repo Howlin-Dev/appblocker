@@ -67,7 +67,10 @@ fun WebsiteSelectionList(
                     }
                 },
             ) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.profiles_content_description_add_website))
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.profiles_content_description_add_website),
+                )
             }
         }
 
@@ -95,7 +98,10 @@ fun WebsiteSelectionList(
                     }
 
                     IconButton(onClick = { onWebsiteRemoved(website) }) {
-                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.profiles_content_description_remove_website))
+                        Icon(
+                            Icons.Default.Close,
+                            contentDescription = stringResource(R.string.profiles_content_description_remove_website),
+                        )
                     }
                 }
                 HorizontalDivider()

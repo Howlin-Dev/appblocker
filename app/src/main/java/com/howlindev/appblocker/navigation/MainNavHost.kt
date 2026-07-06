@@ -6,11 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,11 +29,6 @@ fun MainNavHost(
     navController: NavHostController = rememberNavController(),
     viewModel: EntryViewModel = koinViewModel(),
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val arePermissionsNeeded = state.arePermissionsNeeded
-
-    // Use a fixed start destination to ensure stable state restoration.
-    // If permissions are needed, the LaunchedEffect will handle navigation immediately.
     val startDestination = ProfileListDestination
 
     NavHost(
@@ -97,11 +88,9 @@ fun MainNavHost(
         composable<PermissionsDestination> {
             PermissionsScreen(
                 onAllPermissionsGranted = {
-//                    if (navController.currentBackStackEntry?.lifecycle?.currentState == androidx.lifecycle.Lifecycle.State.RESUMED) {
                     navController.navigate(ProfileListDestination) {
                         popUpTo(PermissionsDestination) { inclusive = true }
                     }
-//                    }
                 },
             )
         }
@@ -115,20 +104,6 @@ fun MainNavHost(
             LanguageScreen(
                 onBackClick = { navController.popBackStackSafe() },
             )
-        }
-    }
-
-    LaunchedEffect(arePermissionsNeeded) {
-        if (arePermissionsNeeded == true) {
-            val currentBackStackEntry = navController.currentBackStackEntry
-            val isAlreadyOnPermissions = currentBackStackEntry?.destination?.hasRoute<PermissionsDestination>() == true
-
-            if (currentBackStackEntry != null && !isAlreadyOnPermissions) {
-                navController.navigate(PermissionsDestination) {
-                    popUpTo(ProfileListDestination) { inclusive = true }
-                    launchSingleTop = true
-                }
-            }
         }
     }
 }
