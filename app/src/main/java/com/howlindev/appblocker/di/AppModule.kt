@@ -3,7 +3,6 @@ package com.howlindev.appblocker.di
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
 import com.howlindev.appblocker.data.repository.AndroidPermissionRepository
 import com.howlindev.appblocker.data.repository.InstalledAppsRepositoryImpl
-import com.howlindev.appblocker.navigation.entry.EntryViewModel
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
 import com.howlindev.appblocker.permissions.platform.PermissionNavigator
 import com.howlindev.appblocker.permissions.platform.requester.PermissionRequester
@@ -26,7 +25,6 @@ val appModule = module {
     single { BlockNotificationManager(androidContext(), get()) }
 
     viewModelOf(::RootViewModel)
-    viewModelOf(::EntryViewModel)
     viewModelOf(::BlockViewModel)
 
     factory { KoinWorkerFactory() }

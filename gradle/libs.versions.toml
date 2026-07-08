@@ -27,7 +27,7 @@ kotlinxCoroutinesTest = "1.10.1"
 androidxCoreTesting = "2.2.0"
 detekt = "1.23.8"
 splashscreen = "1.0.1"
-googleServices = "4.3.15"
+googleServices = "4.5.0"
 firebaseCrashlytics = "3.0.7"
 
 [libraries]

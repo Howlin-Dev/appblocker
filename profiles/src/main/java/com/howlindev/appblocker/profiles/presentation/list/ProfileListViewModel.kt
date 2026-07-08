@@ -51,8 +51,6 @@ class ProfileListViewModel(
     fun checkPermissions() {
         viewModelScope.launch {
             _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
-            // Some permissions (like Accessibility) have latency when being enabled in settings.
-            // Check again after a short delay to ensure state is synchronized.
             kotlinx.coroutines.delay(500)
             _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
         }

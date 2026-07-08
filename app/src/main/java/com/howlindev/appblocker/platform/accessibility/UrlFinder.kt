@@ -23,11 +23,9 @@ object UrlFinder {
                 val isFocused = urlNode.isFocused
                 val text = urlNode.text?.toString()
 
-                // Recycle all found nodes
                 nodes.forEach { it.recycle() }
 
                 if (isFocused) {
-                    // User is actively typing in the address bar, don't block based on this text
                     return null
                 }
 
@@ -37,7 +35,6 @@ object UrlFinder {
             }
         }
 
-        // Only fallback to heuristics if no known address bar was found in this window
         if (knownAddressBarFound) return null
 
         return findUrlByHeuristics(node)
@@ -51,12 +48,10 @@ object UrlFinder {
             className.contains("AbsListView") ||
             className.contains("List")
 
-        // If an EditText is focused, it's likely the user is typing
         if (node.className == "android.widget.EditText" && node.isFocused) {
             return null
         }
 
-        // Avoid matching URLs inside lists to prevent blocking based on autocomplete suggestions
         if (!currentIsList && (node.className == "android.widget.EditText" || node.className == "android.widget.TextView")) {
             val text = node.text?.toString()
             if (text != null && text.length > 3 && (text.contains(".") || text.contains("://"))) {

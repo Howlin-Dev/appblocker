@@ -22,9 +22,6 @@ class SettingsScreenTest {
             )
         }
 
-        // We check for some key texts. 
-        // Note: These might need to be resource-based if we want to support multiple locales in tests, 
-        // but usually, we test in a fixed locale (like English).
         composeTestRule.onNodeWithText("Theme", substring = true).assertIsDisplayed()
         composeTestRule.onNodeWithText("Language", substring = true).assertIsDisplayed()
     }

@@ -6,7 +6,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.howlindev.appblocker.navigation.MainNavHost
-import com.howlindev.appblocker.navigation.entry.EntryViewModel
 import com.howlindev.appblocker.presentation.root.RootScreen
 import com.howlindev.appblocker.presentation.root.RootViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -14,7 +13,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
 
     private val rootViewModel: RootViewModel by viewModel()
-    private val entryViewModel: EntryViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -25,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         splashScreen.setKeepOnScreenCondition {
             val elapsed = System.currentTimeMillis() - startTime
-            val isWaitingForData = rootViewModel.settings.value == null || entryViewModel.state.value.arePermissionsNeeded == null
+            val isWaitingForData = rootViewModel.settings.value == null || rootViewModel.arePermissionsNeeded.value == null
             if (isRecreation) {
                 isWaitingForData
             } else {
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             RootScreen(viewModel = rootViewModel) {
-                MainNavHost(viewModel = entryViewModel)
+                MainNavHost()
             }
         }
     }

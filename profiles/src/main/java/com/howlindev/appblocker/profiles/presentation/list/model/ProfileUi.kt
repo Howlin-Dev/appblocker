@@ -13,8 +13,6 @@ data class ProfileUi(
     val durationMillis: Long? = null,
 )
 
-// --- mapping ---
-
 suspend fun Profile.toUi(installedAppsRepository: InstalledAppsRepository): ProfileUi {
     return ProfileUi(
         id = id,

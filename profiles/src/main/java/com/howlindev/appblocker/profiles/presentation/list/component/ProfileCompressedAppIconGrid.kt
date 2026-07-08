@@ -35,7 +35,6 @@ fun ProfileCompressedAppIconGrid(
     val maxTotalSpots = columns * maxRows
     val showOverflow = appList.size > maxTotalSpots
 
-    // If showing overflow, we use 2 spots for the "+N" tile if total items > 12 (or whatever maxTotalSpots is)
     val overflowSpan = if (showOverflow) 2 else 0
     val displayCount = if (showOverflow) maxTotalSpots - overflowSpan else appList.size
     val overflowCount = appList.size - displayCount
@@ -63,7 +62,6 @@ fun ProfileCompressedAppIconGrid(
                                 columnIndex++
                             }
                             showOverflow && isLastRow && columnIndex >= columns - overflowSpan -> {
-                                // Double span overflow tile
                                 val tileWidth = (itemSize * overflowSpan) + (spacing * (overflowSpan - 1))
                                 OverflowTile(
                                     count = overflowCount,
@@ -80,7 +78,6 @@ fun ProfileCompressedAppIconGrid(
                     }
                 }
 
-                // Stop drawing rows if we've reached the end of the list and don't need the overflow tile
                 if (rowStart + columns >= displayCount && (!showOverflow || !isLastRow)) break
             }
         }

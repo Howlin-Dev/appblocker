@@ -26,7 +26,6 @@ class BlockNotificationListenerService : NotificationListenerService() {
             blockRepository.activeBlock.collect { lock ->
                 blockedPackages = lock?.blockedPackages?.toSet() ?: emptySet()
 
-                // If a block is active, we might want to clear existing notifications from blocked apps
                 if (blockedPackages.isNotEmpty()) {
                     cancelNotificationsFromBlockedApps()
                 }
@@ -34,7 +33,6 @@ class BlockNotificationListenerService : NotificationListenerService() {
         }
 
         if (PermissionNavigator.shouldAutoReturn(this)) {
-            // Bring back from settings when the permission enabled
             val intent = packageManager.getLaunchIntentForPackage(packageName)
             if (intent != null) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)

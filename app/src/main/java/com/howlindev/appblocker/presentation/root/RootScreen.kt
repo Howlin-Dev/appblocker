@@ -25,7 +25,6 @@ fun RootScreen(
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
-    // Apply language ONLY when we have the real setting
     settings?.let { ApplyLanguage(it.language) }
 
     AppBlockerTheme(

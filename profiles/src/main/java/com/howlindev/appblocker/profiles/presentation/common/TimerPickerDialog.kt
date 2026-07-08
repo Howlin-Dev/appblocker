@@ -137,9 +137,5 @@ private fun TimerPickerDialogPreview() {
             onConfirm = { },
             onCancel = { },
         )
-//        TimeItem(
-//            time = 60_000,
-//            isSelected = true,
-//        )
     }
 }

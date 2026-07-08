@@ -12,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.howlindev.appblocker.navigation.entry.EntryViewModel
 import com.howlindev.appblocker.permissions.presentation.PermissionsScreen
 import com.howlindev.appblocker.profiles.presentation.create.CreateProfileScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppListScreen
@@ -21,13 +20,11 @@ import com.howlindev.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.howlindev.appblocker.profiles.presentation.list.ProfileListScreen
 import com.howlindev.appblocker.settings.presentation.language.LanguageScreen
 import com.howlindev.appblocker.settings.presentation.settings.SettingsScreen
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    viewModel: EntryViewModel = koinViewModel(),
 ) {
     val startDestination = ProfileListDestination
 

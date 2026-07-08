@@ -118,7 +118,5 @@ class BlockAccessibilityService : AccessibilityService() {
         }
     }
 
-    override fun onInterrupt() {
-        // Required override, no-op
-    }
+    override fun onInterrupt() {}
 }

@@ -11,7 +11,6 @@ object BlockNavigator {
     fun navigateBrowserAway(context: Context, browserPackage: String) {
         if (browserPackage.isBlank()) return
         try {
-            // Force the browser to navigate to a safe page and clear the task stack
             val intent = Intent(Intent.ACTION_VIEW, "https://www.google.com".toUri()).apply {
                 setPackage(browserPackage)
                 addFlags(
