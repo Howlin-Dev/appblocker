@@ -1,9 +1,11 @@
 package com.howlindev.appblocker.profiles.presentation.list
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -167,56 +170,64 @@ internal fun ProfileListScreenContent(
             }
         },
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues),
-            contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.TopCenter
         ) {
-            if (missingPermissions.isNotEmpty()) {
-                item {
-                    PermissionListContainerCard(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        missingPermissions = missingPermissions,
-                        onShowInfoClick = { onAction(ProfileListAction.ShowPermissionInfo(it)) },
-                        onGrantClick = { onAction(ProfileListAction.GrantPermission(it)) },
-                    )
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.widthIn(max = 450.dp),
+                contentPadding = PaddingValues(bottom = 140.dp, top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                if (missingPermissions.isNotEmpty()) {
+                    item {
+                        PermissionListContainerCard(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            missingPermissions = missingPermissions,
+                            onShowInfoClick = { onAction(ProfileListAction.ShowPermissionInfo(it)) },
+                            onGrantClick = { onAction(ProfileListAction.GrantPermission(it)) },
+                        )
+                    }
                 }
-            }
 
-            activeProfile?.let { activeProfile ->
-                item {
-                    ActiveProfileListItem(
+                activeProfile?.let { activeProfile ->
+                    item {
+                        ActiveProfileListItem(
+                            modifier = Modifier.animateItem(),
+                            profile = activeProfile,
+                            onUnblockClick = {
+                                onAction(
+                                    ProfileListAction.ToggleProfileActivation(
+                                        activeProfile,
+                                    ),
+                                )
+                            },
+                            formattedTimeRemaining = formattedTimeRemaining,
+                        )
+                    }
+                }
+                items(items = inactiveProfiles) { inactiveProfile ->
+                    ProfileListItem(
                         modifier = Modifier.animateItem(),
-                        profile = activeProfile,
-                        onUnblockClick = {
+                        profile = inactiveProfile,
+                        onClick = { onAction(ProfileListAction.ProfileClick(inactiveProfile.id)) },
+                        onToggleProfileActivation = {
+                            onAction(ProfileListAction.ToggleProfileActivation(inactiveProfile))
+                        },
+                        isAnotherProfileActive = activeProfile != null,
+                        onTimerChanged = { newTime ->
                             onAction(
-                                ProfileListAction.ToggleProfileActivation(
-                                    activeProfile,
+                                ProfileListAction.TimerChange(
+                                    profileUi = inactiveProfile,
+                                    newTime = newTime,
                                 ),
                             )
                         },
-                        formattedTimeRemaining = formattedTimeRemaining,
                     )
                 }
-            }
-            items(items = inactiveProfiles) { inactiveProfile ->
-                ProfileListItem(
-                    modifier = Modifier.animateItem(),
-                    profile = inactiveProfile,
-                    onClick = { onAction(ProfileListAction.ProfileClick(inactiveProfile.id)) },
-                    onToggleProfileActivation = {
-                        onAction(ProfileListAction.ToggleProfileActivation(inactiveProfile))
-                    },
-                    isAnotherProfileActive = activeProfile != null,
-                    onTimerChanged = { newTime ->
-                        onAction(
-                            ProfileListAction.TimerChange(
-                                profileUi = inactiveProfile,
-                                newTime = newTime,
-                            ),
-                        )
-                    },
-                )
             }
         }
     }
