@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +50,7 @@ import com.howlindev.appblocker.permissions.R as PermissionR
 fun ProfileListScreen(
     onCreateClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onSchedulerClick: () -> Unit,
     onProfileClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileListViewModel = koinViewModel(),
@@ -80,6 +82,7 @@ fun ProfileListScreen(
             when (action) {
                 ProfileListAction.CreateClick -> onCreateClick()
                 ProfileListAction.SettingsClick -> onSettingsClick()
+                ProfileListAction.SchedulerClick -> onSchedulerClick()
                 is ProfileListAction.ProfileClick -> onProfileClick(action.id)
                 is ProfileListAction.ToggleProfileActivation -> {
                     if (action.profile.durationMillis == null) {
@@ -160,6 +163,14 @@ internal fun ProfileListScreenContent(
             }
         },
         actions = {
+            IconButton(
+                onClick = { onAction(ProfileListAction.SchedulerClick) },
+            ) {
+                Icon(
+                    painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_calendar),
+                    contentDescription = "Scheduler",
+                )
+            }
             IconButton(
                 onClick = { onAction(ProfileListAction.SettingsClick) },
             ) {

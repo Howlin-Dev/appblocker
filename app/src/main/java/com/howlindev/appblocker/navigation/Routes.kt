@@ -31,3 +31,6 @@ object SettingsDestination
 
 @Serializable
 object LanguageDestination
+
+@Serializable
+object SchedulerDestination

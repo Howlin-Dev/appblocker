@@ -87,6 +87,7 @@ dependencies {
     implementation(project(":profiles"))
     implementation(project(":permissions"))
     implementation(project(":timer"))
+    implementation(project(":schedule"))
     implementation(project(":settings"))
 
     implementation(libs.androidx.core.ktx)
@@ -116,7 +117,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

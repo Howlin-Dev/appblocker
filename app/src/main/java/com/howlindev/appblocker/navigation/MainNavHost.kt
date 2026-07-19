@@ -18,6 +18,7 @@ import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppLis
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileWebsiteListScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.howlindev.appblocker.profiles.presentation.list.ProfileListScreen
+import com.howlindev.appblocker.schedule.presentation.SchedulerScreen
 import com.howlindev.appblocker.settings.presentation.language.LanguageScreen
 import com.howlindev.appblocker.settings.presentation.settings.SettingsScreen
 
@@ -50,6 +51,7 @@ fun MainNavHost(
                 onCreateClick = { navController.navigateSafe(CreateProfileDestination) },
                 onProfileClick = { navController.navigateSafe(ProfileDetailDestination(it)) },
                 onSettingsClick = { navController.navigateSafe(SettingsDestination) },
+                onSchedulerClick = { navController.navigateSafe(SchedulerDestination) },
             )
         }
         composable<CreateProfileDestination> {
@@ -99,6 +101,11 @@ fun MainNavHost(
         }
         composable<LanguageDestination> {
             LanguageScreen(
+                onBackClick = { navController.popBackStackSafe() },
+            )
+        }
+        composable<SchedulerDestination> {
+            SchedulerScreen(
                 onBackClick = { navController.popBackStackSafe() },
             )
         }
