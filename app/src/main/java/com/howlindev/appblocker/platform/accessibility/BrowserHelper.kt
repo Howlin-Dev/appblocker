@@ -9,6 +9,12 @@ object BrowserHelper {
         "com.duckduckgo.mobile.android",
         "com.brave.browser",
         "com.sec.android.app.sbrowser",
+        "com.mi.globalbrowser",
+        "com.vivaldi.browser",
+        "com.android.browser",
+        "com.huawei.browser",
+        "com.heytap.browser",
+        "com.sec.android.app.sbrowser.beta",
     )
 
     fun isBrowser(packageName: String): Boolean {

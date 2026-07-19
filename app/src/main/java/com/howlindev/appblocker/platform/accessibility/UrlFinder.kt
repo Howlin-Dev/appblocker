@@ -11,6 +11,12 @@ object UrlFinder {
         "com.sec.android.app.sbrowser:id/location_bar_edit_text",
         "com.duckduckgo.mobile.android:id/omnibar_text",
         "com.opera.browser:id/url_field",
+        "com.mi.globalbrowser:id/url_bar",
+        "com.vivaldi.browser:id/url_bar",
+        "com.android.browser:id/url",
+        "com.huawei.browser:id/url_bar",
+        "com.heytap.browser:id/url_bar",
+        "com.sec.android.app.sbrowser.beta:id/location_bar_edit_text",
     )
 
     fun findUrlInNode(node: AccessibilityNodeInfo): String? {
