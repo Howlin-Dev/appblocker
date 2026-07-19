@@ -52,6 +52,7 @@ class BlockAccessibilityService : AccessibilityService() {
 
     private var lastBlockTime = 0L
     private var lastBlockedUrl: String? = null
+    private var lastPackageName: String? = null
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
@@ -61,6 +62,7 @@ class BlockAccessibilityService : AccessibilityService() {
         when (event.eventType) {
             AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED -> {
                 handleAppBlocking(currentPackage)
+                lastPackageName = currentPackage
             }
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
                 if (BrowserHelper.isBrowser(currentPackage)) {
@@ -73,7 +75,11 @@ class BlockAccessibilityService : AccessibilityService() {
 
     private fun handleAppBlocking(packageName: String) {
         val now = System.currentTimeMillis()
-        if (now - lastBlockTime < 1500) return
+        
+        // If we are switching from our own app or a different app to a blocked one, 
+        // we should block immediately regardless of the cooldown.
+        val isPackageSwitch = lastPackageName != packageName
+        if (now - lastBlockTime < 1500 && !isPackageSwitch) return
 
         if (blockedPackages.contains(packageName)) {
             Log.d("onAccessibilityEvent", "Blocking app: $packageName")

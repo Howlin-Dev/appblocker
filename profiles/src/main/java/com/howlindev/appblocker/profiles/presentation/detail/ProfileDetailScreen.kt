@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -120,25 +122,32 @@ private fun ProfileDetailScreenContent(
             }
         },
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = Modifier
-                .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.TopCenter
         ) {
-            ProfileNameSection(
-                name = profile?.name.orEmpty(),
-                onRenameClick = { renameDialogShown.value = true },
-            )
-            Spacer(modifier = Modifier.size(24.dp))
-            ProfileAppListSection(
-                appList = profile?.blockedApps.orEmpty(),
-                onAction = onAction,
-            )
-            ProfileWebsiteListSection(
-                websites = profile?.blockedWebsites.orEmpty(),
-                onAction = onAction,
-            )
+            Column(
+                modifier = Modifier
+                    .widthIn(max = 500.dp)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp),
+            ) {
+                ProfileNameSection(
+                    name = profile?.name.orEmpty(),
+                    onRenameClick = { renameDialogShown.value = true },
+                )
+                Spacer(modifier = Modifier.size(24.dp))
+                ProfileAppListSection(
+                    appList = profile?.blockedApps.orEmpty(),
+                    onAction = onAction,
+                )
+                ProfileWebsiteListSection(
+                    websites = profile?.blockedWebsites.orEmpty(),
+                    onAction = onAction,
+                )
+            }
         }
     }
 
