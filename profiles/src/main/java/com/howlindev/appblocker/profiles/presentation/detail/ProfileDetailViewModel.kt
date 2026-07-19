@@ -2,6 +2,7 @@ package com.howlindev.appblocker.profiles.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.howlindev.appblocker.profiles.domain.usecase.CreateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.DeleteProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.GetProfileUiUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.UpdateProfileUseCase
@@ -16,6 +17,7 @@ class ProfileDetailViewModel(
     private val getProfileUiUseCase: GetProfileUiUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
     private val deleteProfileUseCase: DeleteProfileUseCase,
+    private val createProfileUseCase: CreateProfileUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ProfileDetailState())
     val state: StateFlow<ProfileDetailState> = _state
@@ -61,10 +63,28 @@ class ProfileDetailViewModel(
             }
         }
     }
+
+    fun duplicateProfile(name: String) {
+        val currentProfile = _state.value.profile ?: return
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+            runCatching {
+                createProfileUseCase(
+                    name = name,
+                    appPackages = currentProfile.blockedApps.map { it.packageName },
+                    blockedWebsites = currentProfile.blockedWebsites
+                )
+                _state.update { it.copy(isLoading = false, isProfileDuplicated = true) }
+            }.onFailure {
+                _state.update { it.copy(isLoading = false) }
+            }
+        }
+    }
 }
 
 data class ProfileDetailState(
     val isLoading: Boolean = false,
     val profile: ProfileUi? = null,
     val isProfileDeleted: Boolean = false,
+    val isProfileDuplicated: Boolean = false,
 )

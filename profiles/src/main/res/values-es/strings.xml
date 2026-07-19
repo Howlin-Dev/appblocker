@@ -11,6 +11,7 @@
     <string name="profiles_button_activate">Activar</string>
     <string name="profiles_button_create">Crear</string>
     <string name="profiles_button_delete">Eliminar</string>
+    <string name="profiles_button_duplicate">Duplicar</string>
 
     <string name="profiles_dialog_activate_title">¿Activar %1$s?</string>
     <string name="profiles_dialog_activate_text">Las aplicaciones del perfil se bloquearán durante %1$s</string>
@@ -31,6 +32,7 @@
 
     <string name="profiles_dialog_change_timer_title">Cambiar minutero</string>
     <string name="profiles_dialog_rename_title">Renombrar perfil</string>
+    <string name="profiles_dialog_duplicate_title">Duplicar perfil</string>
     <string name="profiles_name_field_label">Nombre</string>
 
     <string name="profiles_active_for">Activo durante:</string>

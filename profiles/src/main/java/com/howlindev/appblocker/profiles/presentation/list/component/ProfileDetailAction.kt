@@ -6,4 +6,5 @@ sealed interface ProfileDetailAction {
     data object ManageAppListClick : ProfileDetailAction
     data object ManageWebsiteListClick : ProfileDetailAction
     data class ProfileNameChanged(val name: String) : ProfileDetailAction
+    data class DuplicateProfileConfirmed(val name: String) : ProfileDetailAction
 }

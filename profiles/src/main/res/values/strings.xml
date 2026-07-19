@@ -12,6 +12,7 @@
     <string name="profiles_button_activate">Activate</string>
     <string name="profiles_button_create">Create</string>
     <string name="profiles_button_delete">Delete</string>
+    <string name="profiles_button_duplicate">Duplicate</string>
 
     <string name="profiles_dialog_activate_title">Activate %1$s?</string>
     <string name="profiles_dialog_activate_text">Profile apps will be blocked for %1$s</string>
@@ -32,6 +33,7 @@
 
     <string name="profiles_dialog_change_timer_title">Change Timer</string>
     <string name="profiles_dialog_rename_title">Rename Profile</string>
+    <string name="profiles_dialog_duplicate_title">Duplicate Profile</string>
     <string name="profiles_name_field_label">Name</string>
 
     <string name="profiles_active_for">Active for:</string>

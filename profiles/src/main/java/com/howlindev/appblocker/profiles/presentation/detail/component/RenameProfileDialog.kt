@@ -31,8 +31,10 @@ fun RenameProfileDialog(
     onChange: (String) -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier = Modifier,
+    title: String = stringResource(R.string.profiles_dialog_rename_title),
+    confirmButtonText: String = stringResource(R.string.profiles_button_apply),
 ) {
-    var name: String by remember { mutableStateOf(name) }
+    var nameState: String by remember { mutableStateOf(name) }
 
     BasicAlertDialog(
         modifier = modifier,
@@ -46,14 +48,14 @@ fun RenameProfileDialog(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.profiles_dialog_rename_title),
+                    text = title,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = name,
-                    onValueChange = { name = it },
+                    value = nameState,
+                    onValueChange = { nameState = it },
                     singleLine = true,
                     maxLines = 1,
                     label = {
@@ -70,9 +72,9 @@ fun RenameProfileDialog(
                         Text(stringResource(R.string.profiles_button_cancel))
                     }
                     TextButton(
-                        onClick = { onChange(name) },
+                        onClick = { onChange(nameState) },
                     ) {
-                        Text(stringResource(R.string.profiles_button_apply))
+                        Text(confirmButtonText)
                     }
                 }
             }

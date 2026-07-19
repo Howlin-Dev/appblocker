@@ -11,6 +11,7 @@
     <string name="profiles_button_activate">Активировать</string>
     <string name="profiles_button_create">Создать</string>
     <string name="profiles_button_delete">Удалить</string>
+    <string name="profiles_button_duplicate">Дублировать</string>
 
     <string name="profiles_dialog_activate_title">Активировать %1$s?</string>
     <string name="profiles_dialog_activate_text">Приложения профиля будут заблокированы на %1$s</string>
@@ -31,6 +32,7 @@
 
     <string name="profiles_dialog_change_timer_title">Изменить таймер</string>
     <string name="profiles_dialog_rename_title">Переименовать профиль</string>
+    <string name="profiles_dialog_duplicate_title">Дублировать профиль</string>
     <string name="profiles_name_field_label">Название</string>
 
     <string name="profiles_active_for">Активен:</string>

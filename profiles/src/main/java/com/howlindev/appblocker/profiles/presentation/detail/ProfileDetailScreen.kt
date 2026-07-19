@@ -73,6 +73,7 @@ fun ProfileDetailScreen(
                 ProfileDetailAction.ManageAppListClick -> onManageAppListClick(profileId)
                 ProfileDetailAction.ManageWebsiteListClick -> onManageWebsiteListClick(profileId)
                 is ProfileDetailAction.ProfileNameChanged -> viewModel.updateProfileName(action.name)
+                is ProfileDetailAction.DuplicateProfileConfirmed -> viewModel.duplicateProfile(action.name)
             }
         },
     )
@@ -80,8 +81,8 @@ fun ProfileDetailScreen(
     LaunchedEffect(Unit) {
         viewModel.getProfile(profileId)
     }
-    LaunchedEffect(state.isProfileDeleted) {
-        if (state.isProfileDeleted) {
+    LaunchedEffect(state.isProfileDeleted, state.isProfileDuplicated) {
+        if (state.isProfileDeleted || state.isProfileDuplicated) {
             onBackClick()
         }
     }
@@ -95,6 +96,7 @@ private fun ProfileDetailScreenContent(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val renameDialogShown = remember { mutableStateOf(false) }
+    val duplicateDialogShown = remember { mutableStateOf(false) }
     val deleteConfirmDialogShown = remember { mutableStateOf(false) }
 
     AppScaffold(
@@ -112,6 +114,13 @@ private fun ProfileDetailScreenContent(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
             ) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.profiles_button_duplicate)) },
+                    onClick = {
+                        expanded = false
+                        duplicateDialogShown.value = true
+                    },
+                )
                 DropdownMenuItem(
                     text = { Text(stringResource(R.string.profiles_button_delete)) },
                     onClick = {
@@ -172,6 +181,18 @@ private fun ProfileDetailScreenContent(
                 renameDialogShown.value = false
             },
             onCancel = { renameDialogShown.value = false },
+        )
+    }
+    if (duplicateDialogShown.value) {
+        RenameProfileDialog(
+            title = stringResource(R.string.profiles_dialog_duplicate_title),
+            confirmButtonText = stringResource(R.string.profiles_button_duplicate),
+            name = profile?.name.orEmpty(),
+            onChange = {
+                onAction(ProfileDetailAction.DuplicateProfileConfirmed(it))
+                duplicateDialogShown.value = false
+            },
+            onCancel = { duplicateDialogShown.value = false },
         )
     }
 }
