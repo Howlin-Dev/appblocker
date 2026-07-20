@@ -15,12 +15,12 @@ class SuggestedWebsitesRepositoryImpl(
     private val dataStore = context.blockDataStore
 
     private val defaultWebsites = setOf(
-        "facebook.com", "instagram.com", "twitter.com", "tiktok.com", "youtube.com",
-        "reddit.com", "netflix.com", "twitch.tv", "pinterest.com", "snapchat.com",
-        "linkedin.com", "whatsapp.com", "messenger.com", "telegram.org", "discord.com",
-        "tumblr.com", "quora.com", "medium.com", "9gag.com", "buzzfeed.com",
-        "hulu.com", "disneyplus.com", "primevideo.com", "hbomax.com", "spotify.com",
-        "soundcloud.com", "steamcommunity.com", "epicgames.com", "roblox.com", "minecraft.net",
+        "youtube.com", "tiktok.com", "instagram.com", "facebook.com", "x.com", "twitter.com", "reddit.com",
+        "twitch.tv", "discord.com", "snapchat.com", "linkedin.com", "pinterest.com", "netflix.com", "primevideo.com",
+        "disneyplus.com", "hulu.com", "spotify.com", "soundcloud.com", "medium.com", "quora.com", "9gag.com", "imgur.com",
+        "buzzfeed.com", "news.yahoo.com", "cnn.com", "nytimes.com", "espn.com", "chess.com", "roblox.com", "fandom.com",
+        "wikia.com", "steamcommunity.com", "epicgames.com", "minecraft.net", "stackoverflow.com", "news.ycombinator.com",
+        "tumblr.com", "telegram.org", "web.telegram.org", "whatsapp.com", "web.whatsapp.com", "messenger.com",
     )
 
     override fun getSuggestedWebsites(): Flow<Set<String>> = dataStore.data.map { prefs ->
