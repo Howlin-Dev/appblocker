@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.schedule.R
-import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
+import java.time.DayOfWeek
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
@@ -48,17 +50,8 @@ fun SchedulerScreenContent(
     onAction: (SchedulerAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val dayNames = listOf(
-        stringResource(R.string.schedule_day_monday),
-        stringResource(R.string.schedule_day_tuesday),
-        stringResource(R.string.schedule_day_wednesday),
-        stringResource(R.string.schedule_day_thursday),
-        stringResource(R.string.schedule_day_friday),
-        stringResource(R.string.schedule_day_saturday),
-        stringResource(R.string.schedule_day_sunday),
-    )
-
-    val pagerState = rememberPagerState(pageCount = { 7 })
+    val days = remember { DayOfWeek.values().toList() }
+    val pagerState = rememberPagerState(pageCount = { days.size })
     val coroutineScope = rememberCoroutineScope()
 
     AppScaffold(
@@ -78,7 +71,7 @@ fun SchedulerScreenContent(
                 contentColor = MaterialTheme.colorScheme.primary,
                 divider = {}
             ) {
-                dayNames.forEachIndexed { index, name ->
+                days.forEachIndexed { index, day ->
                     Tab(
                         selected = pagerState.currentPage == index,
                         onClick = {
@@ -86,7 +79,9 @@ fun SchedulerScreenContent(
                                 pagerState.animateScrollToPage(index)
                             }
                         },
-                        text = { Text(text = name) }
+                        text = { 
+                            Text(text = day.getDisplayName(TextStyle.SHORT, Locale.getDefault())) 
+                        }
                     )
                 }
             }
@@ -94,9 +89,10 @@ fun SchedulerScreenContent(
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier.weight(1f)
-            ) { dayIndex ->
+            ) { pageIndex ->
+                val day = days[pageIndex]
                 ScheduleTimeline(
-                    events = state.eventsByDay[dayIndex] ?: emptyList(),
+                    events = state.eventsByDay[day] ?: emptyList(),
                     onHourClick = { /* TODO */ },
                     onEventClick = { /* TODO */ }
                 )

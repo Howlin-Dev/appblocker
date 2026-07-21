@@ -29,8 +29,10 @@ detekt = "1.23.8"
 splashscreen = "1.0.1"
 googleServices = "4.5.0"
 firebaseCrashlytics = "3.0.7"
+desugar_jdk_libs = "2.1.5"
 
 [libraries]
+desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
 androidx-appcompat-v170 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

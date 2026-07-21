@@ -99,7 +99,7 @@ fun WebsiteSelectionList(
 
                     IconButton(onClick = { onWebsiteRemoved(website) }) {
                         Icon(
-                            Icons.Default.Close,
+                            imageVector = Icons.Default.Close,
                             contentDescription = stringResource(R.string.profiles_content_description_remove_website),
                         )
                     }

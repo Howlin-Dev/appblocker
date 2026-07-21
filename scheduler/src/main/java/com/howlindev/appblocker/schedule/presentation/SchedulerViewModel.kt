@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import java.time.DayOfWeek
 
 class SchedulerViewModel : ViewModel() {
     private val _state = MutableStateFlow(SchedulerState())
@@ -15,9 +16,9 @@ class SchedulerViewModel : ViewModel() {
 }
 
 data class SchedulerState(
-    val eventsByDay: Map<Int, List<ScheduleEvent>> = emptyMap()
+    val eventsByDay: Map<DayOfWeek, List<ScheduleEvent>> = emptyMap()
 )
 
 sealed interface SchedulerAction {
-    data class DaySelected(val dayIndex: Int) : SchedulerAction
+    data class DaySelected(val day: DayOfWeek) : SchedulerAction
 }

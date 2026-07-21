@@ -87,7 +87,7 @@ dependencies {
     implementation(project(":profiles"))
     implementation(project(":permissions"))
     implementation(project(":timer"))
-    implementation(project(":schedule"))
+    implementation(project(":scheduler"))
     implementation(project(":settings"))
 
     implementation(libs.androidx.core.ktx)
