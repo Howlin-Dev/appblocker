@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -22,31 +20,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.howlindev.appblocker.schedule.R
+import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
 fun ScheduledBlockingItem(
+    event: ScheduleEvent,
+    onEditClick: () -> Unit,
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
-                text = "11:15 - 13:00",
+                text = String.format(
+                    Locale.getDefault(),
+                    "%02d:%02d - %02d:%02d",
+                    event.startTime.hour,
+                    event.startTime.minute,
+                    event.endTime.hour,
+                    event.endTime.minute,
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize.value.plus(2).sp,
             )
@@ -55,35 +64,37 @@ fun ScheduledBlockingItem(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                DayOfWeek.entries.forEach {
+                DayOfWeek.entries.forEach { day ->
+                    val isSelected = event.daysOfWeek.contains(day)
                     Box(
                         modifier = Modifier
                             .background(
-                                color = MaterialTheme.colorScheme.secondary,
-                                shape = RoundedCornerShape(4.dp)
+                                color = if (isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(4.dp),
                             )
                             .size(24.dp),
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            text = it.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
+                            text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
                             textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onSecondary,
+                            color = if (isSelected) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.labelSmall,
                         )
                     }
                 }
             }
         }
-        IconButton(onClick = { onRemoveClick() }) {
+        IconButton(onClick = { onEditClick() }) {
             Icon(
                 imageVector = Icons.Default.Edit,
-                contentDescription = "",
+                contentDescription = stringResource(R.string.schedule_content_description_edit),
             )
         }
         IconButton(onClick = { onRemoveClick() }) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "",
+                contentDescription = stringResource(R.string.schedule_content_description_remove),
             )
         }
     }
@@ -92,7 +103,15 @@ fun ScheduledBlockingItem(
 @Preview
 @Composable
 private fun ScheduledBlockingItemPreview() {
-    Surface() {
-        ScheduledBlockingItem(onRemoveClick = {})
+    Surface {
+        ScheduledBlockingItem(
+            event = ScheduleEvent(
+                startTime = java.time.LocalTime.of(11, 15),
+                endTime = java.time.LocalTime.of(13, 0),
+                daysOfWeek = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
+            ),
+            onEditClick = {},
+            onRemoveClick = {},
+        )
     }
 }

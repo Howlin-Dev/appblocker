@@ -45,13 +45,14 @@ class ProfilesRepositoryImplTest {
         coEvery { profileDao.getById(1) } returns entity
 
         val result = repository.getById(1)
-        assertEquals("Work", result.name)
+        assertEquals("Work", result?.name)
     }
 
-    @Test(expected = NoSuchElementException::class)
-    fun `getById should throw when profile not found`() = runTest {
+    @Test
+    fun `getById should return null when profile not found`() = runTest {
         coEvery { profileDao.getById(1) } returns null
-        repository.getById(1)
+        val result = repository.getById(1)
+        assertEquals(null, result)
     }
 
     @Test

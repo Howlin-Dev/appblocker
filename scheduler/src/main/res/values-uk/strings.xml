@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_app_title">Планувальник</string>
+    <string name="schedule_dialog_edit_title">Редагувати розклад</string>
+    <string name="schedule_button_cancel">Скасувати</string>
+    <string name="schedule_button_confirm">Підтвердити</string>
+    <string name="schedule_label_from">З</string>
+    <string name="schedule_label_until">До</string>
+    <string name="schedule_dialog_select_time_title">Вибрати час</string>
+    <string name="schedule_content_description_edit">Редагувати розклад</string>
+    <string name="schedule_content_description_remove">Видалити розклад</string>
+</resources>

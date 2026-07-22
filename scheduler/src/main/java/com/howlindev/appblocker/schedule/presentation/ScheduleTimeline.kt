@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
 import kotlinx.coroutines.delay
+import java.time.LocalTime
 import java.util.Calendar
 
 @Composable
@@ -69,7 +70,7 @@ fun ScheduleTimeline(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(vertical = 16.dp)
+            .padding(vertical = 16.dp),
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             // Time Labels Column
@@ -83,7 +84,7 @@ fun ScheduleTimeline(
             BoxWithConstraints(
                 modifier = Modifier
                     .weight(1f)
-                    .height(hourHeight * 24)
+                    .height(hourHeight * 24),
             ) {
                 val contentWidth = maxWidth
 
@@ -94,12 +95,12 @@ fun ScheduleTimeline(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(hourHeight)
-                                .clickable { onHourClick(hour) }
+                                .clickable { onHourClick(hour) },
                         ) {
                             HorizontalDivider(
                                 modifier = Modifier.align(Alignment.TopStart),
                                 thickness = 0.5.dp,
-                                color = MaterialTheme.colorScheme.outlineVariant
+                                color = MaterialTheme.colorScheme.outlineVariant,
                             )
                         }
                     }
@@ -123,14 +124,14 @@ fun ScheduleTimeline(
                             .clip(RoundedCornerShape(8.dp))
                             .background(MaterialTheme.colorScheme.primaryContainer)
                             .clickable { onEventClick(event) }
-                            .padding(8.dp)
+                            .padding(8.dp),
                     ) {
                         Text(
                             text = event.title,
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Bold,
-                            maxLines = if (event.durationMinutes < 30) 1 else Int.MAX_VALUE
+                            maxLines = if (event.durationMinutes < 30) 1 else Int.MAX_VALUE,
                         )
                     }
                 }
@@ -143,23 +144,23 @@ fun ScheduleTimeline(
                     modifier = Modifier
                         .fillMaxWidth()
                         .offset(y = verticalOffset.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box(
                         modifier = Modifier
                             .size(8.dp)
                             .offset(x = (-4).dp) // Half of size to center on the start of content area
-                            .background(Color.White, CircleShape)
+                            .background(Color.White, CircleShape),
                     )
                     HorizontalDivider(
                         modifier = Modifier.weight(1f),
                         thickness = 1.dp,
-                        color = Color.White
+                        color = Color.White,
                     )
                 }
             }
         }
-        
+
         // Extra space at bottom for scrolling
         Spacer(modifier = Modifier.height(hourHeight))
     }
@@ -168,7 +169,7 @@ fun ScheduleTimeline(
 private data class EventLayoutInfo(
     val event: ScheduleEvent,
     val columnIndex: Int,
-    val totalColumns: Int
+    val totalColumns: Int,
 )
 
 private fun computeEventLayouts(events: List<ScheduleEvent>): List<EventLayoutInfo> {
@@ -238,7 +239,7 @@ private fun TimeLabel(
             .fillMaxWidth()
             .height(height)
             .padding(start = 12.dp),
-        contentAlignment = Alignment.TopStart
+        contentAlignment = Alignment.TopStart,
     ) {
         Text(
             text = timeText,
@@ -253,39 +254,39 @@ private fun TimeLabel(
 private fun ScheduleTimelinePreview() {
     val testEvents = listOf(
         ScheduleEvent(
-            id = "0",
+            id = 1,
             title = "3-Hour Event",
-            startMinute = 120, // 2:00 AM
-            endMinute = 300    // 5:00 AM
+            startTime = LocalTime.of(2, 0),
+            endTime = LocalTime.of(5, 0),
         ),
         ScheduleEvent(
-            id = "overlap",
+            id = 2,
             title = "Overlap Meeting",
-            startMinute = 180, // 3:00 AM
-            endMinute = 240    // 4:00 AM
+            startTime = LocalTime.of(3, 0),
+            endTime = LocalTime.of(4, 0),
         ),
         ScheduleEvent(
-            id = "1",
+            id = 3,
             title = "Long Meeting",
-            startMinute = 600, // 10:00 AM
-            endMinute = 780    // 1:00 PM (3 hours)
+            startTime = LocalTime.of(10, 0),
+            endTime = LocalTime.of(13, 0),
         ),
         ScheduleEvent(
-            id = "2",
+            id = 4,
             title = "Quick Break",
-            startMinute = 840, // 2:00 PM
-            endMinute = 870    // 2:30 PM
-        )
+            startTime = LocalTime.of(14, 0),
+            endTime = LocalTime.of(14, 30),
+        ),
     )
 
     MaterialTheme(
-        colorScheme = androidx.compose.material3.darkColorScheme()
+        colorScheme = androidx.compose.material3.darkColorScheme(),
     ) {
         Surface(color = MaterialTheme.colorScheme.background) {
             ScheduleTimeline(
                 events = testEvents,
                 onHourClick = {},
-                onEventClick = {}
+                onEventClick = {},
             )
         }
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_app_title">Plánovač</string>
+    <string name="schedule_dialog_edit_title">Upravit rozvrh</string>
+    <string name="schedule_button_cancel">Zrušit</string>
+    <string name="schedule_button_confirm">Potvrdit</string>
+    <string name="schedule_label_from">Od</string>
+    <string name="schedule_label_until">Do</string>
+    <string name="schedule_dialog_select_time_title">Vybrat čas</string>
+    <string name="schedule_content_description_edit">Upravit rozvrh</string>
+    <string name="schedule_content_description_remove">Odebrat rozvrh</string>
+</resources>

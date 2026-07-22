@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
@@ -50,6 +51,9 @@ import com.howlindev.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.howlindev.appblocker.profiles.presentation.detail.component.RenameProfileDialog
 import com.howlindev.appblocker.profiles.presentation.list.component.ProfileDetailAction
 import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
+import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
+import com.howlindev.appblocker.schedule.presentation.ScheduleDialog
+import com.howlindev.appblocker.schedule.presentation.ScheduledBlockingItem
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -73,8 +77,22 @@ fun ProfileDetailScreen(
                 ProfileDetailAction.ManageAppListClick -> onManageAppListClick(profileId)
                 ProfileDetailAction.ManageWebsiteListClick -> onManageWebsiteListClick(profileId)
                 is ProfileDetailAction.ProfileNameChanged -> viewModel.updateProfileName(action.name)
+                is ProfileDetailAction.DeleteScheduleEvent -> viewModel.deleteScheduleEvent(action.event)
+                is ProfileDetailAction.SaveScheduleEvent -> {
+                    viewModel.saveScheduleEvent(
+                        ScheduleEvent(
+                            id = action.eventId,
+                            profileId = profileId,
+                            startTime = action.from,
+                            endTime = action.until,
+                            daysOfWeek = action.days,
+                            title = state.profile?.name ?: "Blocking",
+                        ),
+                    )
+                }
             }
         },
+        scheduleEvents = state.scheduleEvents,
     )
 
     LaunchedEffect(Unit) {
@@ -90,12 +108,15 @@ fun ProfileDetailScreen(
 @Composable
 private fun ProfileDetailScreenContent(
     profile: ProfileUi?,
+    scheduleEvents: List<ScheduleEvent>,
     onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val renameDialogShown = remember { mutableStateOf(false) }
     val deleteConfirmDialogShown = remember { mutableStateOf(false) }
+    var scheduleToEdit by remember { mutableStateOf<ScheduleEvent?>(null) }
+    var showScheduleDialog by remember { mutableStateOf(false) }
 
     AppScaffold(
         modifier = modifier,
@@ -126,7 +147,7 @@ private fun ProfileDetailScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             Column(
                 modifier = Modifier
@@ -147,8 +168,42 @@ private fun ProfileDetailScreenContent(
                     websites = profile?.blockedWebsites.orEmpty(),
                     onAction = onAction,
                 )
+                ProfileScheduleSection(
+                    scheduleEvents = scheduleEvents,
+                    onAddScheduleClick = {
+                        scheduleToEdit = null
+                        showScheduleDialog = true
+                    },
+                    onEditScheduleClick = {
+                        scheduleToEdit = it
+                        showScheduleDialog = true
+                    },
+                    onDeleteScheduleClick = {
+                        onAction(ProfileDetailAction.DeleteScheduleEvent(it))
+                    },
+                )
             }
         }
+    }
+
+    if (showScheduleDialog) {
+        ScheduleDialog(
+            onDismiss = { showScheduleDialog = false },
+            onConfirm = { from, until, days ->
+                onAction(
+                    ProfileDetailAction.SaveScheduleEvent(
+                        from = from,
+                        until = until,
+                        days = days,
+                        eventId = scheduleToEdit?.id ?: 0L,
+                    ),
+                )
+                showScheduleDialog = false
+            },
+            initialFrom = scheduleToEdit?.startTime ?: java.time.LocalTime.of(9, 0),
+            initialUntil = scheduleToEdit?.endTime ?: java.time.LocalTime.of(17, 0),
+            initialDays = scheduleToEdit?.daysOfWeek ?: emptySet(),
+        )
     }
 
     if (deleteConfirmDialogShown.value) {
@@ -329,6 +384,68 @@ private fun ProfileWebsiteListSection(
     }
 }
 
+@Composable
+private fun ProfileScheduleSection(
+    scheduleEvents: List<ScheduleEvent>,
+    onAddScheduleClick: () -> Unit,
+    onEditScheduleClick: (ScheduleEvent) -> Unit,
+    onDeleteScheduleClick: (ScheduleEvent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.profiles_schedule_section_label),
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp, bottom = 8.dp)
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                if (scheduleEvents.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.profiles_no_schedule_active),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                } else {
+                    scheduleEvents.forEach { event ->
+                        ScheduledBlockingItem(
+                            event = event,
+                            onEditClick = { onEditScheduleClick(event) },
+                            onRemoveClick = { onDeleteScheduleClick(event) },
+                        )
+                    }
+                }
+            }
+
+            TextButton(
+                onClick = onAddScheduleClick,
+            ) {
+                Text(stringResource(R.string.profiles_add_schedule_button))
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    imageVector = Icons.Default.Add, // Using Edit icon as a placeholder if Add icon is not found, but usually there is Add
+                    contentDescription = stringResource(R.string.profiles_content_description_add_schedule),
+                )
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun ProfileDetailScreenPreview() {
@@ -336,6 +453,7 @@ private fun ProfileDetailScreenPreview() {
         profile = ProfileUi(
             name = "Reading",
         ),
+        scheduleEvents = emptyList(),
         onAction = { },
     )
 }

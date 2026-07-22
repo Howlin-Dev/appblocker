@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_app_title">Programador</string>
+    <string name="schedule_dialog_edit_title">Editar horario</string>
+    <string name="schedule_button_cancel">Cancelar</string>
+    <string name="schedule_button_confirm">Confirmar</string>
+    <string name="schedule_label_from">Desde</string>
+    <string name="schedule_label_until">Hasta</string>
+    <string name="schedule_dialog_select_time_title">Seleccionar hora</string>
+    <string name="schedule_content_description_edit">Editar horario</string>
+    <string name="schedule_content_description_remove">Eliminar horario</string>
+</resources>

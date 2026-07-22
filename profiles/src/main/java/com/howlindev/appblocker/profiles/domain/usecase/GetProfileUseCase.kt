@@ -6,5 +6,5 @@ import com.howlindev.appblocker.profiles.domain.repository.ProfilesRepository
 class GetProfileUseCase(
     private val profilesRepository: ProfilesRepository,
 ) {
-    suspend operator fun invoke(id: Long): Profile = profilesRepository.getById(id)
+    suspend operator fun invoke(id: Long): Profile? = profilesRepository.getById(id)
 }

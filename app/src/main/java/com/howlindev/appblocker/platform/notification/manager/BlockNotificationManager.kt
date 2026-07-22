@@ -50,6 +50,10 @@ class BlockNotificationManager(
         }
 
         val profile = getProfileUseCase(activeBlock.profileId)
+        if (profile == null) {
+            cancelNotification()
+            return
+        }
         val title = context.getString(R.string.notification_active_profile_title, profile.name)
         val appsCount = profile.appPackages.size
         val body = context.getString(R.string.notification_active_profile_body, appsCount)

@@ -185,7 +185,7 @@ internal fun ProfileListScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,

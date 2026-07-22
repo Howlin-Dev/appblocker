@@ -16,7 +16,7 @@ class SchedulerViewModel : ViewModel() {
 }
 
 data class SchedulerState(
-    val eventsByDay: Map<DayOfWeek, List<ScheduleEvent>> = emptyMap()
+    val eventsByDay: Map<DayOfWeek, List<ScheduleEvent>> = emptyMap(),
 )
 
 sealed interface SchedulerAction {

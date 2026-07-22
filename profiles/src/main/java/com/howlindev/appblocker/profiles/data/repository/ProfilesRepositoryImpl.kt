@@ -18,8 +18,8 @@ class ProfilesRepositoryImpl(
         }
     }
 
-    override suspend fun getById(id: Long): Profile {
-        return profileDao.getById(id)?.toDomain() ?: throw NoSuchElementException("Profile with id $id not found")
+    override suspend fun getById(id: Long): Profile? {
+        return profileDao.getById(id)?.toDomain()
     }
 
     override suspend fun insert(profile: Profile) {

@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,15 +17,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
 import com.howlindev.appblocker.schedule.R
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SchedulerScreen(
@@ -39,7 +38,7 @@ fun SchedulerScreen(
         state = state,
         onBackClick = onBackClick,
         onAction = viewModel::onAction,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -50,7 +49,7 @@ fun SchedulerScreenContent(
     onAction: (SchedulerAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val days = remember { DayOfWeek.values().toList() }
+    val days = remember { DayOfWeek.entries }
     val pagerState = rememberPagerState(pageCount = { days.size })
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,14 +61,13 @@ fun SchedulerScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
-            ScrollableTabRow(
+            TabRow(
                 selectedTabIndex = pagerState.currentPage,
-                edgePadding = 16.dp,
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.primary,
-                divider = {}
+                divider = {},
             ) {
                 days.forEachIndexed { index, day ->
                     Tab(
@@ -79,22 +77,22 @@ fun SchedulerScreenContent(
                                 pagerState.animateScrollToPage(index)
                             }
                         },
-                        text = { 
-                            Text(text = day.getDisplayName(TextStyle.SHORT, Locale.getDefault())) 
-                        }
+                        text = {
+                            Text(text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()))
+                        },
                     )
                 }
             }
 
             HorizontalPager(
                 state = pagerState,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) { pageIndex ->
                 val day = days[pageIndex]
                 ScheduleTimeline(
                     events = state.eventsByDay[day] ?: emptyList(),
                     onHourClick = { /* TODO */ },
-                    onEventClick = { /* TODO */ }
+                    onEventClick = { /* TODO */ },
                 )
             }
         }
@@ -109,7 +107,7 @@ private fun SchedulerScreenPreview() {
             SchedulerScreenContent(
                 state = SchedulerState(),
                 onBackClick = {},
-                onAction = {}
+                onAction = {},
             )
         }
     }

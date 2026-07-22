@@ -9,8 +9,8 @@ class GetProfileUiUseCase(
     private val profilesRepository: ProfilesRepository,
     private val installedAppsRepository: InstalledAppsRepository,
 ) {
-    suspend operator fun invoke(id: Long): ProfileUi {
+    suspend operator fun invoke(id: Long): ProfileUi? {
         val profile = profilesRepository.getById(id)
-        return profile.toUi(installedAppsRepository)
+        return profile?.toUi(installedAppsRepository)
     }
 }

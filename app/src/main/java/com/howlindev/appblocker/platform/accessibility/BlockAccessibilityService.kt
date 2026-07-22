@@ -75,8 +75,8 @@ class BlockAccessibilityService : AccessibilityService() {
 
     private fun handleAppBlocking(packageName: String) {
         val now = System.currentTimeMillis()
-        
-        // If we are switching from our own app or a different app to a blocked one, 
+
+        // If we are switching from our own app or a different app to a blocked one,
         // we should block immediately regardless of the cooldown.
         val isPackageSwitch = lastPackageName != packageName
         if (now - lastBlockTime < 1500 && !isPackageSwitch) return

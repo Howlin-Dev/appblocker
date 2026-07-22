@@ -3,12 +3,13 @@ package com.howlindev.appblocker.schedule.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,11 +26,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.howlindev.appblocker.schedule.R
 import java.time.DayOfWeek
 import java.time.LocalTime
 import java.time.format.TextStyle
@@ -43,7 +45,7 @@ fun ScheduleDialog(
     modifier: Modifier = Modifier,
     initialFrom: LocalTime = LocalTime.of(9, 0),
     initialUntil: LocalTime = LocalTime.of(17, 0),
-    initialDays: Set<DayOfWeek> = emptySet()
+    initialDays: Set<DayOfWeek> = emptySet(),
 ) {
     var fromTime by remember { mutableStateOf(initialFrom) }
     var untilTime by remember { mutableStateOf(initialUntil) }
@@ -59,7 +61,7 @@ fun ScheduleDialog(
             onConfirm = { time ->
                 fromTime = time
                 showFromTimePicker = false
-            }
+            },
         )
     }
 
@@ -70,13 +72,13 @@ fun ScheduleDialog(
             onConfirm = { time ->
                 untilTime = time
                 showUntilTimePicker = false
-            }
+            },
         )
     }
 
     BasicAlertDialog(
         onDismissRequest = onDismiss,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Card {
             Column(
@@ -84,13 +86,13 @@ fun ScheduleDialog(
                     .padding(24.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
-                    text = "Edit Schedule",
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.schedule_dialog_edit_title),
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center
                 )
 
                 ScheduleDialogBody(
@@ -105,19 +107,18 @@ fun ScheduleDialog(
                         } else {
                             selectedDays + day
                         }
-                    }
+                    },
                 )
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.schedule_button_cancel))
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Button(onClick = { onConfirm(fromTime, untilTime, selectedDays) }) {
-                        Text("Confirm")
+                    TextButton(onClick = { onConfirm(fromTime, untilTime, selectedDays) }) {
+                        Text(stringResource(R.string.schedule_button_confirm))
                     }
                 }
             }
@@ -132,22 +133,22 @@ private fun ScheduleDialogBody(
     selectedDays: Set<DayOfWeek>,
     onFromClick: () -> Unit,
     onUntilClick: () -> Unit,
-    onDayToggle: (DayOfWeek) -> Unit
+    onDayToggle: (DayOfWeek) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TimePickerRow(
             fromTime = fromTime,
             untilTime = untilTime,
             onFromClick = onFromClick,
-            onUntilClick = onUntilClick
+            onUntilClick = onUntilClick,
         )
 
         DayOfWeekSelector(
             selectedDays = selectedDays,
-            onDayToggle = onDayToggle
+            onDayToggle = onDayToggle,
         )
     }
 }
@@ -157,28 +158,46 @@ private fun TimePickerRow(
     fromTime: LocalTime,
     untilTime: LocalTime,
     onFromClick: () -> Unit,
-    onUntilClick: () -> Unit
+    onUntilClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         OutlinedButton(
             onClick = onFromClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            shape = RoundedCornerShape(8.dp),
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "From", style = MaterialTheme.typography.labelSmall)
-                Text(text = String.format(Locale.getDefault(), "%02d:%02d", fromTime.hour, fromTime.minute), style = MaterialTheme.typography.bodyLarge)
+            Column {
+                Text(text = stringResource(R.string.schedule_label_from), style = MaterialTheme.typography.labelSmall)
+                Text(
+                    text = String.format(
+                        Locale.getDefault(),
+                        "%02d:%02d",
+                        fromTime.hour,
+                        fromTime.minute,
+                    ),
+                    style = MaterialTheme.typography.headlineLarge,
+                )
             }
         }
         OutlinedButton(
             onClick = onUntilClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            shape = RoundedCornerShape(8.dp),
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Until", style = MaterialTheme.typography.labelSmall)
-                Text(text = String.format(Locale.getDefault(), "%02d:%02d", untilTime.hour, untilTime.minute), style = MaterialTheme.typography.bodyLarge)
+            Column {
+                Text(text = stringResource(R.string.schedule_label_until), style = MaterialTheme.typography.labelSmall)
+                Text(
+                    text = String.format(
+                        Locale.getDefault(),
+                        "%02d:%02d",
+                        untilTime.hour,
+                        untilTime.minute,
+                    ),
+                    style = MaterialTheme.typography.headlineLarge,
+                )
             }
         }
     }
@@ -187,29 +206,39 @@ private fun TimePickerRow(
 @Composable
 private fun DayOfWeekSelector(
     selectedDays: Set<DayOfWeek>,
-    onDayToggle: (DayOfWeek) -> Unit
+    onDayToggle: (DayOfWeek) -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        DayOfWeek.values().forEach { day ->
+        DayOfWeek.entries.forEach { day ->
             val isSelected = selectedDays.contains(day)
             val firstLetter = day.getDisplayName(TextStyle.NARROW, Locale.getDefault())
-            
+
             if (isSelected) {
-                OutlinedButton(
+                Button(
                     onClick = { onDayToggle(day) },
-                    modifier = Modifier.width(44.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)
+                    modifier = Modifier.size(32.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary,
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(text = firstLetter)
                 }
             } else {
-                TextButton(
+                Button(
                     onClick = { onDayToggle(day) },
-                    modifier = Modifier.width(44.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)
+                    modifier = Modifier.size(32.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    ),
+                    shape = RoundedCornerShape(8.dp),
                 ) {
                     Text(text = firstLetter)
                 }
@@ -223,11 +252,11 @@ private fun DayOfWeekSelector(
 private fun TimePickerDialog(
     initialTime: LocalTime,
     onDismiss: () -> Unit,
-    onConfirm: (LocalTime) -> Unit
+    onConfirm: (LocalTime) -> Unit,
 ) {
     val timePickerState = rememberTimePickerState(
         initialHour = initialTime.hour,
-        initialMinute = initialTime.minute
+        initialMinute = initialTime.minute,
     )
 
     Dialog(onDismissRequest = onDismiss) {
@@ -235,26 +264,26 @@ private fun TimePickerDialog(
             Column(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
-                    text = "Select Time",
-                    style = MaterialTheme.typography.titleMedium
+                    text = stringResource(R.string.schedule_dialog_select_time_title),
+                    style = MaterialTheme.typography.titleMedium,
                 )
-                
+
                 TimePicker(state = timePickerState)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.schedule_button_cancel))
                     }
                     TextButton(onClick = {
                         onConfirm(LocalTime.of(timePickerState.hour, timePickerState.minute))
                     }) {
-                        Text("Confirm")
+                        Text(stringResource(R.string.schedule_button_confirm))
                     }
                 }
             }
@@ -274,7 +303,7 @@ private fun ScheduleDialogBodyPreview() {
                     selectedDays = setOf(DayOfWeek.MONDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY),
                     onFromClick = {},
                     onUntilClick = {},
-                    onDayToggle = {}
+                    onDayToggle = {},
                 )
             }
         }

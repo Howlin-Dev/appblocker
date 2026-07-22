@@ -46,7 +46,7 @@ class ManageProfileWebsiteListViewModel(
                     it.copy(
                         isLoading = false,
                         profile = profileUi,
-                        selectedWebsites = profileUi.blockedWebsites.toSet(),
+                        selectedWebsites = profileUi?.blockedWebsites?.toSet() ?: emptySet(),
                     )
                 }
             }.onFailure {

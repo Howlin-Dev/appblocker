@@ -95,7 +95,7 @@ internal fun SettingsScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             Column(
                 modifier = Modifier
@@ -105,35 +105,66 @@ internal fun SettingsScreenContent(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-            Row(
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                Icon(
-                    painter = painterResource(CoreRes.drawable.outline_day_night),
-                    contentDescription = "Theme",
-                )
-                Text(
-                    text = stringResource(R.string.theme),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                ThemeButtonGroup(
-                    modifier = Modifier.height(40.dp),
-                    selected = currentThemeMode,
-                    onSelected = { onAction(SettingsAction.ThemeModeSwitch(it)) },
-                )
-            }
-            if (isDynamicColorSupported) {
+                Row(
+                    modifier = Modifier
+                        .height(64.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    Icon(
+                        painter = painterResource(CoreRes.drawable.outline_day_night),
+                        contentDescription = "Theme",
+                    )
+                    Text(
+                        text = stringResource(R.string.theme),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    ThemeButtonGroup(
+                        modifier = Modifier.height(40.dp),
+                        selected = currentThemeMode,
+                        onSelected = { onAction(SettingsAction.ThemeModeSwitch(it)) },
+                    )
+                }
+                if (isDynamicColorSupported) {
+                    Surface(
+                        modifier = Modifier
+                            .height(64.dp)
+                            .fillMaxWidth(),
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        shape = RoundedCornerShape(8.dp),
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        ) {
+                            Icon(
+                                painter = painterResource(CoreRes.drawable.outline_format_paint),
+                                contentDescription = "Dynamic Color",
+                            )
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                text = stringResource(R.string.dynamic_color),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Switch(
+                                checked = isDynamicColorEnabled,
+                                onCheckedChange = { onAction(SettingsAction.DynamicColorSwitch(it)) },
+                            )
+                        }
+                    }
+                }
                 Surface(
                     modifier = Modifier
                         .height(64.dp)
                         .fillMaxWidth(),
                     color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(8.dp),
+                    onClick = { onAction(SettingsAction.LanguageClick) },
                 ) {
                     Row(
                         modifier = Modifier
@@ -143,52 +174,21 @@ internal fun SettingsScreenContent(
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         Icon(
-                            painter = painterResource(CoreRes.drawable.outline_format_paint),
-                            contentDescription = "Dynamic Color",
+                            painter = painterResource(CoreRes.drawable.outline_language),
+                            contentDescription = "Language",
                         )
                         Text(
                             modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.dynamic_color),
+                            text = stringResource(R.string.language),
                             style = MaterialTheme.typography.titleMedium,
                         )
-                        Switch(
-                            checked = isDynamicColorEnabled,
-                            onCheckedChange = { onAction(SettingsAction.DynamicColorSwitch(it)) },
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                            contentDescription = "Language Navigate",
                         )
                     }
                 }
-            }
-            Surface(
-                modifier = Modifier
-                    .height(64.dp)
-                    .fillMaxWidth(),
-                color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(8.dp),
-                onClick = { onAction(SettingsAction.LanguageClick) },
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Icon(
-                        painter = painterResource(CoreRes.drawable.outline_language),
-                        contentDescription = "Language",
-                    )
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = stringResource(R.string.language),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                        contentDescription = "Language Navigate",
-                    )
-                }
-            }
-            // TODO implement unblockable website functionality
+                // TODO implement unblockable website functionality
 //            Surface(
 //                modifier = Modifier
 //                    .height(64.dp)
@@ -219,16 +219,16 @@ internal fun SettingsScreenContent(
 //                    )
 //                }
 //            }
-            Text(
-                modifier = Modifier
-                    .padding(vertical = 16.dp)
-                    .alpha(0.5f),
-                text = stringResource(R.string.app_version, context.appVersion()),
-                style = MaterialTheme.typography.labelSmall,
-            )
+                Text(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .alpha(0.5f),
+                    text = stringResource(R.string.app_version, context.appVersion()),
+                    style = MaterialTheme.typography.labelSmall,
+                )
+            }
         }
     }
-}
 }
 
 @Preview

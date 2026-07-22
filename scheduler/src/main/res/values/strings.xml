@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="schedule_app_title">Scheduler</string>
+    <string name="schedule_dialog_edit_title">Edit Schedule</string>
+    <string name="schedule_button_cancel">Cancel</string>
+    <string name="schedule_button_confirm">Confirm</string>
+    <string name="schedule_label_from">From</string>
+    <string name="schedule_label_until">Until</string>
+    <string name="schedule_dialog_select_time_title">Select Time</string>
+    <string name="schedule_content_description_edit">Edit Schedule</string>
+    <string name="schedule_content_description_remove">Remove Schedule</string>
 </resources>
