@@ -1,8 +1,8 @@
 package com.howlindev.appblocker.profiles.presentation.list.model
 
 import com.howlindev.appblocker.core.domain.model.AppInfo
+import com.howlindev.appblocker.core.domain.model.Profile
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
-import com.howlindev.appblocker.profiles.domain.model.Profile
 
 data class ProfileUi(
     val id: Long = 0,

@@ -17,6 +17,12 @@ class ScheduleRepositoryImpl(
         }
     }
 
+    override fun getAllEvents(): Flow<List<ScheduleEvent>> {
+        return dao.getAllEvents().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
     override suspend fun saveEvent(event: ScheduleEvent) {
         dao.insertEvent(event.toEntity())
     }

@@ -1,9 +1,9 @@
 package com.howlindev.appblocker.profiles.data.repository
 
 import app.cash.turbine.test
+import com.howlindev.appblocker.core.domain.model.Profile
 import com.howlindev.appblocker.profiles.data.db.ProfileDao
 import com.howlindev.appblocker.profiles.data.model.ProfileEntity
-import com.howlindev.appblocker.profiles.domain.model.Profile
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

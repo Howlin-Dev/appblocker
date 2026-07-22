@@ -13,6 +13,9 @@ interface ScheduleEventDao {
     @Query("SELECT * FROM schedule_events WHERE profileId = :profileId")
     fun getEventsByProfileId(profileId: Long): Flow<List<ScheduleEventEntity>>
 
+    @Query("SELECT * FROM schedule_events")
+    fun getAllEvents(): Flow<List<ScheduleEventEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: ScheduleEventEntity)
 

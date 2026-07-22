@@ -1,6 +1,6 @@
-package com.howlindev.appblocker.profiles.domain.repository
+package com.howlindev.appblocker.core.domain.repository
 
-import com.howlindev.appblocker.profiles.domain.model.Profile
+import com.howlindev.appblocker.core.domain.model.Profile
 import kotlinx.coroutines.flow.Flow
 
 interface ProfilesRepository {

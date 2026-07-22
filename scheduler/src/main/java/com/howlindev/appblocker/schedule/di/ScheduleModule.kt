@@ -3,6 +3,7 @@ package com.howlindev.appblocker.schedule.di
 import com.howlindev.appblocker.schedule.data.repository.ScheduleRepositoryImpl
 import com.howlindev.appblocker.schedule.domain.repository.ScheduleRepository
 import com.howlindev.appblocker.schedule.domain.usecase.DeleteScheduleEventUseCase
+import com.howlindev.appblocker.schedule.domain.usecase.GetAllScheduleEventsUseCase
 import com.howlindev.appblocker.schedule.domain.usecase.GetScheduleEventsByProfileIdUseCase
 import com.howlindev.appblocker.schedule.domain.usecase.SaveScheduleEventUseCase
 import com.howlindev.appblocker.schedule.presentation.SchedulerViewModel
@@ -16,6 +17,7 @@ val scheduleModule = module {
 
     single { ScheduleRepositoryImpl(get()) } bind ScheduleRepository::class
 
+    factoryOf(::GetAllScheduleEventsUseCase)
     factoryOf(::GetScheduleEventsByProfileIdUseCase)
     factoryOf(::SaveScheduleEventUseCase)
     factoryOf(::DeleteScheduleEventUseCase)

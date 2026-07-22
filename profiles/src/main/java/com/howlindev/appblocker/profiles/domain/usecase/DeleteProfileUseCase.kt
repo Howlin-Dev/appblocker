@@ -1,7 +1,7 @@
 package com.howlindev.appblocker.profiles.domain.usecase
 
 import com.howlindev.appblocker.core.domain.repository.BlockRepository
-import com.howlindev.appblocker.profiles.domain.repository.ProfilesRepository
+import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import kotlinx.coroutines.flow.firstOrNull
 
 class DeleteProfileUseCase(
