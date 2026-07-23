@@ -22,8 +22,8 @@ class ProfilesRepositoryImpl(
         return profileDao.getById(id)?.toDomain()
     }
 
-    override suspend fun insert(profile: Profile) {
-        profileDao.insert(profile.toEntity())
+    override suspend fun insert(profile: Profile): Long {
+        return profileDao.insert(profile.toEntity())
     }
 
     override suspend fun update(profile: Profile) {

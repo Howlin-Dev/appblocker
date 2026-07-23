@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.howlindev.appblocker.core.R
+import com.howlindev.appblocker.core.presentation.component.WebsiteChip
 import com.howlindev.appblocker.core.util.millisToTimeString
 import com.howlindev.appblocker.profiles.presentation.common.TimerPickerDialog
 import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
@@ -83,27 +84,7 @@ fun ProfileListItem(
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (profile.blockedWebsites.isNotEmpty()) {
-                        Surface(
-                            shape = RoundedCornerShape(100),
-                            color = MaterialTheme.colorScheme.surfaceVariant,
-                            contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(4.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                            ) {
-                                Text(
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    text = profile.blockedWebsites.size.toString(),
-                                    style = MaterialTheme.typography.labelLarge,
-                                )
-                                Icon(
-                                    painter = painterResource(R.drawable.outline_globe),
-                                    contentDescription = "Globe",
-                                )
-                            }
-                        }
+                        WebsiteChip(text = profile.blockedWebsites.size.toString())
                     }
                 }
                 ProfileCompressedAppIconGrid(

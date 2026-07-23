@@ -9,4 +9,9 @@
     <string name="schedule_dialog_select_time_title">Vybrat čas</string>
     <string name="schedule_content_description_edit">Upravit rozvrh</string>
     <string name="schedule_content_description_remove">Odebrat rozvrh</string>
+    <string name="schedule_error_invalid_time_range">Čas do musí být později než čas od</string>
+    <string name="schedule_error_no_days_selected">Vyberte prosím alespoň jeden den</string>
+    <string name="schedule_dialog_create_title">Naplánovat profil</string>
+    <string name="schedule_dialog_new_profile">+ Nový profil</string>
+    <string name="schedule_error_no_profile_selected">Vyberte prosím profil</string>
 </resources>

@@ -9,4 +9,9 @@
     <string name="schedule_dialog_select_time_title">Выбрать время</string>
     <string name="schedule_content_description_edit">Редактировать расписание</string>
     <string name="schedule_content_description_remove">Удалить расписание</string>
+    <string name="schedule_error_invalid_time_range">Время до должно быть позже времени с</string>
+    <string name="schedule_error_no_days_selected">Пожалуйста, выберите хотя бы один день</string>
+    <string name="schedule_dialog_create_title">Запланировать профиль</string>
+    <string name="schedule_dialog_new_profile">+ Новый профиль</string>
+    <string name="schedule_error_no_profile_selected">Пожалуйста, выберите профиль</string>
 </resources>

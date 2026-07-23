@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -38,12 +39,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
 import kotlinx.coroutines.delay
+import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Calendar
 
 @Composable
 fun ScheduleTimeline(
     events: List<ScheduleEvent>,
+    dayOfWeek: DayOfWeek,
     onHourClick: (Int) -> Unit,
     onEventClick: (ScheduleEvent) -> Unit,
     modifier: Modifier = Modifier,
@@ -51,20 +55,24 @@ fun ScheduleTimeline(
 ) {
     val scrollState = rememberScrollState()
 
-    // Get current time using Calendar for API 24 compatibility
+    var currentDayOfWeek by remember { mutableStateOf(LocalDate.now().dayOfWeek) }
     var currentHour by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) }
     var currentMinute by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.MINUTE)) }
 
     LaunchedEffect(Unit) {
         while (true) {
             val calendar = Calendar.getInstance()
+            currentDayOfWeek = LocalDate.now().dayOfWeek
             currentHour = calendar.get(Calendar.HOUR_OF_DAY)
             currentMinute = calendar.get(Calendar.MINUTE)
-            delay(60000) // Update every minute
+            delay(timeMillis = 60000) // Update every minute
         }
     }
 
-    val eventLayouts = remember(events) { computeEventLayouts(events) }
+    val isToday = dayOfWeek == currentDayOfWeek
+
+    val mergedEvents = remember(events) { mergeEventsByProfile(events) }
+    val eventLayouts = remember(mergedEvents) { computeEventLayouts(mergedEvents) }
 
     Box(
         modifier = modifier
@@ -80,15 +88,14 @@ fun ScheduleTimeline(
                 }
             }
 
-            // Timeline Content Area
             BoxWithConstraints(
                 modifier = Modifier
+                    .padding(end = 8.dp)
                     .weight(1f)
                     .height(hourHeight * 24),
             ) {
                 val contentWidth = maxWidth
 
-                // Background Grid
                 Column {
                     (0..23).forEach { hour ->
                         Box(
@@ -106,7 +113,6 @@ fun ScheduleTimeline(
                     }
                 }
 
-                // Events
                 eventLayouts.forEach { layout ->
                     val event = layout.event
                     val eventOffset = (event.startMinute / 60f) * hourHeight.value
@@ -136,34 +142,61 @@ fun ScheduleTimeline(
                     }
                 }
 
-                // Current Time Line
-                val totalMinutes = currentHour * 60 + currentMinute
-                val verticalOffset = (totalMinutes / 60f) * hourHeight.value
+                if (isToday) {
+                    val totalMinutes = currentHour * 60 + currentMinute
+                    val verticalOffset = (totalMinutes / 60f) * hourHeight.value
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = verticalOffset.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .size(8.dp)
-                            .offset(x = (-4).dp) // Half of size to center on the start of content area
-                            .background(Color.White, CircleShape),
-                    )
-                    HorizontalDivider(
-                        modifier = Modifier.weight(1f),
-                        thickness = 1.dp,
-                        color = Color.White,
-                    )
+                            .fillMaxWidth()
+                            .offset(y = verticalOffset.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .offset(x = (-4).dp)
+                                .background(Color.White, CircleShape),
+                        )
+                        HorizontalDivider(
+                            modifier = Modifier.weight(1f),
+                            thickness = 1.dp,
+                            color = Color.White,
+                        )
+                    }
                 }
             }
         }
-
-        // Extra space at bottom for scrolling
         Spacer(modifier = Modifier.height(hourHeight))
     }
+}
+
+private fun mergeEventsByProfile(events: List<ScheduleEvent>): List<ScheduleEvent> {
+    if (events.isEmpty()) return emptyList()
+
+    return events.groupBy { it.profileId }
+        .flatMap { (_, profileEvents) ->
+            val sorted = profileEvents.sortedBy { it.startMinute }
+            val merged = mutableListOf<ScheduleEvent>()
+
+            if (sorted.isEmpty()) return@flatMap emptyList()
+
+            var current = sorted[0]
+
+            for (i in 1 until sorted.size) {
+                val next = sorted[i]
+                if (next.startMinute <= current.endMinute) {
+                    // Overlap or adjacent, merge
+                    val newEndTime = if (next.endMinute > current.endMinute) next.endTime else current.endTime
+                    current = current.copy(endTime = newEndTime)
+                } else {
+                    merged.add(current)
+                    current = next
+                }
+            }
+            merged.add(current)
+            merged
+        }
 }
 
 private data class EventLayoutInfo(
@@ -255,27 +288,31 @@ private fun ScheduleTimelinePreview() {
     val testEvents = listOf(
         ScheduleEvent(
             id = 1,
-            title = "3-Hour Event",
-            startTime = LocalTime.of(2, 0),
-            endTime = LocalTime.of(5, 0),
+            profileId = 1,
+            title = "Profile A",
+            startTime = LocalTime.of(2, 30),
+            endTime = LocalTime.of(7, 0),
         ),
         ScheduleEvent(
             id = 2,
-            title = "Overlap Meeting",
-            startTime = LocalTime.of(3, 0),
-            endTime = LocalTime.of(4, 0),
+            profileId = 1,
+            title = "Profile A",
+            startTime = LocalTime.of(4, 0),
+            endTime = LocalTime.of(7, 0),
         ),
         ScheduleEvent(
             id = 3,
-            title = "Long Meeting",
-            startTime = LocalTime.of(10, 0),
-            endTime = LocalTime.of(13, 0),
+            profileId = 2,
+            title = "Profile B",
+            startTime = LocalTime.of(0, 0),
+            endTime = LocalTime.of(3, 0),
         ),
         ScheduleEvent(
             id = 4,
-            title = "Quick Break",
-            startTime = LocalTime.of(14, 0),
-            endTime = LocalTime.of(14, 30),
+            profileId = 2,
+            title = "Profile B",
+            startTime = LocalTime.of(4, 0),
+            endTime = LocalTime.of(4, 30),
         ),
     )
 
@@ -285,6 +322,7 @@ private fun ScheduleTimelinePreview() {
         Surface(color = MaterialTheme.colorScheme.background) {
             ScheduleTimeline(
                 events = testEvents,
+                dayOfWeek = LocalDate.now().dayOfWeek,
                 onHourClick = {},
                 onEventClick = {},
             )

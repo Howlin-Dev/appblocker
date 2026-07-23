@@ -1,17 +1,30 @@
 package com.howlindev.appblocker.schedule.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -21,16 +34,24 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.howlindev.appblocker.core.domain.model.Profile
+import com.howlindev.appblocker.core.presentation.component.AppChip
+import com.howlindev.appblocker.core.presentation.component.WebsiteChip
 import com.howlindev.appblocker.schedule.R
 import java.time.DayOfWeek
 import java.time.LocalTime
@@ -46,6 +67,11 @@ fun ScheduleDialog(
     initialFrom: LocalTime = LocalTime.of(9, 0),
     initialUntil: LocalTime = LocalTime.of(17, 0),
     initialDays: Set<DayOfWeek> = emptySet(),
+    title: String? = null,
+    profiles: List<Profile>? = null,
+    selectedProfileId: Long? = null,
+    onProfileSelect: (Long) -> Unit = {},
+    onCreateProfileClick: () -> Unit = {},
 ) {
     var fromTime by remember { mutableStateOf(initialFrom) }
     var untilTime by remember { mutableStateOf(initialUntil) }
@@ -54,6 +80,12 @@ fun ScheduleDialog(
     var showFromTimePicker by remember { mutableStateOf(false) }
     var showUntilTimePicker by remember { mutableStateOf(false) }
 
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    val noDaysSelectedError = stringResource(R.string.schedule_error_no_days_selected)
+    val invalidTimeRangeError = stringResource(R.string.schedule_error_invalid_time_range)
+    val noProfileSelectedError = stringResource(R.string.schedule_error_no_profile_selected)
+
     if (showFromTimePicker) {
         TimePickerDialog(
             initialTime = fromTime,
@@ -61,6 +93,7 @@ fun ScheduleDialog(
             onConfirm = { time ->
                 fromTime = time
                 showFromTimePicker = false
+                errorMessage = null
             },
         )
     }
@@ -72,6 +105,7 @@ fun ScheduleDialog(
             onConfirm = { time ->
                 untilTime = time
                 showUntilTimePicker = false
+                errorMessage = null
             },
         )
     }
@@ -90,10 +124,22 @@ fun ScheduleDialog(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.schedule_dialog_edit_title),
+                    text = title ?: stringResource(R.string.schedule_dialog_edit_title),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                 )
+
+                if (profiles != null) {
+                    ProfileSelector(
+                        profiles = profiles,
+                        selectedProfileId = selectedProfileId,
+                        onProfileSelect = {
+                            onProfileSelect(it)
+                            errorMessage = null
+                        },
+                        onCreateProfileClick = onCreateProfileClick,
+                    )
+                }
 
                 ScheduleDialogBody(
                     fromTime = fromTime,
@@ -107,8 +153,23 @@ fun ScheduleDialog(
                         } else {
                             selectedDays + day
                         }
+                        errorMessage = null
                     },
                 )
+
+                AnimatedVisibility(
+                    visible = errorMessage != null,
+                    enter = expandVertically() + fadeIn(),
+                    exit = shrinkVertically() + fadeOut(),
+                ) {
+                    Text(
+                        text = errorMessage ?: "",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelMedium,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -117,11 +178,124 @@ fun ScheduleDialog(
                     TextButton(onClick = onDismiss) {
                         Text(stringResource(R.string.schedule_button_cancel))
                     }
-                    TextButton(onClick = { onConfirm(fromTime, untilTime, selectedDays) }) {
+                    TextButton(onClick = {
+                        if (profiles != null && selectedProfileId == null) {
+                            errorMessage = noProfileSelectedError
+                            return@TextButton
+                        }
+                        if (selectedDays.isEmpty()) {
+                            errorMessage = noDaysSelectedError
+                            return@TextButton
+                        }
+                        if (untilTime <= fromTime) {
+                            errorMessage = invalidTimeRangeError
+                            return@TextButton
+                        }
+                        onConfirm(fromTime, untilTime, selectedDays)
+                    }) {
                         Text(stringResource(R.string.schedule_button_confirm))
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ProfileSelector(
+    profiles: List<Profile>,
+    selectedProfileId: Long?,
+    onProfileSelect: (Long) -> Unit,
+    onCreateProfileClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectedProfile = remember(profiles, selectedProfileId) {
+        profiles.find { it.id == selectedProfileId }
+    }
+
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (expanded) 180f else 0f,
+        label = "ArrowRotation",
+    )
+
+    var width by remember { mutableIntStateOf(0) }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .onGloballyPositioned {
+                width = it.size.width
+            },
+    ) {
+        Button(
+            onClick = { expanded = true },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            ),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(
+                    modifier = Modifier.weight(1f),
+                    text = selectedProfile?.name ?: "Select Profile",
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    modifier = Modifier.rotate(rotationAngle),
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { width.toDp() }),
+        ) {
+            profiles.forEach { profile ->
+                DropdownMenuItem(
+                    text = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            Text(
+                                modifier = Modifier.weight(1f),
+                                text = profile.name,
+                            )
+                            if (profile.appPackages.isNotEmpty()) {
+                                AppChip(text = profile.appPackages.size.toString())
+                            }
+                            if (profile.blockedWebsites.isNotEmpty()) {
+                                WebsiteChip(text = profile.blockedWebsites.size.toString())
+                            }
+                        }
+                    },
+                    onClick = {
+                        onProfileSelect(profile.id)
+                        expanded = false
+                    },
+                )
+            }
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        text = stringResource(R.string.schedule_dialog_new_profile),
+                        fontWeight = FontWeight.ExtraBold,
+                    )
+                },
+                onClick = {
+                    onCreateProfileClick()
+                    expanded = false
+                },
+            )
         }
     }
 }
@@ -170,7 +344,10 @@ private fun TimePickerRow(
             shape = RoundedCornerShape(8.dp),
         ) {
             Column {
-                Text(text = stringResource(R.string.schedule_label_from), style = MaterialTheme.typography.labelSmall)
+                Text(
+                    text = stringResource(R.string.schedule_label_from),
+                    style = MaterialTheme.typography.labelSmall,
+                )
                 Text(
                     text = String.format(
                         Locale.getDefault(),
@@ -188,7 +365,10 @@ private fun TimePickerRow(
             shape = RoundedCornerShape(8.dp),
         ) {
             Column {
-                Text(text = stringResource(R.string.schedule_label_until), style = MaterialTheme.typography.labelSmall)
+                Text(
+                    text = stringResource(R.string.schedule_label_until),
+                    style = MaterialTheme.typography.labelSmall,
+                )
                 Text(
                     text = String.format(
                         Locale.getDefault(),

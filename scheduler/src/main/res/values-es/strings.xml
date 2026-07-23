@@ -9,4 +9,9 @@
     <string name="schedule_dialog_select_time_title">Seleccionar hora</string>
     <string name="schedule_content_description_edit">Editar horario</string>
     <string name="schedule_content_description_remove">Eliminar horario</string>
+    <string name="schedule_error_invalid_time_range">La hora hasta debe ser posterior a la hora desde</string>
+    <string name="schedule_error_no_days_selected">Seleccione al menos un día</string>
+    <string name="schedule_dialog_create_title">Programar perfil</string>
+    <string name="schedule_dialog_new_profile">+ Nuevo perfil</string>
+    <string name="schedule_error_no_profile_selected">Seleccione un perfil</string>
 </resources>

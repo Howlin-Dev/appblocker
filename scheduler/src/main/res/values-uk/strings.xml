@@ -9,4 +9,9 @@
     <string name="schedule_dialog_select_time_title">Вибрати час</string>
     <string name="schedule_content_description_edit">Редагувати розклад</string>
     <string name="schedule_content_description_remove">Видалити розклад</string>
+    <string name="schedule_error_invalid_time_range">Час до має бути пізніше часу з</string>
+    <string name="schedule_error_no_days_selected">Будь ласка, виберіть хоча б один день</string>
+    <string name="schedule_dialog_create_title">Запланувати профіль</string>
+    <string name="schedule_dialog_new_profile">+ Новий профіль</string>
+    <string name="schedule_error_no_profile_selected">Будь ласка, виберіть профіль</string>
 </resources>

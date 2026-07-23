@@ -10,7 +10,7 @@ class CreateProfileUseCase(
         name: String,
         appPackages: List<String>,
         blockedWebsites: List<String> = emptyList(),
-    ) {
+    ): Long {
         val profile = Profile(
             id = 0,
             name = name,
@@ -19,6 +19,6 @@ class CreateProfileUseCase(
             blockedWebsites = blockedWebsites,
             durationMillis = null,
         )
-        repository.insert(profile)
+        return repository.insert(profile)
     }
 }

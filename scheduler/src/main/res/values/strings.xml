@@ -9,4 +9,9 @@
     <string name="schedule_dialog_select_time_title">Select Time</string>
     <string name="schedule_content_description_edit">Edit Schedule</string>
     <string name="schedule_content_description_remove">Remove Schedule</string>
+    <string name="schedule_error_invalid_time_range">Until time must be later than from time</string>
+    <string name="schedule_error_no_days_selected">Please select at least one day</string>
+    <string name="schedule_dialog_create_title">Schedule Profile</string>
+    <string name="schedule_dialog_new_profile">+ New Profile</string>
+    <string name="schedule_error_no_profile_selected">Please select a profile</string>
 </resources>

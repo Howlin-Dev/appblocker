@@ -36,7 +36,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun CreateProfileScreen(
-    onBackClick: () -> Unit,
+    onBackClick: (Long?) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: CreateProfileViewModel = koinViewModel(),
 ) {
@@ -57,7 +57,7 @@ fun CreateProfileScreen(
                 }
 
                 CreateProfileAction.BackClick -> {
-                    onBackClick()
+                    onBackClick(null)
                 }
 
                 CreateProfileAction.CreateProfileClick -> {
@@ -85,7 +85,7 @@ fun CreateProfileScreen(
 
     LaunchedEffect(state.isCreated) {
         if (state.isCreated) {
-            onBackClick()
+            onBackClick(state.newProfileId)
         }
     }
 }
