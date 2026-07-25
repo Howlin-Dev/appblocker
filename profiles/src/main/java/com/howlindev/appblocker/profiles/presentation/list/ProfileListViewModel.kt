@@ -18,9 +18,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.milliseconds
 
 class ProfileListViewModel(
     observeRemainingTimeUseCase: ObserveRemainingTimeUseCase,
@@ -51,7 +53,7 @@ class ProfileListViewModel(
     fun checkPermissions() {
         viewModelScope.launch {
             _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
-            kotlinx.coroutines.delay(500)
+            kotlinx.coroutines.delay(500.milliseconds)
             _state.update { it.copy(missingPermissions = getMissingPermissionsUseCase()) }
         }
     }
@@ -66,14 +68,28 @@ class ProfileListViewModel(
                 getProfilesUiUseCase(),
                 observeActiveBlockUseCase(),
             ) { profilesUi, activeBlock ->
-                val activeProfile = profilesUi.find { it.id == activeBlock?.profileId }
-                val inactiveProfiles = profilesUi.filter { it.id != activeBlock?.profileId }
+                val timedProfileId = activeBlock?.profileId
+                val scheduledEndTimes = activeBlock?.scheduledProfileEndTimes ?: emptyMap()
+
+                val activeProfiles = profilesUi.filter { profile ->
+                    profile.id == timedProfileId || scheduledEndTimes.containsKey(profile.id)
+                }.map { profile ->
+                    profile.copy(
+                        scheduledEndTime = scheduledEndTimes[profile.id],
+                        isManuallyActive = profile.id == timedProfileId,
+                    )
+                }
+
+                val inactiveProfiles = profilesUi.filter { profile ->
+                    profile.id != timedProfileId && !scheduledEndTimes.containsKey(profile.id)
+                }
 
                 _state.update { currentState ->
                     currentState.copy(
                         isLoading = false,
                         inactiveProfiles = inactiveProfiles,
-                        activeProfile = activeProfile,
+                        activeProfiles = activeProfiles,
+                        isManualProfileActive = timedProfileId != null,
                     )
                 }
             }.collect {}
@@ -82,7 +98,8 @@ class ProfileListViewModel(
 
     fun toggleProfileActivation(profile: ProfileUi) {
         viewModelScope.launch {
-            if (state.value.activeProfile?.id == profile.id) {
+            val isManuallyActive = observeActiveBlockUseCase().first()?.profileId == profile.id
+            if (isManuallyActive) {
                 deactivateProfileUseCase()
             } else {
                 activateProfileUseCase(profile.toDomain())
@@ -109,6 +126,7 @@ class ProfileListViewModel(
 data class ProfilesListState(
     val isLoading: Boolean = false,
     val inactiveProfiles: List<ProfileUi> = emptyList(),
-    val activeProfile: ProfileUi? = null,
+    val activeProfiles: List<ProfileUi> = emptyList(),
+    val isManualProfileActive: Boolean = false,
     val missingPermissions: List<RequiredPermission> = emptyList(),
 )

@@ -14,4 +14,18 @@ data class ScheduleEvent(
     val startMinute: Int get() = startTime.hour * 60 + startTime.minute
     val endMinute: Int get() = endTime.hour * 60 + endTime.minute
     val durationMinutes: Int get() = endMinute - startMinute
+
+    fun isActiveNow(now: java.time.LocalDateTime = java.time.LocalDateTime.now()): Boolean {
+        val currentDay = now.dayOfWeek
+        val currentTime = now.toLocalTime()
+
+        if (currentDay !in daysOfWeek) return false
+
+        return if (startTime <= endTime) {
+            currentTime in startTime..endTime
+        } else {
+            // Overnight schedule
+            currentTime >= startTime || currentTime <= endTime
+        }
+    }
 }

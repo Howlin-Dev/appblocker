@@ -37,6 +37,7 @@ fun ScheduledBlockingItem(
     onEditClick: () -> Unit,
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isEnabled: Boolean = true,
 ) {
     Row(
         modifier = modifier
@@ -44,6 +45,7 @@ fun ScheduledBlockingItem(
             .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        val contentAlpha = if (isEnabled) 1f else 0.38f
         Column(
             modifier = Modifier.weight(1f),
         ) {
@@ -58,6 +60,7 @@ fun ScheduledBlockingItem(
                 ),
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = MaterialTheme.typography.titleMedium.fontSize.value.plus(2).sp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = contentAlpha),
             )
             Row(
                 modifier = Modifier.padding(top = 4.dp),
@@ -69,7 +72,11 @@ fun ScheduledBlockingItem(
                     Box(
                         modifier = Modifier
                             .background(
-                                color = if (isSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant,
+                                color = if (isSelected) {
+                                    MaterialTheme.colorScheme.secondary.copy(alpha = contentAlpha)
+                                } else {
+                                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = contentAlpha)
+                                },
                                 shape = RoundedCornerShape(4.dp),
                             )
                             .size(24.dp),
@@ -78,20 +85,30 @@ fun ScheduledBlockingItem(
                         Text(
                             text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
                             textAlign = TextAlign.Center,
-                            color = if (isSelected) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = if (isSelected) {
+                                MaterialTheme.colorScheme.onSecondary.copy(alpha = contentAlpha)
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = contentAlpha)
+                            },
                             style = MaterialTheme.typography.labelSmall,
                         )
                     }
                 }
             }
         }
-        IconButton(onClick = { onEditClick() }) {
+        IconButton(
+            onClick = { onEditClick() },
+            enabled = isEnabled,
+        ) {
             Icon(
                 imageVector = Icons.Default.Edit,
                 contentDescription = stringResource(R.string.schedule_content_description_edit),
             )
         }
-        IconButton(onClick = { onRemoveClick() }) {
+        IconButton(
+            onClick = { onRemoveClick() },
+            enabled = isEnabled,
+        ) {
             Icon(
                 imageVector = Icons.Default.Close,
                 contentDescription = stringResource(R.string.schedule_content_description_remove),

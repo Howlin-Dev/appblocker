@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
@@ -36,6 +37,30 @@ class BlockViewModel(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = 100L,
             )
+
+    val isStillBlocked: StateFlow<Boolean> = combine(
+        savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_PACKAGE_NAME, null),
+        savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_WEBSITE_URL, null),
+        observeActiveBlockUseCase(),
+    ) { pkg, url, activeBlock ->
+        if (activeBlock == null) return@combine false
+
+        val isAppBlocked = pkg?.let {
+            activeBlock.blockedPackages.contains(it)
+        } ?: false
+
+        val isWebsiteBlocked = url?.let { targetUrl ->
+            activeBlock.blockedWebsites.any { blockedUrl ->
+                targetUrl.contains(blockedUrl, ignoreCase = true)
+            }
+        } ?: false
+
+        isAppBlocked || isWebsiteBlocked
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = true,
+    )
 
     init {
         observeActiveProfile()

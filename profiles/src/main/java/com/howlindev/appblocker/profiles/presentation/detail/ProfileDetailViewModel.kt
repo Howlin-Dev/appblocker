@@ -2,6 +2,7 @@ package com.howlindev.appblocker.profiles.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.DeleteProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.GetProfileUiUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.UpdateProfileUseCase
@@ -21,6 +22,7 @@ class ProfileDetailViewModel(
     private val getProfileUiUseCase: GetProfileUiUseCase,
     private val updateProfileUseCase: UpdateProfileUseCase,
     private val deleteProfileUseCase: DeleteProfileUseCase,
+    private val observeActiveBlockUseCase: ObserveActiveBlockUseCase,
     private val getScheduleEventsByProfileIdUseCase: GetScheduleEventsByProfileIdUseCase,
     private val saveScheduleEventUseCase: SaveScheduleEventUseCase,
     private val deleteScheduleEventUseCase: DeleteScheduleEventUseCase,
@@ -42,6 +44,14 @@ class ProfileDetailViewModel(
         viewModelScope.launch {
             getScheduleEventsByProfileIdUseCase(id).collectLatest { events ->
                 _state.update { it.copy(scheduleEvents = events) }
+            }
+        }
+
+        viewModelScope.launch {
+            observeActiveBlockUseCase().collectLatest { activeBlock ->
+                val isProfileActive = activeBlock?.profileId == id ||
+                    activeBlock?.scheduledProfileEndTimes?.containsKey(id) == true
+                _state.update { it.copy(isProfileActive = isProfileActive) }
             }
         }
     }
@@ -93,5 +103,6 @@ data class ProfileDetailState(
     val isLoading: Boolean = false,
     val profile: ProfileUi? = null,
     val isProfileDeleted: Boolean = false,
+    val isProfileActive: Boolean = false,
     val scheduleEvents: List<ScheduleEvent> = emptyList(),
 )

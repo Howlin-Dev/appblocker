@@ -75,7 +75,8 @@ fun ProfileListScreen(
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
         inactiveProfiles = state.inactiveProfiles,
-        activeProfile = state.activeProfile,
+        activeProfiles = state.activeProfiles,
+        isManualProfileActive = state.isManualProfileActive,
         missingPermissions = state.missingPermissions,
         formattedTimeRemaining = formattedTime,
         onAction = { action ->
@@ -142,7 +143,8 @@ fun ProfileListScreen(
 @Composable
 internal fun ProfileListScreenContent(
     inactiveProfiles: List<ProfileUi>,
-    activeProfile: ProfileUi?,
+    activeProfiles: List<ProfileUi>,
+    isManualProfileActive: Boolean,
     missingPermissions: List<RequiredPermission>,
     formattedTimeRemaining: String,
     onAction: (ProfileListAction) -> Unit,
@@ -204,23 +206,21 @@ internal fun ProfileListScreenContent(
                     }
                 }
 
-                activeProfile?.let { activeProfile ->
-                    item {
-                        ActiveProfileListItem(
-                            modifier = Modifier.animateItem(),
-                            profile = activeProfile,
-                            onUnblockClick = {
-                                onAction(
-                                    ProfileListAction.ToggleProfileActivation(
-                                        activeProfile,
-                                    ),
-                                )
-                            },
-                            formattedTimeRemaining = formattedTimeRemaining,
-                        )
-                    }
+                items(items = activeProfiles, key = { it.id }) { activeProfile ->
+                    ActiveProfileListItem(
+                        modifier = Modifier.animateItem(),
+                        profile = activeProfile,
+                        onUnblockClick = {
+                            onAction(
+                                ProfileListAction.ToggleProfileActivation(
+                                    activeProfile,
+                                ),
+                            )
+                        },
+                        formattedTimeRemaining = formattedTimeRemaining,
+                    )
                 }
-                items(items = inactiveProfiles) { inactiveProfile ->
+                items(items = inactiveProfiles, key = { it.id }) { inactiveProfile ->
                     ProfileListItem(
                         modifier = Modifier.animateItem(),
                         profile = inactiveProfile,
@@ -228,7 +228,7 @@ internal fun ProfileListScreenContent(
                         onToggleProfileActivation = {
                             onAction(ProfileListAction.ToggleProfileActivation(inactiveProfile))
                         },
-                        isAnotherProfileActive = activeProfile != null,
+                        isAnotherProfileActive = isManualProfileActive,
                         onTimerChanged = { newTime ->
                             onAction(
                                 ProfileListAction.TimerChange(
@@ -251,7 +251,8 @@ private fun ProfileListScreenPreview() {
         ProfileListScreenContent(
             inactiveProfiles = emptyList(),
             onAction = {},
-            activeProfile = null,
+            activeProfiles = emptyList(),
+            isManualProfileActive = false,
             formattedTimeRemaining = "",
             missingPermissions = emptyList(),
         )

@@ -49,7 +49,7 @@ class BlockNotificationManager(
             return
         }
 
-        val profile = getProfileUseCase(activeBlock.profileId)
+        val profile = activeBlock.profileId?.let { getProfileUseCase(it) }
         if (profile == null) {
             cancelNotification()
             return
@@ -58,7 +58,7 @@ class BlockNotificationManager(
         val appsCount = profile.appPackages.size
         val body = context.getString(R.string.notification_active_profile_body, appsCount)
 
-        val timerText = if (activeBlock.isTimed) {
+        val timerText = if (activeBlock.hasTimer) {
             context.getString(R.string.notification_active_profile_timer, remainingMillis.millisToTimerString(context))
         } else {
             ""

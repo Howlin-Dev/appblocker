@@ -70,6 +70,7 @@ fun ProfileDetailScreen(
     ProfileDetailScreenContent(
         modifier = modifier,
         profile = state.profile,
+        isProfileActive = state.isProfileActive,
         onAction = { action ->
             when (action) {
                 ProfileDetailAction.BackClick -> onBackClick()
@@ -109,6 +110,7 @@ fun ProfileDetailScreen(
 private fun ProfileDetailScreenContent(
     profile: ProfileUi?,
     scheduleEvents: List<ScheduleEvent>,
+    isProfileActive: Boolean,
     onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -134,6 +136,7 @@ private fun ProfileDetailScreenContent(
                 onDismissRequest = { expanded = false },
             ) {
                 DropdownMenuItem(
+                    enabled = !isProfileActive,
                     text = { Text(stringResource(R.string.profiles_button_delete)) },
                     onClick = {
                         expanded = false
@@ -157,15 +160,18 @@ private fun ProfileDetailScreenContent(
             ) {
                 ProfileNameSection(
                     name = profile?.name.orEmpty(),
+                    isEditable = !isProfileActive,
                     onRenameClick = { renameDialogShown.value = true },
                 )
                 Spacer(modifier = Modifier.size(24.dp))
                 ProfileAppListSection(
                     appList = profile?.blockedApps.orEmpty(),
+                    isEnabled = !isProfileActive,
                     onAction = onAction,
                 )
                 ProfileWebsiteListSection(
                     websites = profile?.blockedWebsites.orEmpty(),
+                    isEnabled = !isProfileActive,
                     onAction = onAction,
                 )
                 ProfileScheduleSection(
@@ -234,6 +240,7 @@ private fun ProfileDetailScreenContent(
 @Composable
 private fun ProfileNameSection(
     name: String,
+    isEditable: Boolean,
     onRenameClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -262,6 +269,7 @@ private fun ProfileNameSection(
             }
             IconButton(
                 onClick = onRenameClick,
+                enabled = isEditable,
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
@@ -275,6 +283,7 @@ private fun ProfileNameSection(
 @Composable
 private fun ProfileAppListSection(
     appList: List<AppInfo>,
+    isEnabled: Boolean,
     onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -300,6 +309,7 @@ private fun ProfileAppListSection(
             )
             TextButton(
                 onClick = { onAction(ProfileDetailAction.ManageAppListClick) },
+                enabled = isEnabled,
             ) {
                 Text(stringResource(R.string.profiles_manage_app_list_button))
                 Spacer(modifier = Modifier.width(8.dp))
@@ -315,6 +325,7 @@ private fun ProfileAppListSection(
 @Composable
 private fun ProfileWebsiteListSection(
     websites: List<String>,
+    isEnabled: Boolean,
     onAction: (ProfileDetailAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -372,6 +383,7 @@ private fun ProfileWebsiteListSection(
 
             TextButton(
                 onClick = { onAction(ProfileDetailAction.ManageWebsiteListClick) },
+                enabled = isEnabled,
             ) {
                 Text(stringResource(R.string.profiles_manage_website_list_button))
                 Spacer(modifier = Modifier.width(8.dp))
@@ -427,6 +439,7 @@ private fun ProfileScheduleSection(
                             event = event,
                             onEditClick = { onEditScheduleClick(event) },
                             onRemoveClick = { onDeleteScheduleClick(event) },
+                            isEnabled = !event.isActiveNow(),
                         )
                     }
                 }
@@ -454,6 +467,7 @@ private fun ProfileDetailScreenPreview() {
             name = "Reading",
         ),
         scheduleEvents = emptyList(),
+        isProfileActive = false,
         onAction = { },
     )
 }

@@ -95,7 +95,6 @@ class SchedulerViewModel(
                 _selectedProfileId.value = action.profileId
                 _isScheduleDialogOpen.value = true
             }
-
         }
     }
 }

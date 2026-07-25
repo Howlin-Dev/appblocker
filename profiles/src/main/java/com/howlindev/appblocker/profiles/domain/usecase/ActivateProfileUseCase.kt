@@ -13,11 +13,11 @@ class ActivateProfileUseCase(
             timerRepository.startTimer(it)
         }
 
-        blockRepository.activateProfile(
+        blockRepository.activateTimedProfile(
             profileId = profile.id,
             appPackages = profile.appPackages,
             blockedWebsites = profile.blockedWebsites,
-            isTimed = profile.durationMillis != null,
+            hasTimer = profile.durationMillis != null,
         )
     }
 }

@@ -35,6 +35,7 @@
     <string name="profiles_name_field_label">Назва</string>
 
     <string name="profiles_active_for">Активний протягом:</string>
+    <string name="profiles_active_until">Активний до %1$s</string>
     <string name="profiles_unblock_button">Розблокувати</string>
     <string name="profiles_blocked_apps_label">Заблоковані програми:</string>
     <string name="profiles_blocked_websites_label">Заблоковані вебсайти:</string>

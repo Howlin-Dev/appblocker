@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @SuppressLint("AccessibilityPolicy")
 class BlockAccessibilityService : AccessibilityService() {
@@ -38,6 +39,7 @@ class BlockAccessibilityService : AccessibilityService() {
             blockRepository.activeBlock.collect { lock ->
                 blockedPackages = lock?.blockedPackages?.toSet() ?: emptySet()
                 blockedWebsites = lock?.blockedWebsites ?: emptyList()
+                lastPackageName?.let { handleAppBlocking(it) }
             }
         }
 
@@ -74,6 +76,7 @@ class BlockAccessibilityService : AccessibilityService() {
     }
 
     private fun handleAppBlocking(packageName: String) {
+        if (packageName == this.packageName) return
         val now = System.currentTimeMillis()
 
         // If we are switching from our own app or a different app to a blocked one,
@@ -113,7 +116,7 @@ class BlockAccessibilityService : AccessibilityService() {
 
                 serviceScope.launch {
                     BlockNavigator.navigateBrowserAway(this@BlockAccessibilityService, browserPackage)
-                    kotlinx.coroutines.delay(300)
+                    kotlinx.coroutines.delay(300.milliseconds)
                     BlockNavigator.launchBlockScreen(this@BlockAccessibilityService, browserPackage, url)
                 }
             } else if (lastBlockedUrl != null && !url.contains(lastBlockedUrl!!)) {

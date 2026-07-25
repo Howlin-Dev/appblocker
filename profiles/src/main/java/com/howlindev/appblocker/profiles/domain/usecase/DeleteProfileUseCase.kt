@@ -11,7 +11,7 @@ class DeleteProfileUseCase(
     suspend operator fun invoke(id: Long) {
         val activeBlock = blockRepository.activeBlock.firstOrNull()
         if (activeBlock?.profileId == id) {
-            blockRepository.deactivate()
+            blockRepository.deactivateTimed()
         }
         profilesRepository.delete(id)
     }
