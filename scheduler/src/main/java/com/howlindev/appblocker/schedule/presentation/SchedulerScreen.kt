@@ -100,7 +100,7 @@ fun SchedulerScreenContent(
                         },
                         text = {
                             Text(
-                                text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()),
+                                text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()).uppercase(),
                                 fontWeight = if (day == currentDay) FontWeight.ExtraBold else FontWeight.Normal,
                             )
                         },

@@ -261,10 +261,14 @@ private fun TimeLabel(
     hour: Int,
     height: Dp,
 ) {
-    val timeText = remember(hour) {
-        val h = if (hour == 0 || hour == 12) 12 else hour % 12
-        val amPm = if (hour < 12) "AM" else "PM"
-        "$h $amPm"
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val timeText = remember(hour, context) {
+        val time = LocalTime.of(hour, 0)
+        val is24Hour = android.text.format.DateFormat.is24HourFormat(context)
+        val skeleton = if (is24Hour) "Hm" else "ha"
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(java.util.Locale.getDefault(), skeleton)
+        val formatter = java.time.format.DateTimeFormatter.ofPattern(pattern)
+        time.format(formatter)
     }
 
     Box(
