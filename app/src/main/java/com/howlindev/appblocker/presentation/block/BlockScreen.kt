@@ -62,6 +62,7 @@ fun BlockScreen(
         isTimed = state.activeBlock?.hasTimer ?: hasTimer,
         blockedApp = state.blockedApp,
         blockedWebsite = state.blockedWebsite,
+        scheduledEndTime = state.scheduledEndTime,
         onAction = { action ->
             when (action) {
                 BlockAction.OnClose -> onClose()
@@ -84,6 +85,7 @@ private fun BlockScreenContent(
     blockedApp: AppInfo?,
     blockedWebsite: String?,
     modifier: Modifier = Modifier,
+    scheduledEndTime: String? = null,
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -96,7 +98,9 @@ private fun BlockScreenContent(
             AppBlockHeader(blockedApp)
         }
 
-        val message = if (blockedWebsite != null) {
+        val message = if (scheduledEndTime != null) {
+            stringResource(R.string.block_screen_scheduled_message, scheduledEndTime)
+        } else if (blockedWebsite != null) {
             "The webpage $blockedWebsite was blocked because it's in your block list"
         } else {
             stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty())
@@ -201,6 +205,7 @@ fun BlockScreenPreview() {
             isTimed = true,
             blockedApp = null,
             blockedWebsite = "facebook.com",
+            scheduledEndTime = "18:00",
         )
     }
 }

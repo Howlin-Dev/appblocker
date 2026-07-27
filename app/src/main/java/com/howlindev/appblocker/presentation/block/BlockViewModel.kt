@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.howlindev.appblocker.core.domain.model.ActiveBlock
 import com.howlindev.appblocker.core.domain.model.AppInfo
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
+import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class BlockViewModel(
     observeRemainingTimeUseCase: ObserveRemainingTimeUseCase,
     private val observeActiveBlockUseCase: ObserveActiveBlockUseCase,
     private val installedAppsRepository: InstalledAppsRepository,
+    private val profilesRepository: ProfilesRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(BlockState())
@@ -95,12 +97,34 @@ class BlockViewModel(
     }
 
     private fun observeActiveProfile() {
-        observeActiveBlockUseCase()
-            .onEach { activeBlock ->
-                Log.d("observeActiveBlockUseCase", activeBlock.toString())
-                _state.update { it.copy(activeBlock = activeBlock) }
+        combine(
+            observeActiveBlockUseCase(),
+            profilesRepository.getAll(),
+            savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_PACKAGE_NAME, null),
+            savedStateHandle.getStateFlow<String?>(BlockActivity.EXTRA_WEBSITE_URL, null),
+        ) { activeBlock, allProfiles, pkg, url ->
+            val scheduledEndTime = if (activeBlock?.isScheduled == true) {
+                val blockingProfileIds = allProfiles.filter { profile ->
+                    val blocksApp = pkg != null && profile.appPackages.contains(pkg)
+                    val blocksWebsite = url != null && profile.blockedWebsites.any {
+                        url.contains(it, ignoreCase = true)
+                    }
+                    blocksApp || blocksWebsite
+                }.map { it.id }
+
+                blockingProfileIds.mapNotNull { activeBlock.scheduledProfileEndTimes[it] }.maxOrNull()
+            } else {
+                null
             }
-            .launchIn(viewModelScope)
+
+            Log.d("observeActiveBlockUseCase", activeBlock.toString())
+            _state.update {
+                it.copy(
+                    activeBlock = activeBlock,
+                    scheduledEndTime = scheduledEndTime,
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 }
 
@@ -108,4 +132,5 @@ data class BlockState(
     val activeBlock: ActiveBlock? = null,
     val blockedApp: AppInfo? = null,
     val blockedWebsite: String? = null,
+    val scheduledEndTime: String? = null,
 )
