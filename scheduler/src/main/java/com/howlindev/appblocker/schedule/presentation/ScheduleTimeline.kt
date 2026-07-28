@@ -2,6 +2,8 @@ package com.howlindev.appblocker.schedule.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -25,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,12 +35,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
+import com.howlindev.appblocker.schedule.domain.model.TimelineSelection
 import kotlinx.coroutines.delay
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -52,14 +59,20 @@ fun ScheduleTimeline(
     onEventClick: (ScheduleEvent) -> Unit,
     modifier: Modifier = Modifier,
     hourHeight: Dp = 80.dp,
+    selection: TimelineSelection? = null,
+    onSelectionChange: (TimelineSelection?) -> Unit = {},
 ) {
     val density = LocalDensity.current
+    val hourHeightPx = with(density) { hourHeight.toPx() }
+
+    val currentSelectionState = rememberUpdatedState(selection)
+    val onSelectionChangeState = rememberUpdatedState(onSelectionChange)
+
     val isTodayInitial = remember(dayOfWeek) { dayOfWeek == LocalDate.now().dayOfWeek }
     val initialScroll = remember(isTodayInitial) {
         if (isTodayInitial) {
             val now = LocalTime.now()
             val totalMinutes = now.hour * 60 + now.minute
-            val hourHeightPx = with(density) { hourHeight.toPx() }
             val pos = (totalMinutes / 60f) * hourHeightPx - hourHeightPx
             maxOf(0f, pos).toInt()
         } else 0
@@ -85,11 +98,19 @@ fun ScheduleTimeline(
     val mergedEvents = remember(events) { mergeEventsByProfile(events) }
     val eventLayouts = remember(mergedEvents) { computeEventLayouts(mergedEvents) }
 
+    var dragInitialSelection by remember { mutableStateOf<TimelineSelection?>(null) }
+    var dragTotalDeltaY by remember { mutableFloatStateOf(0f) }
+
     Box(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    onSelectionChange(null)
+                }
+            },
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             // Time Labels Column
@@ -103,7 +124,21 @@ fun ScheduleTimeline(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .weight(1f)
-                    .height(hourHeight * 24),
+                    .height(hourHeight * 24)
+                    .pointerInput(dayOfWeek) {
+                        detectTapGestures { offset ->
+                            val totalMinutes = ((offset.y / hourHeightPx) * 60).toInt()
+                            val hour = totalMinutes / 60
+                            val minute = (totalMinutes % 60 / 15) * 15 // Snap to 15 mins
+                            onSelectionChange(
+                                TimelineSelection(
+                                    startMinute = hour * 60 + minute,
+                                    endMinute = hour * 60 + minute + 60,
+                                    dayOfWeek = dayOfWeek,
+                                ),
+                            )
+                        }
+                    },
             ) {
                 val contentWidth = maxWidth
 
@@ -112,8 +147,7 @@ fun ScheduleTimeline(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(hourHeight)
-                                .clickable { onHourClick(hour) },
+                                .height(hourHeight),
                         ) {
                             HorizontalDivider(
                                 modifier = Modifier.align(Alignment.TopStart),
@@ -149,6 +183,124 @@ fun ScheduleTimeline(
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontWeight = FontWeight.Bold,
                             maxLines = if (event.durationMinutes < 30) 1 else Int.MAX_VALUE,
+                        )
+                    }
+                }
+
+                // Selection Layer
+                if (selection != null && selection.dayOfWeek == dayOfWeek) {
+                    val selectionOffset = (selection.startMinute / 60f) * hourHeightPx
+                    val selectionHeight = (selection.durationMinutes / 60f) * hourHeightPx
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = with(density) { selectionOffset.toDp() })
+                            .height(with(density) { selectionHeight.toDp() })
+                            .background(
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp),
+                            )
+                            .pointerInput(Unit) {
+                                detectDragGestures(
+                                    onDragStart = {
+                                        dragInitialSelection = currentSelectionState.value
+                                        dragTotalDeltaY = 0f
+                                    },
+                                    onDrag = { change, dragAmount ->
+                                        change.consume()
+                                        dragTotalDeltaY += dragAmount.y
+                                        val initial = dragInitialSelection ?: return@detectDragGestures
+                                        val deltaMinutes = ((dragTotalDeltaY / hourHeightPx) * 60).toInt()
+                                        val newStart = (initial.startMinute + deltaMinutes)
+                                            .coerceIn(0, 1440 - initial.durationMinutes)
+                                        val snappedStart = (newStart / 15) * 15
+                                        onSelectionChangeState.value(
+                                            initial.copy(
+                                                startMinute = snappedStart,
+                                                endMinute = snappedStart + initial.durationMinutes,
+                                            ),
+                                        )
+                                    },
+                                )
+                            }
+                            .clickable { /* Prevents clicking through to start new selection */ }
+                            .padding(4.dp),
+                    ) {
+                        // Outline
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.Transparent),
+                        ) {
+                            Surface(
+                                modifier = Modifier.fillMaxSize(),
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(8.dp),
+                                border = androidx.compose.foundation.BorderStroke(
+                                    2.dp,
+                                    MaterialTheme.colorScheme.primary,
+                                ),
+                            ) {}
+                        }
+
+                        // Top Handle
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .offset(x = 8.dp, y = (-12).dp)
+                                .background(MaterialTheme.colorScheme.primary, CircleShape)
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        onDragStart = {
+                                            dragInitialSelection = currentSelectionState.value
+                                            dragTotalDeltaY = 0f
+                                        },
+                                        onDrag = { change, dragAmount ->
+                                            change.consume()
+                                            dragTotalDeltaY += dragAmount.y
+                                            val initial = dragInitialSelection ?: return@detectDragGestures
+                                            val deltaMinutes = ((dragTotalDeltaY / hourHeightPx) * 60).toInt()
+                                            val newStart = (initial.startMinute + deltaMinutes)
+                                                .coerceIn(0, initial.endMinute - 15)
+                                            val snappedStart = (newStart / 15) * 15
+                                            onSelectionChangeState.value(
+                                                initial.copy(startMinute = snappedStart),
+                                            )
+                                        },
+                                    )
+                                }
+                                .align(Alignment.TopStart),
+                        )
+
+                        // Bottom Handle
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .offset(x = (-8).dp, y = 12.dp)
+                                .background(MaterialTheme.colorScheme.primary, CircleShape)
+                                .pointerInput(Unit) {
+                                    detectDragGestures(
+                                        onDragStart = {
+                                            dragInitialSelection = currentSelectionState.value
+                                            dragTotalDeltaY = 0f
+                                        },
+                                        onDrag = { change, dragAmount ->
+                                            change.consume()
+                                            dragTotalDeltaY += dragAmount.y
+                                            val initial = dragInitialSelection ?: return@detectDragGestures
+                                            val deltaMinutes = ((dragTotalDeltaY / hourHeightPx) * 60).toInt()
+                                            val newEnd = (initial.endMinute + deltaMinutes)
+                                                .coerceIn(initial.startMinute + 15, 1440)
+                                            val snappedEnd = (newEnd / 15) * 15
+                                            onSelectionChangeState.value(
+                                                initial.copy(endMinute = snappedEnd),
+                                            )
+                                        },
+                                    )
+                                }
+                                .align(Alignment.BottomEnd),
                         )
                     }
                 }

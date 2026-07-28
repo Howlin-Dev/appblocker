@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
@@ -78,6 +82,15 @@ fun SchedulerScreenContent(
         modifier = modifier,
         title = stringResource(R.string.schedule_app_title),
         onBackClick = onBackClick,
+        floatingActionButton = {
+            if (state.currentSelection != null) {
+                FloatingActionButton(
+                    onClick = { onAction(SchedulerAction.CreateScheduleFromSelection) },
+                ) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                }
+            }
+        },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -96,6 +109,7 @@ fun SchedulerScreenContent(
                         onClick = {
                             coroutineScope.launch {
                                 pagerState.animateScrollToPage(index)
+                                onAction(SchedulerAction.ClearSelection)
                             }
                         },
                         text = {
@@ -116,8 +130,20 @@ fun SchedulerScreenContent(
                 ScheduleTimeline(
                     events = state.eventsByDay[day] ?: emptyList(),
                     dayOfWeek = day,
-                    onHourClick = { onAction(SchedulerAction.ShowScheduleDialog(it, day)) },
+                    onHourClick = { /* Deprecated by selection */ },
                     onEventClick = { onProfileClick(it.profileId) },
+                    selection = state.currentSelection,
+                    onSelectionChange = {
+                        if (it == null) {
+                            onAction(SchedulerAction.ClearSelection)
+                        } else {
+                            if (state.currentSelection == null) {
+                                onAction(SchedulerAction.StartSelection(it.startMinute / 60, it.startMinute % 60, it.dayOfWeek))
+                            } else {
+                                onAction(SchedulerAction.UpdateSelection(it.startMinute, it.endMinute))
+                            }
+                        }
+                    },
                 )
             }
         }

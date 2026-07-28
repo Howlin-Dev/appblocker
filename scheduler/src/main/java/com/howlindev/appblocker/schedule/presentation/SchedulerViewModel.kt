@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.howlindev.appblocker.core.domain.model.Profile
 import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
+import com.howlindev.appblocker.schedule.domain.model.TimelineSelection
 import com.howlindev.appblocker.schedule.domain.usecase.GetAllScheduleEventsUseCase
 import com.howlindev.appblocker.schedule.domain.usecase.SaveScheduleEventUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class SchedulerViewModel(
     private val _isScheduleDialogOpen = MutableStateFlow(false)
     private val _draftSchedule = MutableStateFlow<DraftSchedule?>(null)
     private val _selectedProfileId = MutableStateFlow<Long?>(null)
+    private val _currentSelection = MutableStateFlow<TimelineSelection?>(null)
 
     val state: StateFlow<SchedulerState> = combine(
         getAllScheduleEventsUseCase(),
@@ -32,7 +34,15 @@ class SchedulerViewModel(
         _isScheduleDialogOpen,
         _draftSchedule,
         _selectedProfileId,
-    ) { events, profiles, isOpen, draft, selectedId ->
+        _currentSelection,
+    ) { args ->
+        val events = args[0] as List<ScheduleEvent>
+        val profiles = args[1] as List<Profile>
+        val isOpen = args[2] as Boolean
+        val draft = args[3] as DraftSchedule?
+        val selectedId = args[4] as Long?
+        val selection = args[5] as TimelineSelection?
+
         val profileNames = profiles.associate { it.id to it.name }
         val eventsWithTitles = events.map { event ->
             event.copy(title = profileNames[event.profileId] ?: "Unknown")
@@ -48,6 +58,7 @@ class SchedulerViewModel(
             isScheduleDialogOpen = isOpen,
             draftSchedule = draft,
             selectedProfileId = selectedId,
+            currentSelection = selection,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -88,11 +99,47 @@ class SchedulerViewModel(
                         ),
                     )
                     onAction(SchedulerAction.DismissScheduleDialog)
+                    _currentSelection.value = null
                 }
             }
 
             is SchedulerAction.ProfileCreated -> {
                 _selectedProfileId.value = action.profileId
+                _isScheduleDialogOpen.value = true
+            }
+
+            is SchedulerAction.StartSelection -> {
+                val startMinute = action.hour * 60 + action.minute
+                _currentSelection.value = TimelineSelection(
+                    startMinute = startMinute,
+                    endMinute = startMinute + 60,
+                    dayOfWeek = action.day,
+                )
+            }
+
+            is SchedulerAction.UpdateSelection -> {
+                _currentSelection.value = _currentSelection.value?.copy(
+                    startMinute = action.startMinute,
+                    endMinute = action.endMinute,
+                )
+            }
+
+            SchedulerAction.ClearSelection -> {
+                _currentSelection.value = null
+            }
+
+            SchedulerAction.CreateScheduleFromSelection -> {
+                val selection = _currentSelection.value ?: return
+                val startHour = selection.startMinute / 60
+                val startMinute = selection.startMinute % 60
+                val endHour = (selection.endMinute / 60) % 24
+                val endMinute = selection.endMinute % 60
+
+                _draftSchedule.value = DraftSchedule(
+                    from = LocalTime.of(startHour, startMinute),
+                    until = LocalTime.of(endHour, endMinute),
+                    days = setOf(selection.dayOfWeek),
+                )
                 _isScheduleDialogOpen.value = true
             }
         }
@@ -105,6 +152,7 @@ data class SchedulerState(
     val isScheduleDialogOpen: Boolean = false,
     val draftSchedule: DraftSchedule? = null,
     val selectedProfileId: Long? = null,
+    val currentSelection: TimelineSelection? = null,
 )
 
 data class DraftSchedule(
@@ -119,4 +167,8 @@ sealed interface SchedulerAction {
     data class ProfileSelected(val profileId: Long) : SchedulerAction
     data class ConfirmSchedule(val from: LocalTime, val until: LocalTime, val days: Set<DayOfWeek>) : SchedulerAction
     data class ProfileCreated(val profileId: Long) : SchedulerAction
+    data class StartSelection(val hour: Int, val minute: Int, val day: DayOfWeek) : SchedulerAction
+    data class UpdateSelection(val startMinute: Int, val endMinute: Int) : SchedulerAction
+    data object ClearSelection : SchedulerAction
+    data object CreateScheduleFromSelection : SchedulerAction
 }
