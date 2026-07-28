@@ -12,7 +12,13 @@ data class ScheduleEvent(
     val title: String = "",
 ) {
     val startMinute: Int get() = startTime.hour * 60 + startTime.minute
-    val endMinute: Int get() = endTime.hour * 60 + endTime.minute
+    val endMinute: Int
+        get() {
+            if (endTime == LocalTime.MIDNIGHT) {
+                return 24 * 60
+            }
+            return endTime.hour * 60 + endTime.minute
+        }
     val durationMinutes: Int get() = endMinute - startMinute
 
     fun isActiveNow(now: java.time.LocalDateTime = java.time.LocalDateTime.now()): Boolean {
@@ -20,6 +26,8 @@ data class ScheduleEvent(
         val currentTime = now.toLocalTime()
 
         if (currentDay !in daysOfWeek) return false
+
+        if (startTime == LocalTime.MIDNIGHT && endTime == LocalTime.MIDNIGHT) return true
 
         return if (startTime <= endTime) {
             currentTime in startTime..endTime

@@ -187,7 +187,7 @@ fun ScheduleDialog(
                             errorMessage = noDaysSelectedError
                             return@TextButton
                         }
-                        if (untilTime <= fromTime) {
+                        if (untilTime <= fromTime && untilTime != LocalTime.MIDNIGHT) {
                             errorMessage = invalidTimeRangeError
                             return@TextButton
                         }

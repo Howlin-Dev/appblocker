@@ -32,7 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -53,7 +53,18 @@ fun ScheduleTimeline(
     modifier: Modifier = Modifier,
     hourHeight: Dp = 80.dp,
 ) {
-    val scrollState = rememberScrollState()
+    val density = LocalDensity.current
+    val isTodayInitial = remember(dayOfWeek) { dayOfWeek == LocalDate.now().dayOfWeek }
+    val initialScroll = remember(isTodayInitial) {
+        if (isTodayInitial) {
+            val now = LocalTime.now()
+            val totalMinutes = now.hour * 60 + now.minute
+            val hourHeightPx = with(density) { hourHeight.toPx() }
+            val pos = (totalMinutes / 60f) * hourHeightPx - hourHeightPx
+            maxOf(0f, pos).toInt()
+        } else 0
+    }
+    val scrollState = rememberScrollState(initialScroll)
 
     var currentDayOfWeek by remember { mutableStateOf(LocalDate.now().dayOfWeek) }
     var currentHour by remember { mutableIntStateOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) }
@@ -156,12 +167,12 @@ fun ScheduleTimeline(
                             modifier = Modifier
                                 .size(8.dp)
                                 .offset(x = (-4).dp)
-                                .background(Color.White, CircleShape),
+                                .background(MaterialTheme.colorScheme.tertiary, CircleShape),
                         )
                         HorizontalDivider(
                             modifier = Modifier.weight(1f),
                             thickness = 1.dp,
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.tertiary,
                         )
                     }
                 }

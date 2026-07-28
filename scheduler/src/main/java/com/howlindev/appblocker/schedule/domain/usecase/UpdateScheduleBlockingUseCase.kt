@@ -32,7 +32,15 @@ class UpdateScheduleBlockingUseCase(
         val activeProfiles = allProfiles.filter { it.id in profileIds }
 
         val profileEndTimes = activeEvents.groupBy { it.profileId }.mapValues { (_, events) ->
-            events.maxOf { it.endTime }.toString()
+            val maxEndTime = events.map { it.endTime }.maxWithOrNull { t1, t2 ->
+                when {
+                    t1 == t2 -> 0
+                    t1 == LocalTime.MIDNIGHT -> 1
+                    t2 == LocalTime.MIDNIGHT -> -1
+                    else -> t1.compareTo(t2)
+                }
+            } ?: LocalTime.MIDNIGHT
+            maxEndTime.toString()
         }
 
         val mergedPackages = activeProfiles.flatMap { it.appPackages }.distinct()
@@ -42,6 +50,7 @@ class UpdateScheduleBlockingUseCase(
     }
 
     private fun isTimeInRange(current: LocalTime, start: LocalTime, end: LocalTime): Boolean {
+        if (start == LocalTime.MIDNIGHT && end == LocalTime.MIDNIGHT) return true
         return if (start <= end) {
             current in start..end
         } else {
