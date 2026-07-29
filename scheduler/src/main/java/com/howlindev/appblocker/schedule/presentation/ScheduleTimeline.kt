@@ -34,17 +34,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.howlindev.appblocker.schedule.R
 import com.howlindev.appblocker.schedule.domain.model.ScheduleEvent
 import com.howlindev.appblocker.schedule.domain.model.TimelineSelection
 import kotlinx.coroutines.delay
@@ -124,8 +126,12 @@ fun ScheduleTimeline(
                     .padding(end = 8.dp)
                     .weight(1f)
                     .height(hourHeight * 24)
-                    .pointerInput(dayOfWeek) {
+                    .pointerInput(dayOfWeek, selection) {
                         detectTapGestures { offset ->
+                            if (selection != null) {
+                                onSelectionChange(null)
+                                return@detectTapGestures
+                            }
                             val totalMinutes = ((offset.y / hourHeightPx) * 60).toInt()
                             val hour = totalMinutes / 60
                             val minute = (totalMinutes % 60 / 15) * 15 // Snap to 15 mins
@@ -220,7 +226,7 @@ private fun TimelineEvents(
                 .padding(8.dp),
         ) {
             Text(
-                text = event.title,
+                text = event.title.ifEmpty { stringResource(R.string.schedule_dialog_unknown_profile) },
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 fontWeight = FontWeight.Bold,
@@ -291,7 +297,14 @@ private fun TimelineSelectionBox(
                     onClick = onConfirmSelection,
                 )
                 .border(2.dp, color, RoundedCornerShape(8.dp)),
-        ) {}
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = stringResource(R.string.schedule_timeline_confirm_selection),
+                style = MaterialTheme.typography.labelLarge,
+                color = color
+            )
+        }
 
         // Top Handle
         Box(

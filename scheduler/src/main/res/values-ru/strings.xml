@@ -14,4 +14,7 @@
     <string name="schedule_dialog_create_title">Запланировать профиль</string>
     <string name="schedule_dialog_new_profile">+ Новый профиль</string>
     <string name="schedule_error_no_profile_selected">Пожалуйста, выберите профиль</string>
+    <string name="schedule_timeline_confirm_selection">Нажмите, чтобы подтвердить выбор</string>
+    <string name="schedule_dialog_select_profile">Выберите профиль</string>
+    <string name="schedule_dialog_unknown_profile">Неизвестно</string>
 </resources>

@@ -233,8 +233,8 @@ private fun ProfileSelector(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
             ),
         ) {
             Row(
@@ -244,7 +244,7 @@ private fun ProfileSelector(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = selectedProfile?.name ?: "Select Profile",
+                    text = selectedProfile?.name ?: stringResource(R.string.schedule_dialog_select_profile),
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,

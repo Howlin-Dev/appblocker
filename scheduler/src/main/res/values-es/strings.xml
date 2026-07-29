@@ -14,4 +14,7 @@
     <string name="schedule_dialog_create_title">Programar perfil</string>
     <string name="schedule_dialog_new_profile">+ Nuevo perfil</string>
     <string name="schedule_error_no_profile_selected">Seleccione un perfil</string>
+    <string name="schedule_timeline_confirm_selection">Haz clic para confirmar la selección</string>
+    <string name="schedule_dialog_select_profile">Seleccionar perfil</string>
+    <string name="schedule_dialog_unknown_profile">Desconocido</string>
 </resources>

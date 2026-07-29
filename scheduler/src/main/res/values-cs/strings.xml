@@ -14,4 +14,7 @@
     <string name="schedule_dialog_create_title">Naplánovat profil</string>
     <string name="schedule_dialog_new_profile">+ Nový profil</string>
     <string name="schedule_error_no_profile_selected">Vyberte prosím profil</string>
+    <string name="schedule_timeline_confirm_selection">Kliknutím potvrďte výběr</string>
+    <string name="schedule_dialog_select_profile">Vybrat profil</string>
+    <string name="schedule_dialog_unknown_profile">Neznámý</string>
 </resources>

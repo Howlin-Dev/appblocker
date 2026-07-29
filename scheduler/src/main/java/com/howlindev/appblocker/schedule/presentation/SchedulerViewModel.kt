@@ -45,7 +45,7 @@ class SchedulerViewModel(
 
         val profileNames = profiles.associate { it.id to it.name }
         val eventsWithTitles = events.map { event ->
-            event.copy(title = profileNames[event.profileId] ?: "Unknown")
+            event.copy(title = profileNames[event.profileId] ?: "")
         }
 
         val eventsByDay = DayOfWeek.entries.associateWith { day ->
