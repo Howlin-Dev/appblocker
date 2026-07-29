@@ -14,11 +14,11 @@ class TimerUtilsTest {
 
     @Test
     fun `millisToTimerString should format correctly`() {
-        every { context.getString(R.string.duration_hours_minutes_seconds, any(), any(), any()) } returns "1h 1m 1s"
-        every { context.getString(R.string.duration_minutes_seconds, any(), any()) } returns "1m 0s"
+        every { context.getString(R.string.duration_hours_minutes_seconds, any(), any(), any()) } returns "01:01:01"
+        every { context.getString(R.string.duration_minutes_seconds, any(), any()) } returns "01:00"
 
-        assertEquals("1h 1m 1s", 3661000L.millisToTimerString(context))
-        assertEquals("1m 0s", 60000L.millisToTimerString(context))
+        assertEquals("01:01:01", 3661000L.millisToTimerString(context))
+        assertEquals("01:00", 60000L.millisToTimerString(context))
     }
 
     @Test
