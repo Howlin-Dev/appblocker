@@ -4,11 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
@@ -84,8 +85,10 @@ fun SchedulerScreenContent(
         onBackClick = onBackClick,
         floatingActionButton = {
             if (state.currentSelection != null) {
-                FloatingActionButton(
+                LargeFloatingActionButton(
                     onClick = { onAction(SchedulerAction.CreateScheduleFromSelection) },
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary,
                 ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = null)
                 }
@@ -97,58 +100,111 @@ fun SchedulerScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues),
         ) {
-            TabRow(
+            SchedulerTabRow(
                 selectedTabIndex = pagerState.currentPage,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary,
-                divider = {},
-            ) {
-                days.forEachIndexed { index, day ->
-                    Tab(
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                                onAction(SchedulerAction.ClearSelection)
-                            }
-                        },
-                        text = {
-                            Text(
-                                text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()).uppercase(),
-                                fontWeight = if (day == currentDay) FontWeight.ExtraBold else FontWeight.Normal,
-                            )
-                        },
-                    )
-                }
-            }
+                days = days,
+                currentDay = currentDay,
+                onTabClick = { index ->
+                    coroutineScope.launch {
+                        pagerState.animateScrollToPage(index)
+                        onAction(SchedulerAction.ClearSelection)
+                    }
+                },
+            )
 
-            HorizontalPager(
-                state = pagerState,
+            SchedulerPager(
+                pagerState = pagerState,
+                days = days,
+                state = state,
+                onProfileClick = onProfileClick,
+                onAction = onAction,
                 modifier = Modifier.weight(1f),
-            ) { pageIndex ->
-                val day = days[pageIndex]
-                ScheduleTimeline(
-                    events = state.eventsByDay[day] ?: emptyList(),
-                    dayOfWeek = day,
-                    onHourClick = { /* Deprecated by selection */ },
-                    onEventClick = { onProfileClick(it.profileId) },
-                    selection = state.currentSelection,
-                    onSelectionChange = {
-                        if (it == null) {
-                            onAction(SchedulerAction.ClearSelection)
-                        } else {
-                            if (state.currentSelection == null) {
-                                onAction(SchedulerAction.StartSelection(it.startMinute / 60, it.startMinute % 60, it.dayOfWeek))
-                            } else {
-                                onAction(SchedulerAction.UpdateSelection(it.startMinute, it.endMinute))
-                            }
-                        }
-                    },
-                )
-            }
+            )
         }
     }
 
+    ScheduleCreationDialog(
+        state = state,
+        onAction = onAction,
+        onCreateProfileClick = onCreateProfileClick,
+    )
+}
+
+@Composable
+private fun SchedulerTabRow(
+    selectedTabIndex: Int,
+    days: List<DayOfWeek>,
+    currentDay: DayOfWeek,
+    onTabClick: (Int) -> Unit,
+) {
+    TabRow(
+        selectedTabIndex = selectedTabIndex,
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.primary,
+        divider = {},
+    ) {
+        days.forEachIndexed { index, day ->
+            Tab(
+                selected = selectedTabIndex == index,
+                onClick = { onTabClick(index) },
+                text = {
+                    Text(
+                        text = day.getDisplayName(TextStyle.NARROW, Locale.getDefault()).uppercase(),
+                        fontWeight = if (day == currentDay) FontWeight.ExtraBold else FontWeight.Normal,
+                    )
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun SchedulerPager(
+    pagerState: PagerState,
+    days: List<DayOfWeek>,
+    state: SchedulerState,
+    onProfileClick: (Long) -> Unit,
+    onAction: (SchedulerAction) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier,
+    ) { pageIndex ->
+        val day = days[pageIndex]
+        ScheduleTimeline(
+            events = state.eventsByDay[day] ?: emptyList(),
+            dayOfWeek = day,
+            onEventClick = { onProfileClick(it.profileId) },
+            selection = state.currentSelection,
+            onConfirmSelection = { onAction(SchedulerAction.CreateScheduleFromSelection) },
+            onSelectionChange = {
+                if (it == null) {
+                    onAction(SchedulerAction.ClearSelection)
+                } else {
+                    if (state.currentSelection == null) {
+                        onAction(
+                            SchedulerAction.StartSelection(
+                                it.startMinute / 60,
+                                it.startMinute % 60,
+                                it.dayOfWeek,
+                            ),
+                        )
+                    } else {
+                        onAction(SchedulerAction.UpdateSelection(it.startMinute, it.endMinute))
+                    }
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun ScheduleCreationDialog(
+    state: SchedulerState,
+    onAction: (SchedulerAction) -> Unit,
+    onCreateProfileClick: () -> Unit,
+) {
     if (state.isScheduleDialogOpen && state.draftSchedule != null) {
         ScheduleDialog(
             title = stringResource(R.string.schedule_dialog_create_title),
