@@ -6,11 +6,14 @@ import com.howlindev.appblocker.core.domain.repository.BlockRepository
 import com.howlindev.appblocker.core.domain.repository.SuggestedWebsitesRepository
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
+import com.howlindev.appblocker.core.platform.notification.manager.BlockNotificationManager
 import org.koin.dsl.module
 
 val coreModule = module {
     single<BlockRepository> { BlockRepositoryImpl(get()) }
     single<SuggestedWebsitesRepository> { SuggestedWebsitesRepositoryImpl(get()) }
+
+    single { BlockNotificationManager(get(), get()) }
 
     factory { ObserveActiveBlockUseCase(get()) }
     factory { ObserveRemainingTimeUseCase(get()) }

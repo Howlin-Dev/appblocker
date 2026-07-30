@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveRemainingTimeUseCase
+import com.howlindev.appblocker.core.platform.notification.manager.BlockNotificationManager
 import com.howlindev.appblocker.permissions.domain.usecase.GetMissingPermissionsUseCase
-import com.howlindev.appblocker.platform.notification.manager.BlockNotificationManager
 import com.howlindev.appblocker.settings.domain.usecase.GetSettingsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

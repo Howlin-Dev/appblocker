@@ -11,4 +11,10 @@
     <string name="duration_minutes_seconds">%1$02d:%2$02d</string>
 
     <string name="lock_icon_content_description">Замок</string>
+
+    <string name="notification_channel_name">Активний профіль</string>
+    <string name="notification_channel_description">Показує інформацію про поточний активний профіль блокування</string>
+    <string name="notification_active_profile_title">%1$s активний</string>
+    <string name="notification_active_profile_body">%1$d програм заблоковано.</string>
+    <string name="notification_active_profile_timer">Залишилося: %1$s</string>
 </resources>

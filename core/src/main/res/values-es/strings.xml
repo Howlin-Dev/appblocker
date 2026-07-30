@@ -11,4 +11,10 @@
     <string name="duration_minutes_seconds">%1$02d:%2$02d</string>
 
     <string name="lock_icon_content_description">Candado</string>
+
+    <string name="notification_channel_name">Perfil activo</string>
+    <string name="notification_channel_description">Muestra información sobre el perfil de bloqueo activo actualmente</string>
+    <string name="notification_active_profile_title">%1$s está activo</string>
+    <string name="notification_active_profile_body">%1$d aplicaciones bloqueadas.</string>
+    <string name="notification_active_profile_timer">Tiempo restante: %1$s</string>
 </resources>

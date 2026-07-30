@@ -28,6 +28,7 @@ val timerModule = module {
             get(),
             get(),
             get(),
+            get(),
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.howlindev.appblocker.platform.notification.manager
+package com.howlindev.appblocker.core.platform.notification.manager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,15 +8,14 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import com.howlindev.appblocker.MainActivity
-import com.howlindev.appblocker.R
+import com.howlindev.appblocker.core.R
 import com.howlindev.appblocker.core.domain.model.ActiveBlock
+import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.core.util.millisToTimerString
-import com.howlindev.appblocker.profiles.domain.usecase.GetProfileUseCase
 
 class BlockNotificationManager(
     private val context: Context,
-    private val getProfileUseCase: GetProfileUseCase,
+    private val profilesRepository: ProfilesRepository,
 ) {
     private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -49,7 +48,7 @@ class BlockNotificationManager(
             return
         }
 
-        val profile = activeBlock.profileId?.let { getProfileUseCase(it) }
+        val profile = activeBlock.profileId?.let { profilesRepository.getById(it) }
         if (profile == null) {
             cancelNotification()
             return
@@ -64,15 +63,17 @@ class BlockNotificationManager(
             ""
         }
 
-        val intent = Intent(context, MainActivity::class.java).apply {
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE,
-        )
+        val pendingIntent = intent?.let {
+            PendingIntent.getActivity(
+                context,
+                0,
+                it,
+                PendingIntent.FLAG_IMMUTABLE,
+            )
+        }
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_bloq)

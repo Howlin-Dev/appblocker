@@ -3,10 +3,4 @@
     <string name="block_screen_scheduled_message">Заблоковано до %1$s</string>
     <string name="block_screen_close_button_text">Закрити</string>
     <string name="block_screen_time_left_label">Залишилося до розблокування:</string>
-
-    <string name="notification_channel_name">Активний профіль</string>
-    <string name="notification_channel_description">Показує інформацію про поточний активний профіль блокування</string>
-    <string name="notification_active_profile_title">%1$s активний</string>
-    <string name="notification_active_profile_body">%1$d програм заблоковано.</string>
-    <string name="notification_active_profile_timer">Залишилося: %1$s</string>
 </resources>
