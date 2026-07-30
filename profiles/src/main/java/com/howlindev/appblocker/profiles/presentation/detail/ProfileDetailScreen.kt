@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
@@ -161,29 +164,37 @@ private fun ProfileDetailScreenContent(
                 .padding(paddingValues),
             contentAlignment = Alignment.TopCenter,
         ) {
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .widthIn(max = 500.dp)
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
             ) {
-                ProfileNameSection(
-                    name = profile?.name.orEmpty(),
-                    isEditable = !isProfileActive,
-                    onRenameClick = { renameDialogShown.value = true },
-                )
-                Spacer(modifier = Modifier.size(24.dp))
-                ProfileAppListSection(
-                    appList = profile?.blockedApps.orEmpty(),
-                    isEnabled = !isProfileActive,
-                    onAction = onAction,
-                )
-                ProfileWebsiteListSection(
-                    websites = profile?.blockedWebsites.orEmpty(),
-                    isEnabled = !isProfileActive,
-                    onAction = onAction,
-                )
-                ProfileScheduleSection(
+                item {
+                    ProfileNameSection(
+                        name = profile?.name.orEmpty(),
+                        isEditable = !isProfileActive,
+                        onRenameClick = { renameDialogShown.value = true },
+                    )
+                    Spacer(modifier = Modifier.size(24.dp))
+                }
+                item {
+                    ProfileAppListSection(
+                        appList = profile?.blockedApps.orEmpty(),
+                        isEnabled = !isProfileActive,
+                        onAction = onAction,
+                    )
+                    Spacer(modifier = Modifier.size(24.dp))
+                }
+                item {
+                    ProfileWebsiteListSection(
+                        websites = profile?.blockedWebsites.orEmpty(),
+                        isEnabled = !isProfileActive,
+                        onAction = onAction,
+                    )
+                    Spacer(modifier = Modifier.size(24.dp))
+                }
+                profileScheduleSection(
                     scheduleEvents = scheduleEvents,
                     onAddScheduleClick = {
                         scheduleToEdit = null
@@ -417,62 +428,66 @@ private fun ProfileWebsiteListSection(
     }
 }
 
-@Composable
-private fun ProfileScheduleSection(
+private fun LazyListScope.profileScheduleSection(
     scheduleEvents: List<ScheduleEvent>,
     onAddScheduleClick: () -> Unit,
     onEditScheduleClick: (ScheduleEvent) -> Unit,
     onDeleteScheduleClick: (ScheduleEvent) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth(),
-    ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.End,
-        ) {
+    item {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            text = stringResource(R.string.profiles_schedule_section_label),
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+
+    if (scheduleEvents.isEmpty()) {
+        item {
             Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.profiles_schedule_section_label),
-                style = MaterialTheme.typography.titleSmall,
-                fontWeight = FontWeight.Medium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(horizontal = 16.dp),
+                text = stringResource(R.string.profiles_no_schedule_active),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-
-            Column(
+        }
+    } else {
+        items(
+            items = scheduleEvents,
+            key = { it.id },
+        ) { event ->
+            ScheduledBlockingItem(
                 modifier = Modifier
-                    .padding(top = 16.dp, bottom = 8.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                if (scheduleEvents.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.profiles_no_schedule_active),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                } else {
-                    scheduleEvents.forEach { event ->
-                        ScheduledBlockingItem(
-                            event = event,
-                            onEditClick = { onEditScheduleClick(event) },
-                            onRemoveClick = { onDeleteScheduleClick(event) },
-                            isEnabled = !event.isActiveNow(),
-                        )
-                    }
-                }
-            }
+                    .animateItem()
+                    .padding(horizontal = 16.dp),
+                event = event,
+                onEditClick = { onEditScheduleClick(event) },
+                onRemoveClick = { onDeleteScheduleClick(event) },
+                isEnabled = !event.isActiveNow(),
+            )
+        }
+    }
 
+    item {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            contentAlignment = Alignment.CenterEnd,
+        ) {
             TextButton(
                 onClick = onAddScheduleClick,
             ) {
                 Text(stringResource(R.string.profiles_add_schedule_button))
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
-                    imageVector = Icons.Default.Add, // Using Edit icon as a placeholder if Add icon is not found, but usually there is Add
+                    imageVector = Icons.Default.Add,
                     contentDescription = stringResource(R.string.profiles_content_description_add_schedule),
                 )
             }
