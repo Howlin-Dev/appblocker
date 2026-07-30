@@ -188,37 +188,6 @@ internal fun SettingsScreenContent(
                         )
                     }
                 }
-                // TODO implement unblockable website functionality
-//            Surface(
-//                modifier = Modifier
-//                    .height(64.dp)
-//                    .fillMaxWidth(),
-//                color = MaterialTheme.colorScheme.surfaceContainer,
-//                shape = RoundedCornerShape(8.dp),
-//                onClick = { onAction(SettingsAction.LanguageClick) },
-//            ) {
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(horizontal = 16.dp),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-//                ) {
-//                    Icon(
-//                        painter = painterResource(CoreRes.drawable.outline_globe),
-//                        contentDescription = "Globe",
-//                    )
-//                    Text(
-//                        modifier = Modifier.weight(1f),
-//                        text = "Unblockable site",
-//                        style = MaterialTheme.typography.titleMedium,
-//                    )
-//                    Text(
-//                        text = "google.com",
-//                        style = MaterialTheme.typography.bodyMedium,
-//                    )
-//                }
-//            }
                 Text(
                     modifier = Modifier
                         .padding(vertical = 16.dp)

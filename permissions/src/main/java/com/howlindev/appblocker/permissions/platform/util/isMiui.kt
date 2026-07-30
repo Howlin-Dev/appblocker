@@ -3,8 +3,6 @@ package com.howlindev.appblocker.permissions.platform.util
 import android.annotation.SuppressLint
 import android.os.Build
 
-// TODO
-
 @SuppressLint("PrivateApi")
 fun isMiui(): Boolean {
     val manufacturer = Build.MANUFACTURER

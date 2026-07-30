@@ -1,6 +1,5 @@
 package com.howlindev.appblocker.presentation.block
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -117,7 +116,6 @@ class BlockViewModel(
                 null
             }
 
-            Log.d("observeActiveBlockUseCase", activeBlock.toString())
             _state.update {
                 it.copy(
                     activeBlock = activeBlock,

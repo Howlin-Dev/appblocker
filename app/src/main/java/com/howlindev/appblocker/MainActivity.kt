@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         splashScreen.setKeepOnScreenCondition {
             val elapsed = System.currentTimeMillis() - startTime
-            val isWaitingForData = rootViewModel.settings.value == null || rootViewModel.arePermissionsNeeded.value == null
+            val isWaitingForData = (rootViewModel.settings.value == null) || (rootViewModel.arePermissionsNeeded.value == null)
             if (isRecreation) {
                 isWaitingForData
             } else {

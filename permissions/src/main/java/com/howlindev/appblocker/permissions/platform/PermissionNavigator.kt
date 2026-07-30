@@ -81,7 +81,10 @@ class PermissionNavigator(private val context: Context) {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         } else {
-            TODO("VERSION.SDK_INT < O")
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                data = "package:${context.packageName}".toUri()
+            }
         }
         context.startActivity(intent)
     }

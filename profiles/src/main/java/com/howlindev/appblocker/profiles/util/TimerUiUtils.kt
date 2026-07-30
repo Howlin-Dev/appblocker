@@ -2,7 +2,7 @@ package com.howlindev.appblocker.profiles.util
 
 internal val timerUiTimeList = listOf<Long?>(
     null,
-    60_000,
+//    60_000,
     15 * 60_000,
 
     30 * 60_000,

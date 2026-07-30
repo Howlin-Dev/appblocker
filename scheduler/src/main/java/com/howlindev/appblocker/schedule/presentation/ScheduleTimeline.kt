@@ -3,9 +3,9 @@ package com.howlindev.appblocker.schedule.presentation
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -33,14 +33,14 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,7 +79,9 @@ fun ScheduleTimeline(
             val totalMinutes = now.hour * 60 + now.minute
             val pos = (totalMinutes / 60f) * hourHeightPx - hourHeightPx
             maxOf(0f, pos).toInt()
-        } else 0
+        } else {
+            0
+        }
     }
     val scrollState = rememberScrollState(initialScroll)
 
@@ -302,7 +304,7 @@ private fun TimelineSelectionBox(
             Text(
                 text = stringResource(R.string.schedule_timeline_confirm_selection),
                 style = MaterialTheme.typography.labelLarge,
-                color = color
+                color = color,
             )
         }
 
