@@ -285,7 +285,7 @@ private fun TimelineSelectionBox(
                 indication = null,
                 onClick = { return@clickable },
             )
-            .padding(4.dp),
+            .padding(horizontal = 4.dp),
     ) {
         // Outline
         Box(
