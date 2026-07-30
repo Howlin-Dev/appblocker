@@ -1,8 +1,8 @@
 package com.howlindev.appblocker.profiles.presentation.list.model
 
 import com.howlindev.appblocker.core.domain.model.AppInfo
+import com.howlindev.appblocker.core.domain.model.Profile
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
-import com.howlindev.appblocker.profiles.domain.model.Profile
 
 data class ProfileUi(
     val id: Long = 0,
@@ -11,6 +11,8 @@ data class ProfileUi(
     val blockedApps: List<AppInfo> = emptyList(),
     val blockedWebsites: List<String> = emptyList(),
     val durationMillis: Long? = null,
+    val scheduledEndTime: String? = null,
+    val isManuallyActive: Boolean = false,
 )
 
 suspend fun Profile.toUi(installedAppsRepository: InstalledAppsRepository): ProfileUi {

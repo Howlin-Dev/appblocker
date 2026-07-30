@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,6 +19,7 @@ import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileAppLis
 import com.howlindev.appblocker.profiles.presentation.detail.ManageProfileWebsiteListScreen
 import com.howlindev.appblocker.profiles.presentation.detail.ProfileDetailScreen
 import com.howlindev.appblocker.profiles.presentation.list.ProfileListScreen
+import com.howlindev.appblocker.schedule.presentation.SchedulerScreen
 import com.howlindev.appblocker.settings.presentation.language.LanguageScreen
 import com.howlindev.appblocker.settings.presentation.settings.SettingsScreen
 
@@ -50,11 +52,17 @@ fun MainNavHost(
                 onCreateClick = { navController.navigateSafe(CreateProfileDestination) },
                 onProfileClick = { navController.navigateSafe(ProfileDetailDestination(it)) },
                 onSettingsClick = { navController.navigateSafe(SettingsDestination) },
+                onSchedulerClick = { navController.navigateSafe(SchedulerDestination) },
             )
         }
         composable<CreateProfileDestination> {
             CreateProfileScreen(
-                onBackClick = {
+                onBackClick = { profileId ->
+                    if (profileId != null) {
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("new_profile_id", profileId)
+                    }
                     navController.popBackStackSafe()
                 },
             )
@@ -100,6 +108,20 @@ fun MainNavHost(
         composable<LanguageDestination> {
             LanguageScreen(
                 onBackClick = { navController.popBackStackSafe() },
+            )
+        }
+        composable<SchedulerDestination> {
+            val profileId = it.savedStateHandle.get<Long>("new_profile_id")
+            LaunchedEffect(profileId) {
+                if (profileId != null) {
+                    it.savedStateHandle.remove<Long>("new_profile_id")
+                }
+            }
+            SchedulerScreen(
+                onBackClick = { navController.popBackStackSafe() },
+                onProfileClick = { navController.navigateSafe(ProfileDetailDestination(it)) },
+                onCreateProfileClick = { navController.navigateSafe(CreateProfileDestination) },
+                newProfileId = profileId,
             )
         }
     }

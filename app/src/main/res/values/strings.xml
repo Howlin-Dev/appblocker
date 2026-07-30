@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Bloq</string>
     <string name="block_screen_message">%1$s is currently blocked by Bloq</string>
+    <string name="block_screen_scheduled_message">Blocked until %1$s</string>
     <string name="block_screen_close_button_text">Close</string>
     <string name="block_screen_time_left_label">Time left until unblocked:</string>
 

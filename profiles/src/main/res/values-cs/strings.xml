@@ -36,6 +36,7 @@
     <string name="profiles_name_field_label">Název</string>
 
     <string name="profiles_active_for">Aktivní po dobu:</string>
+    <string name="profiles_active_until">Aktivní do %1$s</string>
     <string name="profiles_unblock_button">Odblokovat</string>
     <string name="profiles_blocked_apps_label">Aktuálně zablokované aplikace:</string>
     <string name="profiles_blocked_websites_label">Aktuálně zablokované webové stránky:</string>
@@ -53,4 +54,8 @@
 
     <string name="profiles_tab_apps">Aplikace</string>
     <string name="profiles_tab_websites">Webové stránky</string>
+    <string name="profiles_schedule_section_label">Plánované blokování</string>
+    <string name="profiles_no_schedule_active">Žádný aktivní rozvrh</string>
+    <string name="profiles_add_schedule_button">Přidat rozvrh</string>
+    <string name="profiles_content_description_add_schedule">Přidat rozvrh</string>
 </resources>

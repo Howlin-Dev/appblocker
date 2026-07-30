@@ -15,13 +15,16 @@ class BlockActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                goToHomeScreen()
-                finish()
-            }
-        })
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    goToHomeScreen()
+                    finish()
+                }
+            },
+        )
 
         enableEdgeToEdge()
         setContent {

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
+import kotlin.time.Duration.Companion.milliseconds
 
 class TimerRepositoryImpl(
     private val dataStore: TimerDataStore,
@@ -40,7 +41,7 @@ class TimerRepositoryImpl(
         ) { endTime, activeBlock ->
             endTime to activeBlock
         }.flatMapLatest { (endTime, activeBlock) ->
-            if (endTime <= 0L && activeBlock?.isTimed == true) {
+            if (endTime <= 0L && activeBlock?.hasTimer == true) {
                 onTimerFinished()
                 flowOf(0L)
             } else {
@@ -51,12 +52,12 @@ class TimerRepositoryImpl(
 
                         emit(remaining)
 
-                        if (remaining <= 0L && activeBlock?.isTimed == true) {
+                        if (remaining <= 0L && activeBlock?.hasTimer == true) {
                             onTimerFinished()
                             break
                         }
 
-                        delay(TICK_DELAY)
+                        delay(TICK_DELAY.milliseconds)
                     }
                 }
             }
@@ -65,6 +66,6 @@ class TimerRepositoryImpl(
     private suspend fun onTimerFinished() {
         scheduler.cancel()
         dataStore.clear()
-        blockRepository.deactivate()
+        blockRepository.deactivateTimed()
     }
 }

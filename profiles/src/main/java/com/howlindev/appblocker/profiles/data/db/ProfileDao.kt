@@ -17,7 +17,7 @@ interface ProfileDao {
     suspend fun getById(id: Long): ProfileEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(profile: ProfileEntity)
+    suspend fun insert(profile: ProfileEntity): Long
 
     @Update
     suspend fun update(profile: ProfileEntity)

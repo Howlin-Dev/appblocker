@@ -1,4 +1,4 @@
-package com.howlindev.appblocker.profiles.domain.model
+package com.howlindev.appblocker.core.domain.model
 
 data class Profile(
     val id: Long,

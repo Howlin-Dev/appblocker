@@ -6,6 +6,6 @@ class DeactivateProfileUseCase(
     private val blockRepository: BlockRepository,
 ) {
     suspend operator fun invoke() {
-        blockRepository.deactivate()
+        blockRepository.deactivateTimed()
     }
 }

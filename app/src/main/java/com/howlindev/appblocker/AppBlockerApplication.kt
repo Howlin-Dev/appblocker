@@ -7,6 +7,7 @@ import com.howlindev.appblocker.di.appModule
 import com.howlindev.appblocker.di.dbModule
 import com.howlindev.appblocker.permissions.di.permissionsModule
 import com.howlindev.appblocker.profiles.di.profilesModule
+import com.howlindev.appblocker.schedule.di.scheduleModule
 import com.howlindev.appblocker.settings.di.settingsModule
 import com.howlindev.appblocker.timer.di.timerModule
 import org.koin.android.ext.koin.androidContext
@@ -31,6 +32,7 @@ class AppBlockerApplication : Application(), Configuration.Provider {
                 dbModule,
                 coreModule,
                 profilesModule,
+                scheduleModule,
                 permissionsModule,
                 timerModule,
                 settingsModule,

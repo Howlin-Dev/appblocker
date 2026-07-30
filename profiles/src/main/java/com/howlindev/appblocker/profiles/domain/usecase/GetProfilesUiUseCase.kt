@@ -1,7 +1,7 @@
 package com.howlindev.appblocker.profiles.domain.usecase
 
 import com.howlindev.appblocker.core.domain.repository.InstalledAppsRepository
-import com.howlindev.appblocker.profiles.domain.repository.ProfilesRepository
+import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
 import com.howlindev.appblocker.profiles.presentation.list.model.toUi
 import kotlinx.coroutines.async

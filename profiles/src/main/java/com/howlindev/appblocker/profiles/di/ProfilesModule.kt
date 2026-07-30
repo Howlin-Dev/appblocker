@@ -1,7 +1,7 @@
 package com.howlindev.appblocker.profiles.di
 
+import com.howlindev.appblocker.core.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.profiles.data.repository.ProfilesRepositoryImpl
-import com.howlindev.appblocker.profiles.domain.repository.ProfilesRepository
 import com.howlindev.appblocker.profiles.domain.usecase.ActivateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.AddSuggestedWebsiteUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.CreateProfileUseCase
@@ -37,7 +37,7 @@ val profilesModule = module {
     factory { GetProfileUseCase(get()) }
     factory { GetProfileUiUseCase(get(), get()) }
     factory { UpdateProfileUseCase(get()) }
-    factory { DeleteProfileUseCase(get()) }
+    factory { DeleteProfileUseCase(get(), get()) }
     factory { ActivateProfileUseCase(get(), get()) }
     factory { DeactivateProfileUseCase(get()) }
     factory { GetInstalledAppsUseCase(get()) }

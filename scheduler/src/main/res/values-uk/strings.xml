@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_app_title">Планувальник</string>
+    <string name="schedule_dialog_edit_title">Редагувати розклад</string>
+    <string name="schedule_button_cancel">Скасувати</string>
+    <string name="schedule_button_confirm">Підтвердити</string>
+    <string name="schedule_label_from">З</string>
+    <string name="schedule_label_until">До</string>
+    <string name="schedule_dialog_select_time_title">Вибрати час</string>
+    <string name="schedule_content_description_edit">Редагувати розклад</string>
+    <string name="schedule_content_description_remove">Видалити розклад</string>
+    <string name="schedule_error_invalid_time_range">Час до має бути пізніше часу з</string>
+    <string name="schedule_error_no_days_selected">Будь ласка, виберіть хоча б один день</string>
+    <string name="schedule_dialog_create_title">Запланувати профіль</string>
+    <string name="schedule_dialog_new_profile">+ Новий профіль</string>
+    <string name="schedule_error_no_profile_selected">Будь ласка, виберіть профіль</string>
+    <string name="schedule_timeline_confirm_selection">Натисніть, щоб підтвердити вибір</string>
+    <string name="schedule_dialog_select_profile">Оберіть профіль</string>
+    <string name="schedule_dialog_unknown_profile">Невідомо</string>
+</resources>

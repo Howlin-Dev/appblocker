@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,6 +50,7 @@ import com.howlindev.appblocker.permissions.R as PermissionR
 fun ProfileListScreen(
     onCreateClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onSchedulerClick: () -> Unit,
     onProfileClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProfileListViewModel = koinViewModel(),
@@ -73,13 +75,15 @@ fun ProfileListScreen(
     ProfileListScreenContent(
         modifier = modifier.fillMaxSize(),
         inactiveProfiles = state.inactiveProfiles,
-        activeProfile = state.activeProfile,
+        activeProfiles = state.activeProfiles,
+        isManualProfileActive = state.isManualProfileActive,
         missingPermissions = state.missingPermissions,
         formattedTimeRemaining = formattedTime,
         onAction = { action ->
             when (action) {
                 ProfileListAction.CreateClick -> onCreateClick()
                 ProfileListAction.SettingsClick -> onSettingsClick()
+                ProfileListAction.SchedulerClick -> onSchedulerClick()
                 is ProfileListAction.ProfileClick -> onProfileClick(action.id)
                 is ProfileListAction.ToggleProfileActivation -> {
                     if (action.profile.durationMillis == null) {
@@ -139,7 +143,8 @@ fun ProfileListScreen(
 @Composable
 internal fun ProfileListScreenContent(
     inactiveProfiles: List<ProfileUi>,
-    activeProfile: ProfileUi?,
+    activeProfiles: List<ProfileUi>,
+    isManualProfileActive: Boolean,
     missingPermissions: List<RequiredPermission>,
     formattedTimeRemaining: String,
     onAction: (ProfileListAction) -> Unit,
@@ -161,6 +166,14 @@ internal fun ProfileListScreenContent(
         },
         actions = {
             IconButton(
+                onClick = { onAction(ProfileListAction.SchedulerClick) },
+            ) {
+                Icon(
+                    painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_calendar),
+                    contentDescription = "Scheduler",
+                )
+            }
+            IconButton(
                 onClick = { onAction(ProfileListAction.SettingsClick) },
             ) {
                 Icon(
@@ -174,7 +187,7 @@ internal fun ProfileListScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            contentAlignment = Alignment.TopCenter
+            contentAlignment = Alignment.TopCenter,
         ) {
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -193,23 +206,21 @@ internal fun ProfileListScreenContent(
                     }
                 }
 
-                activeProfile?.let { activeProfile ->
-                    item {
-                        ActiveProfileListItem(
-                            modifier = Modifier.animateItem(),
-                            profile = activeProfile,
-                            onUnblockClick = {
-                                onAction(
-                                    ProfileListAction.ToggleProfileActivation(
-                                        activeProfile,
-                                    ),
-                                )
-                            },
-                            formattedTimeRemaining = formattedTimeRemaining,
-                        )
-                    }
+                items(items = activeProfiles, key = { it.id }) { activeProfile ->
+                    ActiveProfileListItem(
+                        modifier = Modifier.animateItem(),
+                        profile = activeProfile,
+                        onUnblockClick = {
+                            onAction(
+                                ProfileListAction.ToggleProfileActivation(
+                                    activeProfile,
+                                ),
+                            )
+                        },
+                        formattedTimeRemaining = formattedTimeRemaining,
+                    )
                 }
-                items(items = inactiveProfiles) { inactiveProfile ->
+                items(items = inactiveProfiles, key = { it.id }) { inactiveProfile ->
                     ProfileListItem(
                         modifier = Modifier.animateItem(),
                         profile = inactiveProfile,
@@ -217,7 +228,7 @@ internal fun ProfileListScreenContent(
                         onToggleProfileActivation = {
                             onAction(ProfileListAction.ToggleProfileActivation(inactiveProfile))
                         },
-                        isAnotherProfileActive = activeProfile != null,
+                        isAnotherProfileActive = isManualProfileActive,
                         onTimerChanged = { newTime ->
                             onAction(
                                 ProfileListAction.TimerChange(
@@ -240,7 +251,8 @@ private fun ProfileListScreenPreview() {
         ProfileListScreenContent(
             inactiveProfiles = emptyList(),
             onAction = {},
-            activeProfile = null,
+            activeProfiles = emptyList(),
+            isManualProfileActive = false,
             formattedTimeRemaining = "",
             missingPermissions = emptyList(),
         )

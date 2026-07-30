@@ -41,7 +41,12 @@ fun ActiveProfileListItem(
             style = MaterialTheme.typography.titleLarge,
         )
         Spacer(modifier = Modifier.size(8.dp))
-        if (profile.durationMillis == null) {
+        if (!profile.isManuallyActive && profile.scheduledEndTime != null) {
+            Text(
+                text = stringResource(R.string.profiles_active_until, profile.scheduledEndTime),
+                style = MaterialTheme.typography.labelLarge,
+            )
+        } else if (profile.durationMillis == null) {
             Button(
                 modifier = Modifier
                     .height(64.dp)

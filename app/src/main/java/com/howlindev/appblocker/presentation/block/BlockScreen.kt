@@ -43,12 +43,13 @@ fun BlockScreen(
     viewModel: BlockViewModel = koinViewModel(),
 ) {
     val remainingMillis by viewModel.remainingTime.collectAsState()
+    val isStillBlocked by viewModel.isStillBlocked.collectAsState()
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
-    var wasTimed by remember { mutableStateOf(false) }
-    if (state.activeBlock?.isTimed == true) {
-        wasTimed = true
+    var hasTimer by remember { mutableStateOf(false) }
+    if (state.activeBlock?.hasTimer == true) {
+        hasTimer = true
     }
 
     val formattedTime = remember(remainingMillis) {
@@ -58,9 +59,10 @@ fun BlockScreen(
     BlockScreenContent(
         formattedTimeRemaining = formattedTime,
         modifier = modifier,
-        isTimed = state.activeBlock?.isTimed ?: wasTimed,
+        isTimed = state.activeBlock?.hasTimer ?: hasTimer,
         blockedApp = state.blockedApp,
         blockedWebsite = state.blockedWebsite,
+        scheduledEndTime = state.scheduledEndTime,
         onAction = { action ->
             when (action) {
                 BlockAction.OnClose -> onClose()
@@ -68,8 +70,8 @@ fun BlockScreen(
         },
     )
 
-    LaunchedEffect(remainingMillis) {
-        if (remainingMillis <= 0 && wasTimed) {
+    LaunchedEffect(remainingMillis, isStillBlocked) {
+        if (!isStillBlocked || (remainingMillis <= 0 && hasTimer)) {
             onTimerRunsOut()
         }
     }
@@ -83,6 +85,7 @@ private fun BlockScreenContent(
     blockedApp: AppInfo?,
     blockedWebsite: String?,
     modifier: Modifier = Modifier,
+    scheduledEndTime: String? = null,
 ) {
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
@@ -95,7 +98,9 @@ private fun BlockScreenContent(
             AppBlockHeader(blockedApp)
         }
 
-        val message = if (blockedWebsite != null) {
+        val message = if (scheduledEndTime != null) {
+            stringResource(R.string.block_screen_scheduled_message, scheduledEndTime)
+        } else if (blockedWebsite != null) {
             "The webpage $blockedWebsite was blocked because it's in your block list"
         } else {
             stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty())
@@ -200,6 +205,7 @@ fun BlockScreenPreview() {
             isTimed = true,
             blockedApp = null,
             blockedWebsite = "facebook.com",
+            scheduledEndTime = "18:00",
         )
     }
 }

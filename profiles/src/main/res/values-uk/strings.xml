@@ -37,6 +37,7 @@
     <string name="profiles_name_field_label">Назва</string>
 
     <string name="profiles_active_for">Активний протягом:</string>
+    <string name="profiles_active_until">Активний до %1$s</string>
     <string name="profiles_unblock_button">Розблокувати</string>
     <string name="profiles_blocked_apps_label">Заблоковані програми:</string>
     <string name="profiles_blocked_websites_label">Заблоковані вебсайти:</string>
@@ -54,4 +55,8 @@
 
     <string name="profiles_tab_apps">Програми</string>
     <string name="profiles_tab_websites">Вебсайти</string>
+    <string name="profiles_schedule_section_label">Блокування за розкладом</string>
+    <string name="profiles_no_schedule_active">Немає активних розкладів</string>
+    <string name="profiles_add_schedule_button">Додати розклад</string>
+    <string name="profiles_content_description_add_schedule">Додати розклад</string>
 </resources>

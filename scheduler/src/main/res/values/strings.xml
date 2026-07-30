@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_app_title">Scheduler</string>
+    <string name="schedule_dialog_edit_title">Edit Schedule</string>
+    <string name="schedule_button_cancel">Cancel</string>
+    <string name="schedule_button_confirm">Confirm</string>
+    <string name="schedule_label_from">From</string>
+    <string name="schedule_label_until">Until</string>
+    <string name="schedule_dialog_select_time_title">Select Time</string>
+    <string name="schedule_content_description_edit">Edit Schedule</string>
+    <string name="schedule_content_description_remove">Remove Schedule</string>
+    <string name="schedule_error_invalid_time_range">Until time must be later than from time</string>
+    <string name="schedule_error_no_days_selected">Please select at least one day</string>
+    <string name="schedule_dialog_create_title">Schedule Profile</string>
+    <string name="schedule_dialog_new_profile">+ New Profile</string>
+    <string name="schedule_error_no_profile_selected">Please select a profile</string>
+    <string name="schedule_timeline_confirm_selection">Click to confirm selection</string>
+    <string name="schedule_dialog_select_profile">Select Profile</string>
+    <string name="schedule_dialog_unknown_profile">Unknown</string>
+</resources>

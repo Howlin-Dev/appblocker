@@ -106,8 +106,8 @@ class CreateProfileViewModel(
             }.onFailure {
                 it.printStackTrace()
                 _state.update { it.copy(isSaving = false) }
-            }.onSuccess {
-                _state.update { it.copy(isCreated = true, isSaving = false) }
+            }.onSuccess { profileId ->
+                _state.update { it.copy(isCreated = true, isSaving = false, newProfileId = profileId) }
             }
         }
     }
@@ -122,4 +122,5 @@ data class CreateProfileState(
     val selectedWebsites: Set<String> = emptySet(),
     val isSaving: Boolean = false,
     val isCreated: Boolean = false,
+    val newProfileId: Long? = null,
 )

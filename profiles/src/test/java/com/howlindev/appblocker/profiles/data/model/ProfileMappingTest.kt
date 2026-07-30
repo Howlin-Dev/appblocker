@@ -1,6 +1,6 @@
 package com.howlindev.appblocker.profiles.data.model
 
-import com.howlindev.appblocker.profiles.domain.model.Profile
+import com.howlindev.appblocker.core.domain.model.Profile
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

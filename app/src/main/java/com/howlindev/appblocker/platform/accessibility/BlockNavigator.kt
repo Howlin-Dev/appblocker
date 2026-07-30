@@ -2,7 +2,6 @@ package com.howlindev.appblocker.platform.accessibility
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.net.toUri
 import com.howlindev.appblocker.presentation.block.BlockActivity
 
@@ -20,8 +19,7 @@ object BlockNavigator {
                 )
             }
             context.startActivity(intent)
-        } catch (e: Exception) {
-            Log.e("BlockNavigator", "Failed to navigate browser away", e)
+        } catch (_: Exception) {
         }
     }
 
@@ -35,7 +33,6 @@ object BlockNavigator {
                     Intent.FLAG_ACTIVITY_SINGLE_TOP,
             )
         }
-        Log.d("BlockNavigator", "Launching block screen for $packageName, website: $websiteUrl")
         context.startActivity(intent)
     }
 }

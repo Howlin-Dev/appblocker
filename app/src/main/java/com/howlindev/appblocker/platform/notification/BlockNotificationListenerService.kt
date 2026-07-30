@@ -3,7 +3,6 @@ package com.howlindev.appblocker.platform.notification
 import android.content.Intent
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
-import android.util.Log
 import com.howlindev.appblocker.core.domain.repository.BlockRepository
 import com.howlindev.appblocker.permissions.platform.PermissionNavigator
 import kotlinx.coroutines.CoroutineScope
@@ -20,7 +19,6 @@ class BlockNotificationListenerService : NotificationListenerService() {
 
     override fun onListenerConnected() {
         super.onListenerConnected()
-        Log.d("NotificationListener", "Service connected")
 
         serviceScope.launch {
             blockRepository.activeBlock.collect { lock ->
@@ -46,7 +44,6 @@ class BlockNotificationListenerService : NotificationListenerService() {
         val packageName = sbn?.packageName ?: return
 
         if (blockedPackages.contains(packageName)) {
-            Log.d("NotificationListener", "Blocking notification from $packageName")
             cancelNotification(sbn.key)
         }
     }
@@ -58,8 +55,7 @@ class BlockNotificationListenerService : NotificationListenerService() {
                     cancelNotification(sbn.key)
                 }
             }
-        } catch (e: Exception) {
-            Log.e("NotificationListener", "Error cancelling notifications", e)
+        } catch (_: Exception) {
         }
     }
 }

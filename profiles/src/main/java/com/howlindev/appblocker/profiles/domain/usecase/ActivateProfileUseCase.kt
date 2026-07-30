@@ -1,8 +1,8 @@
 package com.howlindev.appblocker.profiles.domain.usecase
 
+import com.howlindev.appblocker.core.domain.model.Profile
 import com.howlindev.appblocker.core.domain.repository.BlockRepository
 import com.howlindev.appblocker.core.domain.repository.TimerRepository
-import com.howlindev.appblocker.profiles.domain.model.Profile
 
 class ActivateProfileUseCase(
     private val blockRepository: BlockRepository,
@@ -13,11 +13,11 @@ class ActivateProfileUseCase(
             timerRepository.startTimer(it)
         }
 
-        blockRepository.activateProfile(
+        blockRepository.activateTimedProfile(
             profileId = profile.id,
             appPackages = profile.appPackages,
             blockedWebsites = profile.blockedWebsites,
-            isTimed = profile.durationMillis != null,
+            hasTimer = profile.durationMillis != null,
         )
     }
 }

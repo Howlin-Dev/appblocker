@@ -17,4 +17,5 @@ val dbModule = module {
     }
 
     single { get<AppDatabase>().profileDao() }
+    single { get<AppDatabase>().scheduleEventDao() }
 }

@@ -2,7 +2,7 @@ package com.howlindev.appblocker.profiles.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.howlindev.appblocker.profiles.domain.model.Profile
+import com.howlindev.appblocker.core.domain.model.Profile
 
 @Entity(tableName = "profiles")
 data class ProfileEntity(

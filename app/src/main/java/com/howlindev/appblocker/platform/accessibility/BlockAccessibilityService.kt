@@ -4,7 +4,6 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.AccessibilityServiceInfo
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import com.howlindev.appblocker.core.domain.repository.BlockRepository
 import com.howlindev.appblocker.permissions.platform.PermissionNavigator
@@ -13,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @SuppressLint("AccessibilityPolicy")
 class BlockAccessibilityService : AccessibilityService() {
@@ -38,6 +38,7 @@ class BlockAccessibilityService : AccessibilityService() {
             blockRepository.activeBlock.collect { lock ->
                 blockedPackages = lock?.blockedPackages?.toSet() ?: emptySet()
                 blockedWebsites = lock?.blockedWebsites ?: emptyList()
+                lastPackageName?.let { handleAppBlocking(it) }
             }
         }
 
@@ -74,15 +75,15 @@ class BlockAccessibilityService : AccessibilityService() {
     }
 
     private fun handleAppBlocking(packageName: String) {
+        if (packageName == this.packageName) return
         val now = System.currentTimeMillis()
-        
-        // If we are switching from our own app or a different app to a blocked one, 
+
+        // If we are switching from our own app or a different app to a blocked one,
         // we should block immediately regardless of the cooldown.
         val isPackageSwitch = lastPackageName != packageName
-        if (now - lastBlockTime < 1500 && !isPackageSwitch) return
+        if ((now - lastBlockTime < 1500) && !isPackageSwitch) return
 
         if (blockedPackages.contains(packageName)) {
-            Log.d("onAccessibilityEvent", "Blocking app: $packageName")
             lastBlockTime = now
             lastBlockedUrl = null
             BlockNavigator.launchBlockScreen(this, packageName)
@@ -108,19 +109,18 @@ class BlockAccessibilityService : AccessibilityService() {
                 lastBlockTime = now
                 lastBlockedUrl = url
 
-                Log.d("handleWebsiteBlocking", "Blocking website: $url")
                 val browserPackage = event.packageName?.toString() ?: ""
 
                 serviceScope.launch {
                     BlockNavigator.navigateBrowserAway(this@BlockAccessibilityService, browserPackage)
-                    kotlinx.coroutines.delay(300)
+                    kotlinx.coroutines.delay(300.milliseconds)
                     BlockNavigator.launchBlockScreen(this@BlockAccessibilityService, browserPackage, url)
                 }
             } else if (lastBlockedUrl != null && !url.contains(lastBlockedUrl!!)) {
                 lastBlockedUrl = null
             }
         } finally {
-            rootNode.recycle()
+            // No-op. rootNode is managed by the system.
         }
     }
 
