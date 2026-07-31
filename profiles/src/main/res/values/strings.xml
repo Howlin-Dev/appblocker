@@ -37,7 +37,7 @@
     <string name="profiles_name_field_label">Name</string>
 
     <string name="profiles_active_for">Active for:</string>
-    <string name="profiles_active_until">Active until %1$s</string>
+    <string name="profiles_active_until">Active until:</string>
     <string name="profiles_unblock_button">Unblock</string>
     <string name="profiles_blocked_apps_label">Currently blocked apps:</string>
     <string name="profiles_blocked_websites_label">Currently blocked websites:</string>

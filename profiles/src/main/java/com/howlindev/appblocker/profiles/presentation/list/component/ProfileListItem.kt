@@ -58,8 +58,7 @@ fun ProfileListItem(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .height(160.dp)
-            .padding(horizontal = 16.dp),
+            .height(160.dp),
     ) {
         Row(
             modifier = Modifier

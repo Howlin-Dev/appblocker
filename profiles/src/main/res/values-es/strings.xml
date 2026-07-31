@@ -36,7 +36,7 @@
     <string name="profiles_name_field_label">Nombre</string>
 
     <string name="profiles_active_for">Activo durante:</string>
-    <string name="profiles_active_until">Activo hasta las %1$s</string>
+    <string name="profiles_active_until">Activo hasta:</string>
     <string name="profiles_unblock_button">Desbloquear</string>
     <string name="profiles_blocked_apps_label">Aplicaciones bloqueadas actualmente:</string>
     <string name="profiles_blocked_websites_label">Sitios web bloqueados actualmente:</string>

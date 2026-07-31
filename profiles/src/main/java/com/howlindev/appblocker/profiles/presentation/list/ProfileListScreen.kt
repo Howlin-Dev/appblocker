@@ -129,7 +129,10 @@ fun ProfileListScreen(
                 pendingProfileForActivation.value = null
             },
             onCancel = { pendingProfileForActivation.value = null },
-            title = stringResource(R.string.profiles_dialog_activate_title, profile?.name.orEmpty()),
+            title = stringResource(
+                R.string.profiles_dialog_activate_title,
+                profile?.name.orEmpty()
+            ),
             text = stringResource(
                 R.string.profiles_dialog_activate_text,
                 profile?.durationMillis?.millisToTimeString(context).orEmpty(),
@@ -208,7 +211,9 @@ internal fun ProfileListScreenContent(
 
                 items(items = activeProfiles, key = { it.id }) { activeProfile ->
                     ActiveProfileListItem(
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .animateItem(),
                         profile = activeProfile,
                         onUnblockClick = {
                             onAction(
@@ -222,7 +227,9 @@ internal fun ProfileListScreenContent(
                 }
                 items(items = inactiveProfiles, key = { it.id }) { inactiveProfile ->
                     ProfileListItem(
-                        modifier = Modifier.animateItem(),
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .animateItem(),
                         profile = inactiveProfile,
                         onClick = { onAction(ProfileListAction.ProfileClick(inactiveProfile.id)) },
                         onToggleProfileActivation = {
