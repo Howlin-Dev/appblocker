@@ -7,6 +7,7 @@ import com.howlindev.appblocker.core.domain.model.ThemeMode
 import com.howlindev.appblocker.settings.domain.usecase.GetSettingsUseCase
 import com.howlindev.appblocker.settings.domain.usecase.SetDynamicColorUseCase
 import com.howlindev.appblocker.settings.domain.usecase.SetThemeModeUseCase
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -17,11 +18,11 @@ class SettingsViewModel(
     private val setDynamicColorUseCase: SetDynamicColorUseCase,
 ) : ViewModel() {
 
-    val settings = getSettingsUseCase()
+    val settings: StateFlow<SettingsData?> = getSettingsUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsData(),
+            initialValue = null,
         )
 
     fun setThemeMode(themeMode: ThemeMode) {

@@ -48,8 +48,8 @@ class SettingsViewModelTest {
         val viewModel = SettingsViewModel(getSettingsUseCase, setThemeModeUseCase, setDynamicColorUseCase)
 
         viewModel.settings.test {
-            // Skip initial value from stateIn
-            assertEquals(SettingsData(), awaitItem())
+            // Initial value is now null
+            assertEquals(null, awaitItem())
             assertEquals(settingsData, awaitItem())
         }
     }

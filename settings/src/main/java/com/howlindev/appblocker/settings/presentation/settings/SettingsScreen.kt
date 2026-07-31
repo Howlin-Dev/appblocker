@@ -50,30 +50,32 @@ fun SettingsScreen(
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
-    SettingsScreenContent(
-        modifier = modifier,
-        currentThemeMode = settings.themeMode,
-        isDynamicColorEnabled = settings.dynamicColor,
-        onAction = { action ->
-            when (action) {
-                SettingsAction.BackClick -> {
-                    onBackClick()
-                }
+    settings?.let {
+        SettingsScreenContent(
+            modifier = modifier,
+            currentThemeMode = it.themeMode,
+            isDynamicColorEnabled = it.dynamicColor,
+            onAction = { action ->
+                when (action) {
+                    SettingsAction.BackClick -> {
+                        onBackClick()
+                    }
 
-                SettingsAction.LanguageClick -> {
-                    onLanguageClick()
-                }
+                    SettingsAction.LanguageClick -> {
+                        onLanguageClick()
+                    }
 
-                is SettingsAction.ThemeModeSwitch -> {
-                    viewModel.setThemeMode(action.themeMode)
-                }
+                    is SettingsAction.ThemeModeSwitch -> {
+                        viewModel.setThemeMode(action.themeMode)
+                    }
 
-                is SettingsAction.DynamicColorSwitch -> {
-                    viewModel.setDynamicColor(action.enabled)
+                    is SettingsAction.DynamicColorSwitch -> {
+                        viewModel.setDynamicColor(action.enabled)
+                    }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Composable

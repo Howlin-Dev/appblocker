@@ -6,6 +6,7 @@ import com.howlindev.appblocker.core.domain.model.AppLanguage
 import com.howlindev.appblocker.core.domain.model.SettingsData
 import com.howlindev.appblocker.settings.domain.usecase.GetSettingsUseCase
 import com.howlindev.appblocker.settings.domain.usecase.SetAppLanguageUseCase
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -15,11 +16,11 @@ class LanguageViewModel(
     private val setAppLanguageUseCase: SetAppLanguageUseCase,
 ) : ViewModel() {
 
-    val settings = getSettingsUseCase()
+    val settings: StateFlow<SettingsData?> = getSettingsUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = SettingsData(),
+            initialValue = null,
         )
 
     fun setLanguage(language: AppLanguage) {

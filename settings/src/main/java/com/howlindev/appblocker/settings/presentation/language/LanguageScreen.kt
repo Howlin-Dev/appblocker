@@ -34,21 +34,23 @@ fun LanguageScreen(
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
-    LanguageScreenContent(
-        modifier = modifier,
-        selectedItem = settings.language,
-        onAction = { action ->
-            when (action) {
-                LanguageAction.BackClick -> {
-                    onBackClick()
-                }
+    settings?.let {
+        LanguageScreenContent(
+            modifier = modifier,
+            selectedItem = it.language,
+            onAction = { action ->
+                when (action) {
+                    LanguageAction.BackClick -> {
+                        onBackClick()
+                    }
 
-                is LanguageAction.LanguageChange -> {
-                    viewModel.setLanguage(action.language)
+                    is LanguageAction.LanguageChange -> {
+                        viewModel.setLanguage(action.language)
+                    }
                 }
-            }
-        },
-    )
+            },
+        )
+    }
 }
 
 @Composable
