@@ -1,6 +1,6 @@
 package com.howlindev.appblocker.profiles.presentation.list.component
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,23 +34,29 @@ fun ActiveProfileListItem(
     onUnblockClick: () -> Unit,
     formattedTimeRemaining: String,
     modifier: Modifier = Modifier,
+    accentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
+    onAccentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
 ) {
+    val shape = RoundedCornerShape(12.dp)
+    val innerShape = RoundedCornerShape(8.dp)
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
             .fillMaxWidth()
-            .border(3.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
-            .padding(vertical = 8.dp, horizontal = 12.dp),
+            .background(accentColor, shape)
+            .clip(shape),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 4.dp, start = 12.dp, end = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = profile.name,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary,
+                color = onAccentColor,
                 fontWeight = MaterialTheme.typography.labelLarge.fontWeight,
             )
             if (!profile.isManuallyActive && profile.scheduledEndTime != null) {
@@ -57,11 +66,12 @@ fun ActiveProfileListItem(
                     Text(
                         text = stringResource(R.string.profiles_active_until),
                         style = MaterialTheme.typography.labelMedium,
+                        color = onAccentColor.copy(alpha = 0.8f),
                     )
                     Text(
                         text = profile.scheduledEndTime,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = onAccentColor,
                         fontWeight = MaterialTheme.typography.labelLarge.fontWeight,
                     )
                 }
@@ -70,6 +80,10 @@ fun ActiveProfileListItem(
                     onClick = onUnblockClick,
                     shape = RoundedCornerShape(8.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = onAccentColor,
+                        contentColor = accentColor,
+                    ),
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -89,39 +103,56 @@ fun ActiveProfileListItem(
                     Text(
                         text = stringResource(R.string.profiles_active_for),
                         style = MaterialTheme.typography.labelMedium,
+                        color = onAccentColor.copy(alpha = 0.8f),
                     )
                     Text(
                         text = formattedTimeRemaining,
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = onAccentColor,
                         fontWeight = MaterialTheme.typography.labelLarge.fontWeight,
                     )
                 }
             }
         }
-        if (profile.blockedApps.isNotEmpty()) {
-            ProfileAppIconGrid(
-                appList = profile.blockedApps,
-            )
-        }
 
-        if (profile.blockedWebsites.isNotEmpty()) {
-            FlowRow(
-                modifier = Modifier.padding(vertical = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
+            shape = innerShape,
+            color = MaterialTheme.colorScheme.surface,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                profile.blockedWebsites.forEach { website ->
-                    Surface(
-                        shape = RoundedCornerShape(8.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant,
+                if (profile.blockedApps.isNotEmpty()) {
+                    ProfileAppIconGrid(
+                        appList = profile.blockedApps,
+                    )
+                }
+
+                if (profile.blockedWebsites.isNotEmpty()) {
+                    FlowRow(
+//                        modifier = Modifier.padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        Text(
-                            modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
-                            text = website,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodyLarge,
-                        )
+                        profile.blockedWebsites.forEach { website ->
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = MaterialTheme.colorScheme.surfaceVariant,
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+                                    text = website,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -133,30 +164,36 @@ fun ActiveProfileListItem(
 @Composable
 fun ActiveProfileListItemPreview() {
     Surface {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             ActiveProfileListItem(
-                modifier = Modifier.padding(8.dp),
                 profile = ProfileUi(
                     name = "Reading while sitting in auiohpsdj",
+                    blockedApps = emptyList(),
+                    blockedWebsites = listOf("facebook.com", "instagram.com")
                 ),
                 onUnblockClick = { },
                 formattedTimeRemaining = "",
             )
             ActiveProfileListItem(
-                modifier = Modifier.padding(8.dp),
                 profile = ProfileUi(
                     name = "Reading",
                     durationMillis = 100,
+                    blockedApps = emptyList(),
+                    blockedWebsites = emptyList()
                 ),
                 onUnblockClick = { },
                 formattedTimeRemaining = "20:50",
             )
             ActiveProfileListItem(
-                modifier = Modifier.padding(8.dp),
                 profile = ProfileUi(
                     name = "Reading",
                     isManuallyActive = false,
-                    scheduledEndTime = "12:50"
+                    scheduledEndTime = "12:50",
+                    blockedApps = emptyList(),
+                    blockedWebsites = listOf("youtube.com")
                 ),
                 onUnblockClick = { },
                 formattedTimeRemaining = "20:50",
