@@ -26,14 +26,14 @@ fun Modifier.shimmerEffect(
         Color.Gray.copy(alpha = 0.2f),
     ),
     shape: Shape = RectangleShape,
-    infiniteTransition: InfiniteTransition? = null
+    infiniteTransition: InfiniteTransition? = null,
 ): Modifier = composed {
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
-    
-    val transition = infiniteTransition 
-        ?: LocalShimmerTransition.current 
+
+    val transition = infiniteTransition
+        ?: LocalShimmerTransition.current
         ?: rememberInfiniteTransition(label = "shimmer")
 
     val width = if (size.width > 0) size.width.toFloat() else 1000f
@@ -53,7 +53,7 @@ fun Modifier.shimmerEffect(
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + width, width),
         ),
-        shape = shape
+        shape = shape,
     ).onGloballyPositioned {
         size = it.size
     }

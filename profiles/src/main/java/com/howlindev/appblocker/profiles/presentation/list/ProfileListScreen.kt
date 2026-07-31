@@ -138,7 +138,7 @@ fun ProfileListScreen(
             onCancel = { pendingProfileForActivation.value = null },
             title = stringResource(
                 R.string.profiles_dialog_activate_title,
-                profile?.name.orEmpty()
+                profile?.name.orEmpty(),
             ),
             text = stringResource(
                 R.string.profiles_dialog_activate_text,
@@ -229,6 +229,7 @@ internal fun ProfileListScreenContent(
                                 ),
                             )
                         },
+                        onClick = { onAction(ProfileListAction.ProfileClick(activeProfile.id)) },
                         formattedTimeRemaining = formattedTimeRemaining,
                     )
                 }

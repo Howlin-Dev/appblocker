@@ -1,6 +1,7 @@
 package com.howlindev.appblocker.profiles.presentation.list.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
@@ -33,6 +34,7 @@ import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
 fun ActiveProfileListItem(
     profile: ProfileUi,
     onUnblockClick: () -> Unit,
+    onClick: () -> Unit,
     formattedTimeRemaining: String,
     modifier: Modifier = Modifier,
     accentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -54,9 +56,10 @@ fun ActiveProfileListItem(
                     ),
                     Color.Transparent,
                 ),
-                shape = shape
+                shape = shape,
             )
-            .clip(shape),
+            .clip(shape)
+            .clickable { onClick() },
     ) {
         Row(
             modifier = Modifier
@@ -72,13 +75,13 @@ fun ActiveProfileListItem(
                 color = onAccentColor,
                 fontWeight = MaterialTheme.typography.labelLarge.fontWeight,
             )
-            if (!profile.isManuallyActive && profile.scheduledEndTime != null) {
+            if ((!profile.isManuallyActive) && (profile.scheduledEndTime != null)) {
                 Column(
                     horizontalAlignment = Alignment.End,
                 ) {
                     Text(
                         text = stringResource(R.string.profiles_active_until),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         color = onAccentColor.copy(alpha = 0.8f),
                     )
                     Text(
@@ -115,7 +118,7 @@ fun ActiveProfileListItem(
                 ) {
                     Text(
                         text = stringResource(R.string.profiles_active_for),
-                        style = MaterialTheme.typography.labelMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         color = onAccentColor.copy(alpha = 0.8f),
                     )
                     Text(
@@ -179,15 +182,16 @@ fun ActiveProfileListItemPreview() {
     Surface {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             ActiveProfileListItem(
                 profile = ProfileUi(
                     name = "Reading while sitting in auiohpsdj",
                     blockedApps = emptyList(),
-                    blockedWebsites = listOf("facebook.com", "instagram.com")
+                    blockedWebsites = listOf("facebook.com", "instagram.com"),
                 ),
                 onUnblockClick = { },
+                onClick = { },
                 formattedTimeRemaining = "",
             )
             ActiveProfileListItem(
@@ -195,9 +199,10 @@ fun ActiveProfileListItemPreview() {
                     name = "Reading",
                     durationMillis = 100,
                     blockedApps = emptyList(),
-                    blockedWebsites = emptyList()
+                    blockedWebsites = emptyList(),
                 ),
                 onUnblockClick = { },
+                onClick = { },
                 formattedTimeRemaining = "20:50",
             )
             ActiveProfileListItem(
@@ -206,9 +211,10 @@ fun ActiveProfileListItemPreview() {
                     isManuallyActive = false,
                     scheduledEndTime = "12:50",
                     blockedApps = emptyList(),
-                    blockedWebsites = listOf("youtube.com")
+                    blockedWebsites = listOf("youtube.com"),
                 ),
                 onUnblockClick = { },
+                onClick = { },
                 formattedTimeRemaining = "20:50",
             )
         }

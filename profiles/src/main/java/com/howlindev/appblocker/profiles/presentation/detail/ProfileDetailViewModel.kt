@@ -2,8 +2,8 @@ package com.howlindev.appblocker.profiles.presentation.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.howlindev.appblocker.profiles.domain.usecase.CreateProfileUseCase
 import com.howlindev.appblocker.core.domain.usecase.ObserveActiveBlockUseCase
+import com.howlindev.appblocker.profiles.domain.usecase.CreateProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.DeleteProfileUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.GetProfileUiUseCase
 import com.howlindev.appblocker.profiles.domain.usecase.UpdateProfileUseCase
@@ -108,7 +108,7 @@ class ProfileDetailViewModel(
                 createProfileUseCase(
                     name = name,
                     appPackages = currentProfile.blockedApps.map { it.packageName },
-                    blockedWebsites = currentProfile.blockedWebsites
+                    blockedWebsites = currentProfile.blockedWebsites,
                 )
                 _state.update { it.copy(isLoading = false, isProfileDuplicated = true) }
             }.onFailure {
