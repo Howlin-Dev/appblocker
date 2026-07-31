@@ -2,6 +2,7 @@ package com.howlindev.appblocker.core.presentation.util
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,18 +17,24 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
+val LocalShimmerTransition = compositionLocalOf<InfiniteTransition?> { null }
+
 fun Modifier.shimmerEffect(
     shimmerColors: List<Color> = listOf(
         Color.Gray.copy(alpha = 0.2f),
         Color.Gray.copy(alpha = 0.4f),
         Color.Gray.copy(alpha = 0.2f),
     ),
-    shape: Shape = RectangleShape
+    shape: Shape = RectangleShape,
+    infiniteTransition: InfiniteTransition? = null
 ): Modifier = composed {
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
-    val transition = rememberInfiniteTransition(label = "shimmer")
+    
+    val transition = infiniteTransition 
+        ?: LocalShimmerTransition.current 
+        ?: rememberInfiniteTransition(label = "shimmer")
 
     val width = if (size.width > 0) size.width.toFloat() else 1000f
 

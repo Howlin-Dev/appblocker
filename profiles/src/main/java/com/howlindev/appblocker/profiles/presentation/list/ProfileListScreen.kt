@@ -1,5 +1,6 @@
 package com.howlindev.appblocker.profiles.presentation.list
 
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.howlindev.appblocker.core.presentation.component.ConfirmDialog
 import com.howlindev.appblocker.core.presentation.scaffold.AppScaffold
+import com.howlindev.appblocker.core.presentation.util.LocalShimmerTransition
 import com.howlindev.appblocker.core.util.millisToTimeString
 import com.howlindev.appblocker.core.util.millisToTimerString
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
@@ -72,39 +75,43 @@ fun ProfileListScreen(
         }
     }
 
-    ProfileListScreenContent(
-        modifier = modifier.fillMaxSize(),
-        inactiveProfiles = state.inactiveProfiles,
-        activeProfiles = state.activeProfiles,
-        isManualProfileActive = state.isManualProfileActive,
-        missingPermissions = state.missingPermissions,
-        formattedTimeRemaining = formattedTime,
-        onAction = { action ->
-            when (action) {
-                ProfileListAction.CreateClick -> onCreateClick()
-                ProfileListAction.SettingsClick -> onSettingsClick()
-                ProfileListAction.SchedulerClick -> onSchedulerClick()
-                is ProfileListAction.ProfileClick -> onProfileClick(action.id)
-                is ProfileListAction.ToggleProfileActivation -> {
-                    if (action.profile.durationMillis == null) {
-                        viewModel.toggleProfileActivation(action.profile)
-                    } else {
-                        pendingProfileForActivation.value = action.profile
+    val shimmerTransition = rememberInfiniteTransition(label = "shimmer_sync")
+
+    CompositionLocalProvider(LocalShimmerTransition provides shimmerTransition) {
+        ProfileListScreenContent(
+            modifier = modifier.fillMaxSize(),
+            inactiveProfiles = state.inactiveProfiles,
+            activeProfiles = state.activeProfiles,
+            isManualProfileActive = state.isManualProfileActive,
+            missingPermissions = state.missingPermissions,
+            formattedTimeRemaining = formattedTime,
+            onAction = { action ->
+                when (action) {
+                    ProfileListAction.CreateClick -> onCreateClick()
+                    ProfileListAction.SettingsClick -> onSettingsClick()
+                    ProfileListAction.SchedulerClick -> onSchedulerClick()
+                    is ProfileListAction.ProfileClick -> onProfileClick(action.id)
+                    is ProfileListAction.ToggleProfileActivation -> {
+                        if (action.profile.durationMillis == null) {
+                            viewModel.toggleProfileActivation(action.profile)
+                        } else {
+                            pendingProfileForActivation.value = action.profile
+                        }
+                    }
+
+                    is ProfileListAction.TimerChange -> viewModel.updateProfileTimer(
+                        action.profileUi,
+                        action.newTime,
+                    )
+
+                    is ProfileListAction.GrantPermission -> viewModel.requestPermission(action.permission)
+                    is ProfileListAction.ShowPermissionInfo -> {
+                        infoPermission.value = action.permission
                     }
                 }
-
-                is ProfileListAction.TimerChange -> viewModel.updateProfileTimer(
-                    action.profileUi,
-                    action.newTime,
-                )
-
-                is ProfileListAction.GrantPermission -> viewModel.requestPermission(action.permission)
-                is ProfileListAction.ShowPermissionInfo -> {
-                    infoPermission.value = action.permission
-                }
-            }
-        },
-    )
+            },
+        )
+    }
 
     if (infoPermission.value != null) {
         val permission = infoPermission.value!!

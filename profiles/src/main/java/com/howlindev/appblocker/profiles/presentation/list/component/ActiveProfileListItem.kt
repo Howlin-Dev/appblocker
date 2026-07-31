@@ -37,7 +37,6 @@ fun ActiveProfileListItem(
     modifier: Modifier = Modifier,
     accentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onAccentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
-    shimmerColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
     val shape = RoundedCornerShape(12.dp)
     val innerShape = RoundedCornerShape(8.dp)
@@ -47,9 +46,13 @@ fun ActiveProfileListItem(
             .background(accentColor, shape)
             .shimmerEffect(
                 shimmerColors = listOf(
-                    shimmerColor.copy(alpha = 0f),
-                    shimmerColor.copy(alpha = 0.2f),
-                    shimmerColor.copy(alpha = 0f),
+                    Color.Transparent,
+                    accentColor.copy(
+                        red = accentColor.red + 0.15f,
+                        green = accentColor.green + 0.13f,
+                        blue = accentColor.blue + 0.1f,
+                    ),
+                    Color.Transparent,
                 ),
                 shape = shape
             )

@@ -87,8 +87,8 @@ fun SchedulerScreenContent(
             if (state.currentSelection != null) {
                 LargeFloatingActionButton(
                     onClick = { onAction(SchedulerAction.CreateScheduleFromSelection) },
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary,
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 ) {
                     Icon(imageVector = Icons.Default.Add, contentDescription = null)
                 }

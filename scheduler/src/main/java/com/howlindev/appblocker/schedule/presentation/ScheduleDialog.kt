@@ -416,7 +416,7 @@ private fun DayOfWeekSelector(
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
                     ),
                     shape = RoundedCornerShape(8.dp),
                 ) {
