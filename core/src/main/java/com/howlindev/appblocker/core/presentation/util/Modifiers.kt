@@ -11,10 +11,19 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 
-fun Modifier.shimmerEffect(): Modifier = composed {
+fun Modifier.shimmerEffect(
+    shimmerColors: List<Color> = listOf(
+        Color.Gray.copy(alpha = 0.2f),
+        Color.Gray.copy(alpha = 0.4f),
+        Color.Gray.copy(alpha = 0.2f),
+    ),
+    shape: Shape = RectangleShape
+): Modifier = composed {
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -33,14 +42,11 @@ fun Modifier.shimmerEffect(): Modifier = composed {
 
     background(
         brush = Brush.linearGradient(
-            colors = listOf(
-                Color.Gray.copy(alpha = 0.2f),
-                Color.Gray.copy(alpha = 0.4f),
-                Color.Gray.copy(alpha = 0.2f),
-            ),
+            colors = shimmerColors,
             start = Offset(startOffsetX, 0f),
             end = Offset(startOffsetX + width, width),
         ),
+        shape = shape
     ).onGloballyPositioned {
         size = it.size
     }

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.howlindev.appblocker.core.presentation.util.shimmerEffect
 import com.howlindev.appblocker.profiles.R
 import com.howlindev.appblocker.profiles.presentation.common.ProfileAppIconGrid
 import com.howlindev.appblocker.profiles.presentation.list.model.ProfileUi
@@ -36,6 +37,7 @@ fun ActiveProfileListItem(
     modifier: Modifier = Modifier,
     accentColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onAccentColor: Color = MaterialTheme.colorScheme.onSecondaryContainer,
+    shimmerColor: Color = MaterialTheme.colorScheme.secondary,
 ) {
     val shape = RoundedCornerShape(12.dp)
     val innerShape = RoundedCornerShape(8.dp)
@@ -43,6 +45,14 @@ fun ActiveProfileListItem(
         modifier = modifier
             .fillMaxWidth()
             .background(accentColor, shape)
+            .shimmerEffect(
+                shimmerColors = listOf(
+                    shimmerColor.copy(alpha = 0f),
+                    shimmerColor.copy(alpha = 0.2f),
+                    shimmerColor.copy(alpha = 0f),
+                ),
+                shape = shape
+            )
             .clip(shape),
     ) {
         Row(

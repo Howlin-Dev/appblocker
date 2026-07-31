@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -91,18 +90,16 @@ fun AppItemPlaceholder(
             Box(
                 modifier = Modifier
                     .size(56.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
-                    .shimmerEffect(),
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f), CircleShape)
+                    .shimmerEffect(shape = CircleShape),
             )
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
                     .height(20.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
-                    .shimmerEffect(),
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
+                    .shimmerEffect(shape = RoundedCornerShape(4.dp)),
             )
         }
     }
