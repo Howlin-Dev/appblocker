@@ -42,7 +42,7 @@ fun Modifier.shimmerEffect(
         initialValue = -2 * width,
         targetValue = 2 * width,
         animationSpec = infiniteRepeatable(
-            animation = tween(1200, easing = LinearEasing),
+            animation = tween(1600, easing = LinearEasing),
         ),
         label = "shimmer",
     )

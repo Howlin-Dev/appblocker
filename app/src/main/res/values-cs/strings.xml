@@ -1,6 +1,7 @@
 <resources>
     <string name="block_screen_message">Aplikace %1$s je momentálně zablokována aplikací Bloq</string>
-    <string name="block_screen_scheduled_message">Zablokováno do %1$s</string>
+    <string name="block_screen_scheduled_message_time">Zablokováno do %1$s</string>
+    <string name="block_screen_scheduled_message">Zablokováno do:</string>
     <string name="block_screen_close_button_text">Zavřít</string>
     <string name="block_screen_time_left_label">Čas do odblokování:</string>
 </resources>

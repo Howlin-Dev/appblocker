@@ -88,7 +88,9 @@ private fun BlockScreenContent(
     scheduledEndTime: String? = null,
 ) {
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -98,22 +100,27 @@ private fun BlockScreenContent(
             AppBlockHeader(blockedApp)
         }
 
-        val message = if (scheduledEndTime != null) {
-            stringResource(R.string.block_screen_scheduled_message, scheduledEndTime)
-        } else if (blockedWebsite != null) {
-            "The webpage $blockedWebsite was blocked because it's in your block list"
-        } else {
-            stringResource(R.string.block_screen_message, blockedApp?.name.orEmpty())
-        }
-
         Text(
-            modifier = Modifier.padding(16.dp),
-            text = message,
+            modifier = Modifier.padding(top = 16.dp),
+            text = stringResource(
+                R.string.block_screen_message,
+                blockedWebsite ?: blockedApp?.name.orEmpty()
+            ),
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
         )
 
-        if (isTimed) {
+        if (scheduledEndTime != null) {
+            Text(
+                text = stringResource(R.string.block_screen_scheduled_message),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Text(
+                text = scheduledEndTime,
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+        } else if (isTimed) {
             Text(
                 text = stringResource(R.string.block_screen_time_left_label),
                 style = MaterialTheme.typography.titleMedium,
@@ -121,9 +128,12 @@ private fun BlockScreenContent(
             Text(
                 text = formattedTimeRemaining,
                 style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.tertiary,
             )
         }
+
         TextButton(
+            modifier = Modifier.padding(top = 16.dp),
             onClick = { onAction(BlockAction.OnClose) },
         ) {
             Text(
@@ -172,7 +182,9 @@ private fun AppBlockHeader(blockedApp: AppInfo?) {
                 .size(80.dp),
         ) {
             Image(
-                modifier = Modifier.fillMaxSize().padding(4.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(4.dp),
                 painter = rememberDrawablePainter(app.icon),
                 contentDescription = null,
             )
