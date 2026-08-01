@@ -5,4 +5,10 @@
     <string name="language">Мова</string>
     <string name="dynamic_color">Динамічні кольори</string>
     <string name="app_version">Версія програми: %s</string>
+
+    <string name="settings_content_description_theme">Тема</string>
+    <string name="settings_content_description_dynamic_color">Динамічні кольори</string>
+    <string name="settings_content_description_language">Мова</string>
+    <string name="settings_content_description_language_navigate">Перейти до вибору мови</string>
+    <string name="settings_theme_system">Системна</string>
 </resources>

@@ -5,4 +5,10 @@
     <string name="language">Jazyk</string>
     <string name="dynamic_color">Dynamické barvy</string>
     <string name="app_version">Verze aplikace: %s</string>
+
+    <string name="settings_content_description_theme">Téma</string>
+    <string name="settings_content_description_dynamic_color">Dynamické barvy</string>
+    <string name="settings_content_description_language">Jazyk</string>
+    <string name="settings_content_description_language_navigate">Přejít na výběr jazyka</string>
+    <string name="settings_theme_system">Systémový</string>
 </resources>

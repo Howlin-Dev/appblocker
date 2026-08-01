@@ -58,4 +58,6 @@
     <string name="profiles_no_schedule_active">Нет активных расписаний</string>
     <string name="profiles_add_schedule_button">Добавить расписание</string>
     <string name="profiles_content_description_add_schedule">Добавить расписание</string>
+    <string name="profiles_content_description_scheduler">Планировщик</string>
+    <string name="profiles_fallback_title">Блокировка</string>
 </resources>

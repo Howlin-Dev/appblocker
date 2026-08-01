@@ -180,7 +180,7 @@ internal fun ProfileListScreenContent(
             ) {
                 Icon(
                     painter = painterResource(com.howlindev.appblocker.core.R.drawable.outline_calendar),
-                    contentDescription = "Scheduler",
+                    contentDescription = stringResource(R.string.profiles_content_description_scheduler),
                 )
             }
             IconButton(

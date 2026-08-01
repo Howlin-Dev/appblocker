@@ -17,4 +17,8 @@
     <string name="notification_active_profile_title">%1$s je aktivní</string>
     <string name="notification_active_profile_body">%1$d aplikací zablokováno.</string>
     <string name="notification_active_profile_timer">Zbývající čas: %1$s</string>
+
+    <string name="core_content_description_globe">Zeměkoule</string>
+    <string name="core_content_description_apps">Aplikace</string>
+    <string name="core_content_description_back">Zpět</string>
 </resources>

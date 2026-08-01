@@ -104,7 +104,7 @@ private fun BlockScreenContent(
             modifier = Modifier.padding(top = 16.dp),
             text = stringResource(
                 R.string.block_screen_message,
-                blockedWebsite ?: blockedApp?.name.orEmpty()
+                blockedWebsite ?: blockedApp?.name.orEmpty(),
             ),
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,

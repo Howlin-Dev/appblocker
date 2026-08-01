@@ -5,4 +5,10 @@
     <string name="language">Language</string>
     <string name="dynamic_color">Dynamic Color</string>
     <string name="app_version">App Version: %s</string>
+
+    <string name="settings_content_description_theme">Theme</string>
+    <string name="settings_content_description_dynamic_color">Dynamic Color</string>
+    <string name="settings_content_description_language">Language</string>
+    <string name="settings_content_description_language_navigate">Language Navigate</string>
+    <string name="settings_theme_system">System</string>
 </resources>

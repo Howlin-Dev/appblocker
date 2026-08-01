@@ -69,6 +69,7 @@ fun ProfileDetailScreen(
     viewModel: ProfileDetailViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val fallbackTitle = stringResource(R.string.profiles_fallback_title)
 
     ProfileDetailScreenContent(
         modifier = modifier,
@@ -90,7 +91,7 @@ fun ProfileDetailScreen(
                             startTime = action.from,
                             endTime = action.until,
                             daysOfWeek = action.days,
-                            title = state.profile?.name ?: "Blocking",
+                            title = state.profile?.name ?: fallbackTitle,
                         ),
                     )
                 }

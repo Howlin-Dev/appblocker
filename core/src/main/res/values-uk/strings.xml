@@ -17,4 +17,8 @@
     <string name="notification_active_profile_title">%1$s активний</string>
     <string name="notification_active_profile_body">%1$d програм заблоковано.</string>
     <string name="notification_active_profile_timer">Залишилося: %1$s</string>
+
+    <string name="core_content_description_globe">Глобус</string>
+    <string name="core_content_description_apps">Програми</string>
+    <string name="core_content_description_back">Назад</string>
 </resources>

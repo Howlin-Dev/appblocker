@@ -59,4 +59,6 @@
     <string name="profiles_no_schedule_active">Немає активних розкладів</string>
     <string name="profiles_add_schedule_button">Додати розклад</string>
     <string name="profiles_content_description_add_schedule">Додати розклад</string>
+    <string name="profiles_content_description_scheduler">Планувальник</string>
+    <string name="profiles_fallback_title">Блокування</string>
 </resources>

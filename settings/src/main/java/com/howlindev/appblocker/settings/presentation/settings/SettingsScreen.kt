@@ -116,7 +116,7 @@ internal fun SettingsScreenContent(
                 ) {
                     Icon(
                         painter = painterResource(CoreRes.drawable.outline_day_night),
-                        contentDescription = "Theme",
+                        contentDescription = stringResource(R.string.settings_content_description_theme),
                     )
                     Text(
                         text = stringResource(R.string.theme),
@@ -146,7 +146,9 @@ internal fun SettingsScreenContent(
                         ) {
                             Icon(
                                 painter = painterResource(CoreRes.drawable.outline_format_paint),
-                                contentDescription = "Dynamic Color",
+                                contentDescription = stringResource(
+                                    R.string.settings_content_description_dynamic_color,
+                                ),
                             )
                             Text(
                                 modifier = Modifier.weight(1f),
@@ -177,7 +179,7 @@ internal fun SettingsScreenContent(
                     ) {
                         Icon(
                             painter = painterResource(CoreRes.drawable.outline_language),
-                            contentDescription = "Language",
+                            contentDescription = stringResource(R.string.settings_content_description_language),
                         )
                         Text(
                             modifier = Modifier.weight(1f),
@@ -186,7 +188,9 @@ internal fun SettingsScreenContent(
                         )
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
-                            contentDescription = "Language Navigate",
+                            contentDescription = stringResource(
+                                R.string.settings_content_description_language_navigate,
+                            ),
                         )
                     }
                 }

@@ -5,4 +5,10 @@
     <string name="language">Язык</string>
     <string name="dynamic_color">Динамические цвета</string>
     <string name="app_version">Версия приложения: %s</string>
+
+    <string name="settings_content_description_theme">Тема</string>
+    <string name="settings_content_description_dynamic_color">Динамические цвета</string>
+    <string name="settings_content_description_language">Язык</string>
+    <string name="settings_content_description_language_navigate">Перейти к выбору языка</string>
+    <string name="settings_theme_system">Системная</string>
 </resources>

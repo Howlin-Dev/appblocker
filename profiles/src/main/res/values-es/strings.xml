@@ -58,4 +58,6 @@
     <string name="profiles_no_schedule_active">No hay horarios activos</string>
     <string name="profiles_add_schedule_button">Añadir horario</string>
     <string name="profiles_content_description_add_schedule">Añadir horario</string>
+    <string name="profiles_content_description_scheduler">Planificador</string>
+    <string name="profiles_fallback_title">Bloqueo</string>
 </resources>

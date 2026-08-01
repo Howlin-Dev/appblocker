@@ -17,4 +17,8 @@
     <string name="notification_active_profile_title">%1$s está activo</string>
     <string name="notification_active_profile_body">%1$d aplicaciones bloqueadas.</string>
     <string name="notification_active_profile_timer">Tiempo restante: %1$s</string>
+
+    <string name="core_content_description_globe">Globo</string>
+    <string name="core_content_description_apps">Aplicaciones</string>
+    <string name="core_content_description_back">Atrás</string>
 </resources>
