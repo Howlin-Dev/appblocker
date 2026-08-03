@@ -5,16 +5,14 @@ Bloq is a sophisticated Android productivity application designed to help users 
 ## Screenshots
 
 <div align="center">
-  <img src="screenshots/bloq_1.jpg" width="24%" alt="Profile List" />
-  <img src="screenshots/bloq_2.jpg" width="24%" alt="Profile List / Active Profile" />
-  <img src="screenshots/bloq_3.jpg" width="24%" alt="Create Profile" />
-  <img src="screenshots/bloq_4.jpg" width="24%" alt="Block Screen" />
+  <img src="screenshots/block_ad.png" alt="Screenshots" />
 </div>
 
 ## Key Features
 
 -   **Real-time App Blocking**: Utilizes a custom `AccessibilityService` to monitor window state changes and intercept the launch of blacklisted applications instantly.
 -   **Advanced Website Interception**: Inspects the UI hierarchy of popular browsers (Chrome, Firefox, etc.) to detect and block access to specific distracting URLs.
+-   **Automated Focus Scheduling**: Leverages `AlarmManager` for high-precision, battery-efficient triggering of blocking sessions, with `WorkManager` ensuring reliable background state synchronization across system reboots and time changes.
 -   **Notification Silence**: Employs `NotificationListenerService` to suppress notifications from blocked apps, preventing "notification pull" during focus sessions.
 -   **Granular Profiles**: Create and schedule different blocking configurations for work, sleep, or study.
 
@@ -26,7 +24,8 @@ Bloq is engineered for scalability and testability using a **Modular Clean Archi
     -   `:app`: Dependency injection root, system service implementations, and navigation;
     -   `:core`: Common utilities and design components;
     -   `:profiles`: Domain and Data layers for managing user-defined blocking configurations;
-    -   `:timer`: Scheduling logic;
+    -   `:timer`: Timer logic;
+    -   `:scheduler`: Scheduling logic and UI;
     -   `:permissions`: Handling permissions;
     -   `:settings`: Application preferences and user data management.
 
