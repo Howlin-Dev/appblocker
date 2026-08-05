@@ -80,8 +80,7 @@ internal fun PermissionsScreenContent(
             }
             items(items = missingPermissions) {
                 PermissionItem(
-                    title = stringResource(it.titleRes),
-                    subtitle = stringResource(it.subtitleRes),
+                    permission = it,
                     onClick = { onAction(PermissionsAction.PermissionGrantClick(it)) },
                 )
             }

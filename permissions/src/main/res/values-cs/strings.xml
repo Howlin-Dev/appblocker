@@ -21,6 +21,11 @@
     <string name="permission_miui_background_title">MIUI vyskakovací okna na pozadí</string>
     <string name="permission_miui_background_subtitle">Povolte „Zobrazovat vyskakovací okna při běhu na pozadí“ pro zařízení Xiaomi, aby blokování fungovalo správně.</string>
 
+    <string name="permission_autostart_title">Automatické spuštění (pouze Xiaomi)</string>
+    <string name="permission_autostart_subtitle">Povolte aplikaci automatické spuštění po restartu, aby bylo blokování vždy aktivní.</string>
+
+    <string name="permission_accessibility_malfunctioning_warning">Služba nefunguje správně. Prosím, vypněte ji a znovu zapněte v nastavení.</string>
+
     <string name="permissions_screen_title">Vyžadovaná oprávnění</string>
     <string name="permissions_screen_description">Některá oprávnění jsou nezbytná pro správné fungování aplikace. Udělte je prosím níže.</string>
     <string name="permission_grant_button">Udělit</string>

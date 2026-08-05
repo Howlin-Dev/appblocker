@@ -1,6 +1,7 @@
 package com.howlindev.appblocker.data.repository
 
 import android.Manifest
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.app.AlarmManager
 import android.app.AppOpsManager
 import android.content.ComponentName
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
+import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
@@ -28,13 +30,24 @@ class AndroidPermissionRepository(
     override fun getMissingPermissions(): List<RequiredPermission> {
         val missing = mutableListOf<RequiredPermission>()
 
-        if (!isAccessibilityEnabled()) missing.add(RequiredPermission.Accessibility)
+        val accessibilityEnabled = isAccessibilityServiceEnabledInSettings()
+        val accessibilityRunning = isAccessibilityServiceRunning()
+
+        if (!accessibilityEnabled) {
+            missing.add(RequiredPermission.Accessibility(isMalfunctioning = false))
+        } else if (!accessibilityRunning) {
+            missing.add(RequiredPermission.Accessibility(isMalfunctioning = true))
+        }
+
         if (!hasOverlayPermission()) missing.add(RequiredPermission.Overlay)
         if (!hasUsageAccess()) missing.add(RequiredPermission.UsageAccess)
         if (!isNotificationListenerEnabled()) missing.add(RequiredPermission.NotificationListener)
         if (!isIgnoringBatteryOptimizations()) missing.add(RequiredPermission.BatteryOptimization)
         if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications)
-        if (isMiui() && !hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
+        if (isMiui()) {
+            if (!hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
+            if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart)
+        }
 
         return missing
     }
@@ -71,13 +84,43 @@ class AndroidPermissionRepository(
         }
     }
 
-    private fun isAccessibilityEnabled(): Boolean {
+    private fun isAccessibilityServiceEnabledInSettings(): Boolean {
         val expectedService = ComponentName(context, BlockAccessibilityService::class.java)
         val enabledServices = Settings.Secure.getString(
             context.contentResolver,
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
         ) ?: return false
         return enabledServices.contains(expectedService.flattenToString())
+    }
+
+    private fun isAccessibilityServiceRunning(): Boolean {
+        val am = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
+        return enabledServices.any {
+            it.resolveInfo.serviceInfo.packageName == context.packageName &&
+                it.resolveInfo.serviceInfo.name == BlockAccessibilityService::class.java.name
+        }
+    }
+
+    private fun isAutostartEnabled(): Boolean {
+        val ops = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        return try {
+            val method: Method = ops.javaClass.getMethod(
+                "checkOpNoThrow",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java,
+            )
+            val result = method.invoke(
+                ops,
+                10008, // OP_AUTO_START (MIUI specific)
+                Process.myUid(),
+                context.packageName,
+            ) as Int
+            result == AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            true
+        }
     }
     private fun hasOverlayPermission(): Boolean {
         return Settings.canDrawOverlays(context)

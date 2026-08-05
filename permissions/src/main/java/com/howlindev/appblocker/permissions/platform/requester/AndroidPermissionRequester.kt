@@ -9,13 +9,14 @@ class PermissionRequester(
 
     fun request(permission: RequiredPermission) {
         when (permission) {
-            RequiredPermission.Accessibility -> navigator.openAccessibilitySettings()
+            is RequiredPermission.Accessibility -> navigator.openAccessibilitySettings()
             RequiredPermission.Overlay -> navigator.openOverlaySettings()
             RequiredPermission.UsageAccess -> navigator.openUsageAccessSettings()
             RequiredPermission.NotificationListener -> navigator.openNotificationListenerSettings()
             RequiredPermission.BatteryOptimization -> navigator.requestBatteryOptimizationExemption()
             RequiredPermission.MiuiBackgroundStart -> navigator.openMiuiPermissionSettings()
             RequiredPermission.PostNotifications -> navigator.openAppNotificationSettings()
+            RequiredPermission.Autostart -> navigator.openAutostartSettings()
             else -> {}
         }
     }

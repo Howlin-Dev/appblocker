@@ -21,6 +21,11 @@
     <string name="permission_miui_background_title">MIUI Background Pop-ups</string>
     <string name="permission_miui_background_subtitle">Enable \"Display pop-up windows while running in the background\" for Xiaomi devices to ensure blocking works correctly.</string>
 
+    <string name="permission_autostart_title">Autostart (Xiaomi only)</string>
+    <string name="permission_autostart_subtitle">Allow the app to start automatically after reboot to ensure blocking is always active.</string>
+
+    <string name="permission_accessibility_malfunctioning_warning">Service is malfunctioning. Please toggle it OFF and ON again in Settings.</string>
+
     <string name="permissions_screen_title">Required Permissions</string>
     <string name="permissions_screen_description">Some permissions are needed for the application to work properly. Please grant them below.</string>
     <string name="permission_grant_button">Grant</string>

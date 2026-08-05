@@ -21,6 +21,11 @@
     <string name="permission_miui_background_title">MIUI: Всплывающие окна в фоне</string>
     <string name="permission_miui_background_subtitle">Включите \"Отображение всплывающих окон во время работы в фоновом режиме\" для устройств Xiaomi, чтобы блокировка работала правильно.</string>
 
+    <string name="permission_autostart_title">Автозапуск (только Xiaomi)</string>
+    <string name="permission_autostart_subtitle">Разрешите приложению автоматически запускаться после перезагрузки, чтобы блокировка всегда была активна.</string>
+
+    <string name="permission_accessibility_malfunctioning_warning">Служба работает неправильно. Пожалуйста, выключите и снова включите ее в настройках.</string>
+
     <string name="permissions_screen_title">Необходимые разрешения</string>
     <string name="permissions_screen_description">Для правильной работы приложения требуются некоторые разрешения. Пожалуйста, предоставьте их ниже.</string>
     <string name="permission_grant_button">Предоставить</string>

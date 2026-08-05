@@ -66,10 +66,39 @@ class PermissionNavigator(private val context: Context) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         } catch (e: Exception) {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = "package:${context.packageName}".toUri()
+            openAppDetailsSettings()
+        }
+    }
+
+    fun openAutostartSettings() {
+        setExpectingReturn()
+        try {
+            val intent = Intent()
+            intent.setClassName(
+                "com.miui.securitycenter",
+                "com.miui.permcenter.autostart.AutoStartManagementActivity",
+            )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
+        } catch (e: Exception) {
+            openAppDetailsSettings()
+        }
+    }
+
+    fun openXiaomiBatterySaverSettings() {
+        setExpectingReturn()
+        try {
+            val intent = Intent()
+            intent.setClassName(
+                "com.miui.powerkeeper",
+                "com.miui.powerkeeper.ui.HiddenAppsConfigActivity",
+            )
+            intent.putExtra("package_name", context.packageName)
+            intent.putExtra("package_label", context.getString(context.applicationInfo.labelRes))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            openAppDetailsSettings()
         }
     }
 
@@ -86,6 +115,13 @@ class PermissionNavigator(private val context: Context) {
                 data = "package:${context.packageName}".toUri()
             }
         }
+        context.startActivity(intent)
+    }
+
+    private fun openAppDetailsSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = "package:${context.packageName}".toUri()
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
     }
 

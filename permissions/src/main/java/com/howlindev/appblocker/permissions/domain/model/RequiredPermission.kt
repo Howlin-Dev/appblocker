@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.howlindev.appblocker.permissions.R
 
 sealed class RequiredPermission(@param:StringRes val titleRes: Int, @param:StringRes val subtitleRes: Int) {
-    object Accessibility : RequiredPermission(
+    data class Accessibility(val isMalfunctioning: Boolean = false) : RequiredPermission(
         titleRes = R.string.permission_accessibility_title,
         subtitleRes = R.string.permission_accessibility_subtitle,
     )
@@ -35,5 +35,9 @@ sealed class RequiredPermission(@param:StringRes val titleRes: Int, @param:Strin
     object PostNotifications : RequiredPermission(
         titleRes = R.string.permission_post_notifications_title,
         subtitleRes = R.string.permission_post_notifications_subtitle,
+    )
+    object Autostart : RequiredPermission(
+        titleRes = R.string.permission_autostart_title,
+        subtitleRes = R.string.permission_autostart_subtitle,
     )
 }
