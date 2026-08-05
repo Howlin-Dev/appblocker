@@ -37,7 +37,7 @@ val profilesModule = module {
     factory { GetProfileUseCase(get()) }
     factory { GetProfileUiUseCase(get(), get()) }
     factory { UpdateProfileUseCase(get()) }
-    factory { DeleteProfileUseCase(get(), get()) }
+    factory { DeleteProfileUseCase(get(), get(), get()) }
     factory { ActivateProfileUseCase(get(), get()) }
     factory { DeactivateProfileUseCase(get()) }
     factory { GetInstalledAppsUseCase(get()) }

@@ -24,8 +24,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 
@@ -74,27 +72,29 @@ class ProfileListViewModelTest {
         viewModel.state.test {
             val state = awaitItem()
             assertEquals(2, state.inactiveProfiles.size)
-            assertNull(state.activeProfile)
+            assertEquals(0, state.activeProfiles.size)
             assertEquals("Work", state.inactiveProfiles[0].name)
         }
     }
 
     @Test
-    fun `when a profile is active, it should be in activeProfile state`() = runTest {
+    fun `when a profile is active, it should be in activeProfiles state`() = runTest {
         val profiles = listOf(
             ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L),
             ProfileUi(2, "Study", "Study profile", emptyList(), emptyList(), null),
         )
         every { getProfilesUiUseCase() } returns flowOf(profiles)
-        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), true))
+        every { observeActiveBlockUseCase() } returns flowOf(
+            ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), isTimed = true, isScheduled = false),
+        )
 
         viewModel = createViewModel()
         testDispatcher.scheduler.advanceUntilIdle()
 
         viewModel.state.test {
             val state = awaitItem()
-            assertNotNull(state.activeProfile)
-            assertEquals(1L, state.activeProfile?.id)
+            assertEquals(1, state.activeProfiles.size)
+            assertEquals(1L, state.activeProfiles[0].id)
             assertEquals(1, state.inactiveProfiles.size)
             assertEquals(2, state.inactiveProfiles[0].id)
         }
@@ -120,13 +120,15 @@ class ProfileListViewModelTest {
     fun `toggleProfileActivation should call deactivate when toggling active profile`() = runTest {
         val profiles = listOf(ProfileUi(1, "Work", "Work profile", emptyList(), emptyList(), 3600L))
         every { getProfilesUiUseCase() } returns flowOf(profiles)
-        every { observeActiveBlockUseCase() } returns flowOf(ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), true))
+        every { observeActiveBlockUseCase() } returns flowOf(
+            ActiveBlock(1, listOf("pkg.1"), listOf("site.1"), isTimed = true, isScheduled = false),
+        )
         coEvery { deactivateProfileUseCase() } returns Unit
 
         viewModel = createViewModel()
         testDispatcher.scheduler.advanceUntilIdle()
 
-        val profileUi = viewModel.state.value.activeProfile!!
+        val profileUi = viewModel.state.value.activeProfiles[0]
         viewModel.toggleProfileActivation(profileUi)
         testDispatcher.scheduler.advanceUntilIdle() // Let the toggle coroutine finish
 

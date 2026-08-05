@@ -58,7 +58,7 @@ class ProfilesRepositoryImplTest {
     @Test
     fun `insert should delegate to dao`() = runTest {
         val profile = Profile(1, "Work", "Desc", listOf("pkg1"), emptyList(), 1000L)
-        coEvery { profileDao.insert(any()) } returns Unit
+        coEvery { profileDao.insert(any()) } returns 1L
 
         repository.insert(profile)
 
