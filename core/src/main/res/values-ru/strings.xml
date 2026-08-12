@@ -15,7 +15,9 @@
     <string name="notification_channel_name">Активный профиль</string>
     <string name="notification_channel_description">Показывает информацию о текущем активном профиле блокировки</string>
     <string name="notification_active_profile_title">%1$s активен</string>
-    <string name="notification_active_profile_body">%1$d приложений заблокировано.</string>
+    <string name="notification_active_profile_body_apps">%1$d приложений заблокировано</string>
+    <string name="notification_active_profile_body_websites">%1$d веб-сайтов заблокировано</string>
+    <string name="notification_active_profile_body_both">%1$d приложений и %2$d веб-сайтов заблокировано</string>
     <string name="notification_active_profile_timer">Осталось: %1$s</string>
 
     <string name="core_content_description_globe">Глобус</string>

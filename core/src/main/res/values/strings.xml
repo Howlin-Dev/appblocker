@@ -15,7 +15,9 @@
     <string name="notification_channel_name">Active Profile</string>
     <string name="notification_channel_description">Shows information about the currently active blocking profile</string>
     <string name="notification_active_profile_title">%1$s is active</string>
-    <string name="notification_active_profile_body">%1$d apps blocked.</string>
+    <string name="notification_active_profile_body_apps">%1$d apps blocked</string>
+    <string name="notification_active_profile_body_websites">%1$d websites blocked</string>
+    <string name="notification_active_profile_body_both">%1$d apps and %2$d websites blocked</string>
     <string name="notification_active_profile_timer">Time left: %1$s</string>
 
     <string name="core_content_description_globe">Globe</string>

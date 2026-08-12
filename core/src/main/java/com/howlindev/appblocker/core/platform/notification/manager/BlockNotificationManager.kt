@@ -55,7 +55,23 @@ class BlockNotificationManager(
         }
         val title = context.getString(R.string.notification_active_profile_title, profile.name)
         val appsCount = profile.appPackages.size
-        val body = context.getString(R.string.notification_active_profile_body, appsCount)
+        val websitesCount = profile.blockedWebsites.size
+
+        val body = when {
+            appsCount > 0 && websitesCount > 0 -> {
+                context.getString(R.string.notification_active_profile_body_both, appsCount, websitesCount)
+            }
+
+            appsCount > 0 -> {
+                context.getString(R.string.notification_active_profile_body_apps, appsCount)
+            }
+
+            websitesCount > 0 -> {
+                context.getString(R.string.notification_active_profile_body_websites, websitesCount)
+            }
+
+            else -> ""
+        }
 
         val timerText = if (activeBlock.hasTimer) {
             context.getString(R.string.notification_active_profile_timer, remainingMillis.millisToTimerString(context))

@@ -25,7 +25,18 @@ fun RootScreen(
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
-    settings?.let { ApplyLanguage(it.language) }
+    LaunchedEffect(settings?.language) {
+        settings?.language?.let { language ->
+            val locales = when (language) {
+                AppLanguage.SYSTEM -> LocaleListCompat.getEmptyLocaleList()
+                else -> LocaleListCompat.forLanguageTags(language.tag!!)
+            }
+
+            if (AppCompatDelegate.getApplicationLocales() != locales) {
+                AppCompatDelegate.setApplicationLocales(locales)
+            }
+        }
+    }
 
     AppBlockerTheme(
         themeMode = settings?.themeMode ?: com.howlindev.appblocker.core.domain.model.ThemeMode.SYSTEM,
@@ -39,22 +50,6 @@ fun RootScreen(
             ) {
                 content()
             }
-        }
-    }
-}
-
-@Composable
-private fun ApplyLanguage(
-    language: AppLanguage,
-) {
-    LaunchedEffect(language) {
-        val locales = when (language) {
-            AppLanguage.SYSTEM -> LocaleListCompat.getEmptyLocaleList()
-            else -> LocaleListCompat.forLanguageTags(language.tag!!)
-        }
-
-        if (AppCompatDelegate.getApplicationLocales() != locales) {
-            AppCompatDelegate.setApplicationLocales(locales)
         }
     }
 }
