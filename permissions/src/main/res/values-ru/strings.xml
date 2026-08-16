@@ -26,6 +26,9 @@
 
     <string name="permission_accessibility_malfunctioning_warning">Служба работает неправильно. Пожалуйста, выключите и снова включите ее в настройках.</string>
 
+    <string name="permission_restricted_settings_warning">Этот параметр ограничен Android в целях безопасности. Чтобы включить его, перейдите в О приложении -> Настройки (три точки) -> Разрешить ограниченные настройки.</string>
+    <string name="permission_restricted_settings_button">Разрешить ограниченные настройки</string>
+
     <string name="permissions_screen_title">Необходимые разрешения</string>
     <string name="permissions_screen_description">Для правильной работы приложения требуются некоторые разрешения. Пожалуйста, предоставьте их ниже.</string>
     <string name="permission_grant_button">Предоставить</string>

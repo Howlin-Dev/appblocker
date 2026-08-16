@@ -26,7 +26,9 @@ fun PermissionItem(
     modifier: Modifier = Modifier,
 ) {
     val isMalfunctioning = (permission as? RequiredPermission.Accessibility)?.isMalfunctioning == true
-    val cardColors = if (isMalfunctioning) {
+    val isRestricted = permission.isRestricted
+
+    val cardColors = if (isMalfunctioning || isRestricted) {
         CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
     } else {
         CardDefaults.cardColors()
@@ -42,20 +44,30 @@ fun PermissionItem(
         ) {
             Text(text = stringResource(permission.titleRes), style = MaterialTheme.typography.titleMedium)
 
-            if (isMalfunctioning) {
-                Text(
-                    text = stringResource(R.string.permission_accessibility_malfunctioning_warning),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            } else {
-                Text(text = stringResource(permission.subtitleRes), style = MaterialTheme.typography.bodyMedium)
+            when {
+                isMalfunctioning -> {
+                    Text(
+                        text = stringResource(R.string.permission_accessibility_malfunctioning_warning),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+                isRestricted -> {
+                    Text(
+                        text = stringResource(R.string.permission_restricted_settings_warning),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+                else -> {
+                    Text(text = stringResource(permission.subtitleRes), style = MaterialTheme.typography.bodyMedium)
+                }
             }
 
             Button(
                 modifier = Modifier.padding(top = 4.dp),
                 onClick = onClick,
-                colors = if (isMalfunctioning) {
+                colors = if (isMalfunctioning || isRestricted) {
                     ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error,
                     )
@@ -63,7 +75,15 @@ fun PermissionItem(
                     ButtonDefaults.buttonColors()
                 },
             ) {
-                Text(stringResource(R.string.permission_grant_button))
+                Text(
+                    text = stringResource(
+                        if (isRestricted) {
+                            R.string.permission_restricted_settings_button
+                        } else {
+                            R.string.permission_grant_button
+                        },
+                    ),
+                )
             }
         }
     }
@@ -75,7 +95,7 @@ fun PermissionItemPreview() {
     Surface {
         PermissionItem(
             modifier = Modifier.padding(16.dp),
-            permission = RequiredPermission.Overlay,
+            permission = RequiredPermission.Overlay(restricted = false),
             onClick = { },
         )
     }

@@ -30,19 +30,38 @@ class AndroidPermissionRepository(
     override fun getMissingPermissions(): List<RequiredPermission> {
         val missing = mutableListOf<RequiredPermission>()
 
+        val isRestricted = !isRestrictedSettingsEnabled()
         val accessibilityEnabled = isAccessibilityServiceEnabledInSettings()
         val accessibilityRunning = isAccessibilityServiceRunning()
 
         if (!accessibilityEnabled) {
-            missing.add(RequiredPermission.Accessibility(isMalfunctioning = false))
+            missing.add(
+                RequiredPermission.Accessibility(
+                    isMalfunctioning = false,
+                    restricted = isRestricted,
+                ),
+            )
         } else if (!accessibilityRunning) {
-            missing.add(RequiredPermission.Accessibility(isMalfunctioning = true))
+            missing.add(
+                RequiredPermission.Accessibility(
+                    isMalfunctioning = true,
+                    restricted = false,
+                ),
+            )
         }
 
-        if (!hasOverlayPermission()) missing.add(RequiredPermission.Overlay)
-        if (!hasUsageAccess()) missing.add(RequiredPermission.UsageAccess)
-        if (!isNotificationListenerEnabled()) missing.add(RequiredPermission.NotificationListener)
-        if (!isIgnoringBatteryOptimizations()) missing.add(RequiredPermission.BatteryOptimization)
+        if (!hasOverlayPermission()) {
+            missing.add(RequiredPermission.Overlay(restricted = isRestricted))
+        }
+        if (!hasUsageAccess()) {
+            missing.add(RequiredPermission.UsageAccess(restricted = isRestricted))
+        }
+        if (!isNotificationListenerEnabled()) {
+            missing.add(RequiredPermission.NotificationListener(restricted = isRestricted))
+        }
+        if (!isIgnoringBatteryOptimizations()) {
+            missing.add(RequiredPermission.BatteryOptimization(restricted = isRestricted))
+        }
         if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications)
         if (isMiui()) {
             if (!hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
@@ -50,6 +69,21 @@ class AndroidPermissionRepository(
         }
 
         return missing
+    }
+
+    private fun isRestrictedSettingsEnabled(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
+        val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        return try {
+            val mode = appOps.checkOpNoThrow(
+                "android:access_restricted_settings",
+                Process.myUid(),
+                context.packageName,
+            )
+            mode == AppOpsManager.MODE_ALLOWED
+        } catch (e: Exception) {
+            true
+        }
     }
 
     private fun hasPostNotificationPermission(): Boolean {

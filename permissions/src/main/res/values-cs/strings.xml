@@ -26,6 +26,9 @@
 
     <string name="permission_accessibility_malfunctioning_warning">Služba nefunguje správně. Prosím, vypněte ji a znovu zapněte v nastavení.</string>
 
+    <string name="permission_restricted_settings_warning">Toto nastavení je systémem Android omezeno z důvodu zabezpečení. Chcete-li jej povolit, přejděte do Informace o aplikaci -> Nastavení (tři tečky) -> Povolit omezená nastavení.</string>
+    <string name="permission_restricted_settings_button">Povolit omezená nastavení</string>
+
     <string name="permissions_screen_title">Vyžadovaná oprávnění</string>
     <string name="permissions_screen_description">Některá oprávnění jsou nezbytná pro správné fungování aplikace. Udělte je prosím níže.</string>
     <string name="permission_grant_button">Udělit</string>

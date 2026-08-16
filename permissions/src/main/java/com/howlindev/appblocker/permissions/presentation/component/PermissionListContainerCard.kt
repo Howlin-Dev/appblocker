@@ -112,8 +112,8 @@ private fun PermissionListContainerItem(
 private fun PermissionListContainerItemPreview() {
     PermissionListContainerCard(
         missingPermissions = listOf(
-            RequiredPermission.Overlay,
-            RequiredPermission.UsageAccess,
+            RequiredPermission.Overlay(restricted = false),
+            RequiredPermission.UsageAccess(restricted = false),
         ),
         onShowInfoClick = {},
         onGrantClick = {},

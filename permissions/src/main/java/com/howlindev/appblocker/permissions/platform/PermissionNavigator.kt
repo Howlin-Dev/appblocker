@@ -118,6 +118,11 @@ class PermissionNavigator(private val context: Context) {
         context.startActivity(intent)
     }
 
+    fun openAppDetails() {
+        setExpectingReturn()
+        openAppDetailsSettings()
+    }
+
     private fun openAppDetailsSettings() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         intent.data = "package:${context.packageName}".toUri()
