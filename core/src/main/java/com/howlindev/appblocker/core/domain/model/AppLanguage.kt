@@ -1,11 +1,9 @@
 package com.howlindev.appblocker.core.domain.model
 
-enum class
-AppLanguage(
-    val tag: String? = null,
-    val title: String? = null,
+enum class AppLanguage(
+    val tag: String,
+    val title: String,
 ) {
-    SYSTEM,
     ENGLISH("en", "English"),
     UKRAINIAN("uk", "Українська"),
     SPANISH("es", "Español"),

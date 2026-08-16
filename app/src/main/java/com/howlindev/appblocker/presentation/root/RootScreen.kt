@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.howlindev.appblocker.core.domain.model.AppLanguage
 import com.howlindev.appblocker.core.ui.theme.AppBlockerTheme
 import com.howlindev.appblocker.core.util.LocalAppIconProvider
 import com.howlindev.appblocker.util.AppIconLoader
@@ -27,10 +26,7 @@ fun RootScreen(
 
     LaunchedEffect(settings?.language) {
         settings?.language?.let { language ->
-            val locales = when (language) {
-                AppLanguage.SYSTEM -> LocaleListCompat.getEmptyLocaleList()
-                else -> LocaleListCompat.forLanguageTags(language.tag!!)
-            }
+            val locales = LocaleListCompat.forLanguageTags(language.tag)
 
             if (AppCompatDelegate.getApplicationLocales() != locales) {
                 AppCompatDelegate.setApplicationLocales(locales)

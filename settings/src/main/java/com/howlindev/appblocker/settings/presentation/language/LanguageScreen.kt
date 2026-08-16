@@ -106,7 +106,7 @@ private fun LanguageItem(
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 24.dp),
-                text = item.title ?: stringResource(R.string.settings_theme_system),
+                text = item.title,
                 style = MaterialTheme.typography.titleMedium,
             )
         }

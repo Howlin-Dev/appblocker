@@ -28,7 +28,7 @@ class SettingsRepositoryImpl(
                 ?.let {
                     runCatching { AppLanguage.valueOf(it) }.getOrNull()
                 }
-                ?: AppLanguage.SYSTEM
+                ?: getInitialLanguage()
 
             val dynamicColor = preferences[SettingsKeys.DYNAMIC_COLOR] ?: true
 
@@ -38,6 +38,11 @@ class SettingsRepositoryImpl(
                 dynamicColor = dynamicColor,
             )
         }
+
+    private fun getInitialLanguage(): AppLanguage {
+        val locale = context.resources.configuration.locales[0]
+        return AppLanguage.entries.find { it.tag == locale.language } ?: AppLanguage.ENGLISH
+    }
 
     override suspend fun setThemeMode(themeMode: ThemeMode) {
         context.settingsDataStore.edit { preferences ->

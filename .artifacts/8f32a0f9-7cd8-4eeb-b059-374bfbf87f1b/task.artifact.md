@@ -1,0 +1,7 @@
+- [x] Core Module: Refactor `AppLanguage` enum
+- [x] Core Module: Update `SettingsData` default
+- [x] Settings Module: Update `SettingsRepositoryImpl` default language detection
+- [x] Settings Module: Update `LanguageViewModel` setLanguage logic
+- [x] Settings Module: Update `LanguageScreen` UI
+- [x] App Module: Refactor `RootScreen` language application
+- [x] Verification: Build and verify logic

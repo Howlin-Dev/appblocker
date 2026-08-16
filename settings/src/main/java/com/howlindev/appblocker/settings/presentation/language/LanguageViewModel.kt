@@ -28,10 +28,7 @@ class LanguageViewModel(
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch {
             setAppLanguageUseCase(language)
-            val locales = when (language) {
-                AppLanguage.SYSTEM -> LocaleListCompat.getEmptyLocaleList()
-                else -> LocaleListCompat.forLanguageTags(language.tag!!)
-            }
+            val locales = LocaleListCompat.forLanguageTags(language.tag)
             AppCompatDelegate.setApplicationLocales(locales)
         }
     }
