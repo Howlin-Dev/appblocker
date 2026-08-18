@@ -27,6 +27,7 @@ fun PermissionItem(
 ) {
     val isMalfunctioning = (permission as? RequiredPermission.Accessibility)?.isMalfunctioning == true
     val isRestricted = permission.isRestricted
+    val isOnePlus = permission.isOnePlus
 
     val cardColors = if (isMalfunctioning || isRestricted) {
         CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
@@ -63,9 +64,18 @@ fun PermissionItem(
                     Text(text = stringResource(permission.subtitleRes), style = MaterialTheme.typography.bodyMedium)
                 }
             }
+            
+            if (isOnePlus && !isRestricted && !isMalfunctioning) {
+                Text(
+                    modifier = Modifier.padding(top = 4.dp),
+                    text = stringResource(R.string.permission_oneplus_tip),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+            }
 
             Button(
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = 8.dp),
                 onClick = onClick,
                 colors = if (isMalfunctioning || isRestricted) {
                     ButtonDefaults.buttonColors(

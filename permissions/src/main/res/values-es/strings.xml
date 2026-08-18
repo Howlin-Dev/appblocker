@@ -29,6 +29,8 @@
     <string name="permission_restricted_settings_warning">Este ajuste está restringido por Android por seguridad. Para habilitarlo, ve a Información de la aplicación -> Ajustes (tres puntos) -> Permitir ajustes restringidos.</string>
     <string name="permission_restricted_settings_button">Permitir ajustes restringidos</string>
 
+    <string name="permission_oneplus_tip">Sugerencia para OnePlus/Oppo: Si este permiso ya está habilitado pero la aplicación no lo ve, ve a Opciones de desarrollador y habilita \"Desactivar monitorización de permisos\".</string>
+
     <string name="permissions_screen_title">Permisos Requeridos</string>
     <string name="permissions_screen_description">Se necesitan algunos permisos para que la aplicación funcione correctamente. Por favor, otórgalos a continuación.</string>
     <string name="permission_grant_button">Otorgar</string>

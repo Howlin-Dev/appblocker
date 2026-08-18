@@ -29,6 +29,8 @@
     <string name="permission_restricted_settings_warning">Toto nastavení je systémem Android omezeno z důvodu zabezpečení. Chcete-li jej povolit, přejděte do Informace o aplikaci -> Nastavení (tři tečky) -> Povolit omezená nastavení.</string>
     <string name="permission_restricted_settings_button">Povolit omezená nastavení</string>
 
+    <string name="permission_oneplus_tip">Tip pro OnePlus/Oppo: Pokud je toto oprávnění již povoleno, ale aplikace jej nevidí, přejděte do možností pro vývojáře a povolte „Zakázat sledování oprávnění“.</string>
+
     <string name="permissions_screen_title">Vyžadovaná oprávnění</string>
     <string name="permissions_screen_description">Některá oprávnění jsou nezbytná pro správné fungování aplikace. Udělte je prosím níže.</string>
     <string name="permission_grant_button">Udělit</string>

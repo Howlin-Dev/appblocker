@@ -7,15 +7,19 @@ import android.app.AppOpsManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.PixelFormat
 import android.os.Build
 import android.os.PowerManager
 import android.os.Process
 import android.provider.Settings
+import android.view.View
+import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
 import com.howlindev.appblocker.permissions.platform.util.isMiui
+import com.howlindev.appblocker.permissions.platform.util.isOnePlus
 import com.howlindev.appblocker.platform.accessibility.BlockAccessibilityService
 import java.lang.reflect.Method
 
@@ -31,6 +35,7 @@ class AndroidPermissionRepository(
         val missing = mutableListOf<RequiredPermission>()
 
         val isRestricted = !isRestrictedSettingsEnabled()
+        val onePlus = isOnePlus()
         val accessibilityEnabled = isAccessibilityServiceEnabledInSettings()
         val accessibilityRunning = isAccessibilityServiceRunning()
 
@@ -39,6 +44,7 @@ class AndroidPermissionRepository(
                 RequiredPermission.Accessibility(
                     isMalfunctioning = false,
                     restricted = isRestricted,
+                    onePlus = onePlus,
                 ),
             )
         } else if (!accessibilityRunning) {
@@ -46,26 +52,27 @@ class AndroidPermissionRepository(
                 RequiredPermission.Accessibility(
                     isMalfunctioning = true,
                     restricted = false,
+                    onePlus = onePlus,
                 ),
             )
         }
 
         if (!hasOverlayPermission()) {
-            missing.add(RequiredPermission.Overlay(restricted = isRestricted))
+            missing.add(RequiredPermission.Overlay(restricted = isRestricted, onePlus = onePlus))
         }
         if (!hasUsageAccess()) {
-            missing.add(RequiredPermission.UsageAccess(restricted = isRestricted))
+            missing.add(RequiredPermission.UsageAccess(restricted = isRestricted, onePlus = onePlus))
         }
         if (!isNotificationListenerEnabled()) {
-            missing.add(RequiredPermission.NotificationListener(restricted = isRestricted))
+            missing.add(RequiredPermission.NotificationListener(restricted = isRestricted, onePlus = onePlus))
         }
         if (!isIgnoringBatteryOptimizations()) {
-            missing.add(RequiredPermission.BatteryOptimization(restricted = isRestricted))
+            missing.add(RequiredPermission.BatteryOptimization(restricted = isRestricted, onePlus = onePlus))
         }
-        if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications)
+        if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications(onePlus = onePlus))
         if (isMiui()) {
-            if (!hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart)
-            if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart)
+            if (!hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart(onePlus = onePlus))
+            if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart(onePlus = onePlus))
         }
 
         return missing
@@ -75,11 +82,18 @@ class AndroidPermissionRepository(
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         return try {
-            val mode = appOps.checkOpNoThrow(
-                "android:access_restricted_settings",
+            val method = appOps.javaClass.getMethod(
+                "checkOpNoThrow",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java,
+            )
+            val mode = method.invoke(
+                appOps,
+                119, // OP_ACCESS_RESTRICTED_SETTINGS
                 Process.myUid(),
                 context.packageName,
-            )
+            ) as Int
             mode == AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
             true
@@ -120,16 +134,28 @@ class AndroidPermissionRepository(
 
     private fun isAccessibilityServiceEnabledInSettings(): Boolean {
         val expectedService = ComponentName(context, BlockAccessibilityService::class.java)
+        val am = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        
+        // Method 1: Check Settings.Secure
         val enabledServices = Settings.Secure.getString(
             context.contentResolver,
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
-        ) ?: return false
-        return enabledServices.contains(expectedService.flattenToString())
+        )
+        val isEnabledInSettings = enabledServices?.contains(expectedService.flattenToString()) == true
+        
+        // Method 2: Check AccessibilityManager (more reliable on some OEMs)
+        val enabledServiceList = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
+        val isEnabledInManager = enabledServiceList.any { 
+            it.resolveInfo.serviceInfo.packageName == context.packageName &&
+            it.resolveInfo.serviceInfo.name == BlockAccessibilityService::class.java.name
+        }
+        
+        return isEnabledInSettings || isEnabledInManager
     }
 
     private fun isAccessibilityServiceRunning(): Boolean {
         val am = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC)
+        val enabledServices = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
         return enabledServices.any {
             it.resolveInfo.serviceInfo.packageName == context.packageName &&
                 it.resolveInfo.serviceInfo.name == BlockAccessibilityService::class.java.name
@@ -157,8 +183,31 @@ class AndroidPermissionRepository(
         }
     }
     private fun hasOverlayPermission(): Boolean {
-        return Settings.canDrawOverlays(context)
+        if (!Settings.canDrawOverlays(context)) return false
+        
+        // Active verification for OnePlus/ColorOS false positives
+        return try {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val view = View(context)
+            val params = WindowManager.LayoutParams(
+                1, 1,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                else
+                    WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or 
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSPARENT
+            )
+            windowManager.addView(view, params)
+            windowManager.removeView(view)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
+
     private fun hasUsageAccess(): Boolean {
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         val mode = appOps.checkOpNoThrow(
@@ -166,8 +215,29 @@ class AndroidPermissionRepository(
             Process.myUid(),
             context.packageName,
         )
-        return mode == AppOpsManager.MODE_ALLOWED
+        if (mode != AppOpsManager.MODE_ALLOWED) return false
+        
+        // Secondary check for false positives on some OEMs
+        return try {
+            val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as android.app.usage.UsageStatsManager
+            val endTime = System.currentTimeMillis()
+            val startTime = endTime - (1000 * 60 * 60) // Check last hour
+            
+            // Try querying stats for a common system package to verify we have access
+            val stats = usageStatsManager.queryUsageStats(
+                android.app.usage.UsageStatsManager.INTERVAL_DAILY,
+                startTime,
+                endTime
+            )
+            // On some devices, queryUsageStats might return an empty list even if we have permission, 
+            // but if it's denied it definitely returns empty or throws.
+            // We use a more permissive check: if we can query without exception, and the list isn't null.
+            stats != null
+        } catch (e: Exception) {
+            false
+        }
     }
+
     private fun isIgnoringBatteryOptimizations(): Boolean {
         val packageName = context.packageName
         val pm = context.getSystemService(PowerManager::class.java)
@@ -179,8 +249,10 @@ class AndroidPermissionRepository(
             context.contentResolver,
             "enabled_notification_listeners",
         )
-        val componentName =
-            ComponentName(context, "com.howlindev.appblocker.platform.notification.BlockNotificationListenerService")
+        val componentName = ComponentName(
+            context,
+            com.howlindev.appblocker.platform.notification.BlockNotificationListenerService::class.java
+        )
         return enabledListeners?.contains(componentName.flattenToString()) == true
     }
 

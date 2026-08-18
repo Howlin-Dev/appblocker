@@ -29,6 +29,8 @@
     <string name="permission_restricted_settings_warning">This setting is restricted by Android for security. To enable it, go to App Info -> Settings (three dots) -> Allow restricted settings.</string>
     <string name="permission_restricted_settings_button">Allow Restricted Settings</string>
 
+    <string name="permission_oneplus_tip">Tip for OnePlus/Oppo: If this permission is already enabled but the app doesn\'t see it, go to Developer Options and enable \"Disable Permission Monitoring\".</string>
+
     <string name="permissions_screen_title">Required Permissions</string>
     <string name="permissions_screen_description">Some permissions are needed for the application to work properly. Please grant them below.</string>
     <string name="permission_grant_button">Grant</string>

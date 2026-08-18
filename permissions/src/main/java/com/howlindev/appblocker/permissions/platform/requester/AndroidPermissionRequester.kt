@@ -18,9 +18,9 @@ class PermissionRequester(
             is RequiredPermission.UsageAccess -> navigator.openUsageAccessSettings()
             is RequiredPermission.NotificationListener -> navigator.openNotificationListenerSettings()
             is RequiredPermission.BatteryOptimization -> navigator.requestBatteryOptimizationExemption()
-            RequiredPermission.MiuiBackgroundStart -> navigator.openMiuiPermissionSettings()
-            RequiredPermission.PostNotifications -> navigator.openAppNotificationSettings()
-            RequiredPermission.Autostart -> navigator.openAutostartSettings()
+            is RequiredPermission.MiuiBackgroundStart -> navigator.openMiuiPermissionSettings()
+            is RequiredPermission.PostNotifications -> navigator.openAppNotificationSettings()
+            is RequiredPermission.Autostart -> navigator.openAutostartSettings()
             else -> {}
         }
     }

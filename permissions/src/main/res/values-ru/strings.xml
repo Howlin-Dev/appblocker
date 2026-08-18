@@ -29,6 +29,8 @@
     <string name="permission_restricted_settings_warning">Этот параметр ограничен Android в целях безопасности. Чтобы включить его, перейдите в О приложении -> Настройки (три точки) -> Разрешить ограниченные настройки.</string>
     <string name="permission_restricted_settings_button">Разрешить ограниченные настройки</string>
 
+    <string name="permission_oneplus_tip">Совет для OnePlus/Oppo: если это разрешение уже включено, но приложение его не видит, перейдите в «Для разработчиков» и включите «Отключить мониторинг разрешений».</string>
+
     <string name="permissions_screen_title">Необходимые разрешения</string>
     <string name="permissions_screen_description">Для правильной работы приложения требуются некоторые разрешения. Пожалуйста, предоставьте их ниже.</string>
     <string name="permission_grant_button">Предоставить</string>
