@@ -1,11 +1,10 @@
 package com.howlindev.appblocker.settings.presentation.language
 
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.howlindev.appblocker.core.domain.model.AppLanguage
 import com.howlindev.appblocker.core.domain.model.SettingsData
+import com.howlindev.appblocker.core.util.LocaleUtils
 import com.howlindev.appblocker.settings.domain.usecase.GetSettingsUseCase
 import com.howlindev.appblocker.settings.domain.usecase.SetAppLanguageUseCase
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,8 +13,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LanguageViewModel(
-    getSettingsUseCase: GetSettingsUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase,
     private val setAppLanguageUseCase: SetAppLanguageUseCase,
+    private val context: android.content.Context,
 ) : ViewModel() {
 
     val settings: StateFlow<SettingsData?> = getSettingsUseCase()
@@ -28,8 +28,7 @@ class LanguageViewModel(
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch {
             setAppLanguageUseCase(language)
-            val locales = LocaleListCompat.forLanguageTags(language.tag)
-            AppCompatDelegate.setApplicationLocales(locales)
+            LocaleUtils.applyLocale(context, language.tag)
         }
     }
 }

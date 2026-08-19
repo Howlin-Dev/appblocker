@@ -24,11 +24,15 @@ android {
     defaultConfig {
         applicationId = "com.howlindev.appblocker"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 15
+        targetSdk = 36
+        versionCode = 16
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    androidResources {
+        localeFilters += listOf("en", "uk", "es", "cs", "ru")
     }
 
     signingConfigs {

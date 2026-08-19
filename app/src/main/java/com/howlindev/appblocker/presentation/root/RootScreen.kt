@@ -1,6 +1,5 @@
 package com.howlindev.appblocker.presentation.root
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -9,10 +8,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.howlindev.appblocker.core.ui.theme.AppBlockerTheme
 import com.howlindev.appblocker.core.util.LocalAppIconProvider
+import com.howlindev.appblocker.core.util.LocaleUtils
 import com.howlindev.appblocker.util.AppIconLoader
 import org.koin.androidx.compose.koinViewModel
 
@@ -26,10 +25,9 @@ fun RootScreen(
 
     LaunchedEffect(settings?.language) {
         settings?.language?.let { language ->
-            val locales = LocaleListCompat.forLanguageTags(language.tag)
-
-            if (AppCompatDelegate.getApplicationLocales() != locales) {
-                AppCompatDelegate.setApplicationLocales(locales)
+            val currentLocales = LocaleUtils.getLocale(context)
+            if (currentLocales != language.tag) {
+                LocaleUtils.applyLocale(context, language.tag)
             }
         }
     }
