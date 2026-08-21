@@ -9,21 +9,25 @@ import androidx.core.os.LocaleListCompat
 
 object LocaleUtils {
     fun applyLocale(context: Context, languageTag: String) {
+        val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageTag)
+        AppCompatDelegate.setApplicationLocales(appLocale)
+
+        // On API 33+, also explicitly set via LocaleManager to handle MIUI persistence better
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = context.getSystemService(Context.LOCALE_SERVICE) as? LocaleManager
             localeManager?.applicationLocales = LocaleList.forLanguageTags(languageTag)
-        } else {
-            val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(languageTag)
-            AppCompatDelegate.setApplicationLocales(appLocale)
         }
     }
 
     fun getLocale(context: Context): String? {
+        // Prefer LocaleManager on API 33+ for system-wide sync
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = context.getSystemService(Context.LOCALE_SERVICE) as? LocaleManager
-            localeManager?.applicationLocales?.toLanguageTags()
+            val locales = localeManager?.applicationLocales
+            if (locales != null && !locales.isEmpty) locales.toLanguageTags() else null
         } else {
-            AppCompatDelegate.getApplicationLocales().toLanguageTags()
+            val locales = AppCompatDelegate.getApplicationLocales()
+            if (!locales.isEmpty) locales.toLanguageTags() else null
         }
     }
 }
