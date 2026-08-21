@@ -81,19 +81,28 @@ class AndroidPermissionRepository(
     private fun isRestrictedSettingsEnabled(): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        
         return try {
-            val method = appOps.javaClass.getMethod(
-                "checkOpNoThrow",
-                Int::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType,
-                String::class.java,
-            )
-            val mode = method.invoke(
-                appOps,
-                119, // OP_ACCESS_RESTRICTED_SETTINGS
-                Process.myUid(),
-                context.packageName,
-            ) as Int
+            val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                appOps.unsafeCheckOpNoThrow(
+                    "android:access_restricted_settings",
+                    Process.myUid(),
+                    context.packageName
+                )
+            } else {
+                val method = appOps.javaClass.getMethod(
+                    "checkOpNoThrow",
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                    String::class.java,
+                )
+                method.invoke(
+                    appOps,
+                    119, // OP_ACCESS_RESTRICTED_SETTINGS
+                    Process.myUid(),
+                    context.packageName,
+                ) as Int
+            }
             mode == AppOpsManager.MODE_ALLOWED
         } catch (e: Exception) {
             true
@@ -194,15 +203,18 @@ class AndroidPermissionRepository(
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
                 else
-                    WindowManager.LayoutParams.TYPE_PHONE,
+                    @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or 
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 PixelFormat.TRANSPARENT
             )
             windowManager.addView(view, params)
+            val hasToken = view.windowToken != null
             windowManager.removeView(view)
-            true
+            // On some problematic OOS versions, addView might not throw but token stays null
+            // if the permission is not actually functional.
+            hasToken
         } catch (e: Exception) {
             false
         }
@@ -221,18 +233,15 @@ class AndroidPermissionRepository(
         return try {
             val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as android.app.usage.UsageStatsManager
             val endTime = System.currentTimeMillis()
-            val startTime = endTime - (1000 * 60 * 60) // Check last hour
+            val startTime = endTime - (1000 * 60 * 60 * 24) // Check last 24 hours for more reliability
             
-            // Try querying stats for a common system package to verify we have access
             val stats = usageStatsManager.queryUsageStats(
                 android.app.usage.UsageStatsManager.INTERVAL_DAILY,
                 startTime,
                 endTime
             )
-            // On some devices, queryUsageStats might return an empty list even if we have permission, 
-            // but if it's denied it definitely returns empty or throws.
-            // We use a more permissive check: if we can query without exception, and the list isn't null.
-            stats != null
+            // On OxygenOS 16, it might return an empty list if denied instead of null
+            !stats.isNullOrEmpty()
         } catch (e: Exception) {
             false
         }
