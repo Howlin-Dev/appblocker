@@ -18,8 +18,8 @@
     <string name="permission_notification_listener_title">Доступ к уведомлениям (Блокировка уведомлений приложений)</string>
     <string name="permission_notification_listener_subtitle">Разрешите автоматическое отклонение уведомлений заблокированных приложений.</string>
 
-    <string name="permission_miui_background_title">MIUI: Всплывающие окна в фоне</string>
-    <string name="permission_miui_background_subtitle">Включите \"Отображение всплывающих окон во время работы в фоновом режиме\" для устройств Xiaomi, чтобы блокировка работала правильно.</string>
+    <string name="permission_background_popups_title">Всплывающие окна в фоне</string>
+    <string name="permission_background_popups_subtitle">Включите \"Отображение всплывающих окон во время работы в фоновом режиме\", чтобы экран блокировки мог отображаться при открытии ограниченных приложений.</string>
 
     <string name="permission_autostart_title">Автозапуск (только Xiaomi)</string>
     <string name="permission_autostart_subtitle">Разрешите приложению автоматически запускаться после перезагрузки, чтобы блокировка всегда была активна.</string>

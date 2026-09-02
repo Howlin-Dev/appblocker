@@ -18,8 +18,8 @@
     <string name="permission_notification_listener_title">Acceso a Notificaciones (Bloquear notificaciones de apps)</string>
     <string name="permission_notification_listener_subtitle">Otorga permiso para descartar automáticamente las notificaciones de las aplicaciones bloqueadas.</string>
 
-    <string name="permission_miui_background_title">Ventanas emergentes de fondo de MIUI</string>
-    <string name="permission_miui_background_subtitle">Habilite \"Mostrar ventanas emergentes mientras se ejecuta en segundo plano\" para dispositivos Xiaomi para asegurar que el bloqueo funcione correctamente.</string>
+    <string name="permission_background_popups_title">Ventanas emergentes de fondo</string>
+    <string name="permission_background_popups_subtitle">Habilite \"Mostrar ventanas emergentes mientras se ejecuta en segundo plano\" para asegurar que la pantalla de bloqueo se muestre correctamente.</string>
 
     <string name="permission_autostart_title">Inicio automático (solo Xiaomi)</string>
     <string name="permission_autostart_subtitle">Permitir que la aplicación se inicie automáticamente después del reinicio para garantizar que el bloqueo esté siempre activo.</string>

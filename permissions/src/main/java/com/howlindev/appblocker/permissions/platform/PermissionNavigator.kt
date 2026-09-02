@@ -54,7 +54,7 @@ class PermissionNavigator(private val context: Context) {
         context.startActivity(intent)
     }
 
-    fun openMiuiPermissionSettings() {
+    fun openBackgroundPopupsSettings() {
         setExpectingReturn()
         try {
             val intent = Intent("miui.intent.action.APP_PERM_EDITOR")

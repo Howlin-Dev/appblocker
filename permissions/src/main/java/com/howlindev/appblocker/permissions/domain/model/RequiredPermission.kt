@@ -60,9 +60,9 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
-    data class MiuiBackgroundStart(val onePlus: Boolean = false) : RequiredPermission(
-        titleRes = R.string.permission_miui_background_title,
-        subtitleRes = R.string.permission_miui_background_subtitle,
+    data class BackgroundPopups(val onePlus: Boolean = false) : RequiredPermission(
+        titleRes = R.string.permission_background_popups_title,
+        subtitleRes = R.string.permission_background_popups_subtitle,
         isOnePlus = onePlus,
     )
     data class PostNotifications(val onePlus: Boolean = false) : RequiredPermission(

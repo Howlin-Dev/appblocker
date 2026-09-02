@@ -70,8 +70,14 @@ class AndroidPermissionRepository(
             missing.add(RequiredPermission.BatteryOptimization(restricted = isRestricted, onePlus = onePlus))
         }
         if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications(onePlus = onePlus))
+        
+        if (isMiui() || isOnePlus()) {
+            if (!hasBackgroundStartPermission()) {
+                missing.add(RequiredPermission.BackgroundPopups(onePlus = onePlus))
+            }
+        }
+        
         if (isMiui()) {
-            if (!hasMiuiBackgroundStartPermission()) missing.add(RequiredPermission.MiuiBackgroundStart(onePlus = onePlus))
             if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart(onePlus = onePlus))
         }
 
@@ -120,8 +126,16 @@ class AndroidPermissionRepository(
         }
     }
 
-    private fun hasMiuiBackgroundStartPermission(): Boolean {
+    private fun hasBackgroundStartPermission(): Boolean {
         val ops = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        val opCode = if (isMiui()) {
+            10021 // OP_BACKGROUND_START_ACTIVITY
+        } else if (isOnePlus()) {
+            10021 // OP_BACKGROUND_START_ACTIVITY
+        } else {
+            return true
+        }
+
         return try {
             val method: Method = ops.javaClass.getMethod(
                 "checkOp",
@@ -131,7 +145,7 @@ class AndroidPermissionRepository(
             )
             val result = method.invoke(
                 ops,
-                10021, // OP_BACKGROUND_START_ACTIVITY
+                opCode,
                 Process.myUid(),
                 context.packageName,
             ) as Int
@@ -210,11 +224,10 @@ class AndroidPermissionRepository(
                 PixelFormat.TRANSPARENT
             )
             windowManager.addView(view, params)
-            val hasToken = view.windowToken != null
+            // If addView didn't throw, we likely have the permission.
+            // Removing the token check as it's assigned asynchronously and causes false negatives.
             windowManager.removeView(view)
-            // On some problematic OOS versions, addView might not throw but token stays null
-            // if the permission is not actually functional.
-            hasToken
+            true
         } catch (e: Exception) {
             false
         }

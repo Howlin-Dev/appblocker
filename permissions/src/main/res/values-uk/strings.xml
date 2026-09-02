@@ -18,8 +18,8 @@
     <string name="permission_notification_listener_title">Доступ до сповіщень (Блокування сповіщень програм)</string>
     <string name="permission_notification_listener_subtitle">Надайте дозвіл на автоматичне відхилення сповіщень заблокованих програм.</string>
 
-    <string name="permission_miui_background_title">MIUI: Спливаючі вікна у фоні</string>
-    <string name="permission_miui_background_subtitle">Увімкніть \"Відображення спливаючих вікон під час роботи у фоновому режимі\" для пристроїв Xiaomi, щоб блокування працювало правильно.</string>
+    <string name="permission_background_popups_title">Спливаючі вікна у фоні</string>
+    <string name="permission_background_popups_subtitle">Увімкніть \"Відображення спливаючих вікон під час роботи у фоновому режимі\", щоб екран блокування міг відображатися при відкритті обмежених програм.</string>
 
     <string name="permission_autostart_title">Автозапуск (лише Xiaomi)</string>
     <string name="permission_autostart_subtitle">Дозвольте програмі автоматично запускатися після перезавантаження, щоб блокування завжди було активним.</string>

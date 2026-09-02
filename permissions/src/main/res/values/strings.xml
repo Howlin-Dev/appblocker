@@ -18,8 +18,8 @@
     <string name="permission_notification_listener_title">Notification Access (Block app notifications)</string>
     <string name="permission_notification_listener_subtitle">Grant permission to dismiss notifications from blocked apps automatically.</string>
 
-    <string name="permission_miui_background_title">MIUI Background Pop-ups</string>
-    <string name="permission_miui_background_subtitle">Enable \"Display pop-up windows while running in the background\" for Xiaomi devices to ensure blocking works correctly.</string>
+    <string name="permission_background_popups_title">Background Pop-ups</string>
+    <string name="permission_background_popups_subtitle">Enable \"Display pop-up windows while running in the background\" to ensure the blocking screen can show when restricted apps are opened.</string>
 
     <string name="permission_autostart_title">Autostart (Xiaomi only)</string>
     <string name="permission_autostart_subtitle">Allow the app to start automatically after reboot to ensure blocking is always active.</string>

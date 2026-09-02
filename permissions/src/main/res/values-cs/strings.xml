@@ -18,8 +18,8 @@
     <string name="permission_notification_listener_title">Přístup k oznámením (Blokování oznámení aplikací)</string>
     <string name="permission_notification_listener_subtitle">Udělte oprávnění k automatickému odstraňování oznámení ze zablokovaných aplikací.</string>
 
-    <string name="permission_miui_background_title">MIUI vyskakovací okna na pozadí</string>
-    <string name="permission_miui_background_subtitle">Povolte „Zobrazovat vyskakovací okna při běhu na pozadí“ pro zařízení Xiaomi, aby blokování fungovalo správně.</string>
+    <string name="permission_background_popups_title">Vyskakovací okna na pozadí</string>
+    <string name="permission_background_popups_subtitle">Povolte „Zobrazovat vyskakovací okna při běhu na pozadí“, aby se blokovací obrazovka mohla zobrazit při otevření omezených aplikací.</string>
 
     <string name="permission_autostart_title">Automatické spuštění (pouze Xiaomi)</string>
     <string name="permission_autostart_subtitle">Povolte aplikaci automatické spuštění po restartu, aby bylo blokování vždy aktivní.</string>
