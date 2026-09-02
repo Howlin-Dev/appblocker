@@ -15,19 +15,33 @@ object LocaleUtils {
         // On API 33+, also explicitly set via LocaleManager to handle MIUI persistence better
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = context.getSystemService(Context.LOCALE_SERVICE) as? LocaleManager
-            localeManager?.applicationLocales = LocaleList.forLanguageTags(languageTag)
+            try {
+                localeManager?.applicationLocales = LocaleList.forLanguageTags(languageTag)
+            } catch (e: Exception) {
+                // Ignore potential framework issues on some OEMs
+            }
         }
     }
 
     fun getLocale(context: Context): String? {
         // Prefer LocaleManager on API 33+ for system-wide sync
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val locales = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val localeManager = context.getSystemService(Context.LOCALE_SERVICE) as? LocaleManager
-            val locales = localeManager?.applicationLocales
-            if (locales != null && !locales.isEmpty) locales.toLanguageTags() else null
+            localeManager?.applicationLocales
         } else {
-            val locales = AppCompatDelegate.getApplicationLocales()
-            if (!locales.isEmpty) locales.toLanguageTags() else null
+            null
         }
+
+        val frameworkTags = locales?.toLanguageTags()
+        if (!frameworkTags.isNullOrBlank()) {
+            return frameworkTags.split(",").firstOrNull()
+        }
+
+        val appCompatTags = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+        if (!appCompatTags.isBlank()) {
+            return appCompatTags.split(",").firstOrNull()
+        }
+
+        return null
     }
 }

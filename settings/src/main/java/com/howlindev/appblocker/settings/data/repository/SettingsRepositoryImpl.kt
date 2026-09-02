@@ -42,11 +42,9 @@ class SettingsRepositoryImpl(
     private fun getInitialLanguage(): AppLanguage {
         val locale = context.resources.configuration.locales[0]
         val language = locale.language
-        val country = locale.country
         
         return AppLanguage.entries.find { 
-            it.tag.startsWith(language, ignoreCase = true) && 
-            (country.isBlank() || it.tag.contains(country, ignoreCase = true)) 
+            it.tag.equals(language, ignoreCase = true)
         } ?: AppLanguage.ENGLISH
     }
 

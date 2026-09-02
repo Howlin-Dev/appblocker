@@ -25,8 +25,9 @@ fun RootScreen(
 
     LaunchedEffect(settings?.language) {
         settings?.language?.let { language ->
-            val currentLocales = LocaleUtils.getLocale(context)
-            if (currentLocales != language.tag) {
+            val currentLocale = LocaleUtils.getLocale(context)
+            // Compare only the base language part if needed, but here we expect exact matches with our 2-letter tags
+            if (currentLocale?.split("-")?.firstOrNull() != language.tag) {
                 LocaleUtils.applyLocale(context, language.tag)
             }
         }
