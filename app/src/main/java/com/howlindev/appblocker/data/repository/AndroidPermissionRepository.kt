@@ -18,7 +18,7 @@ import android.view.accessibility.AccessibilityManager
 import androidx.core.content.ContextCompat
 import com.howlindev.appblocker.permissions.domain.model.RequiredPermission
 import com.howlindev.appblocker.permissions.domain.repository.PermissionRepository
-import com.howlindev.appblocker.permissions.platform.util.isMiui
+import com.howlindev.appblocker.core.util.DeviceUtils
 import com.howlindev.appblocker.permissions.platform.util.isOnePlus
 import com.howlindev.appblocker.platform.accessibility.BlockAccessibilityService
 import java.lang.reflect.Method
@@ -71,13 +71,13 @@ class AndroidPermissionRepository(
         }
         if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications(onePlus = onePlus))
 
-        if (isMiui() || isOnePlus()) {
+        if (DeviceUtils.isMiui() || isOnePlus()) {
             if (!hasBackgroundStartPermission()) {
                 missing.add(RequiredPermission.BackgroundPopups(onePlus = onePlus))
             }
         }
 
-        if (isMiui()) {
+        if (DeviceUtils.isMiui()) {
             if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart(onePlus = onePlus))
         }
 
@@ -128,7 +128,7 @@ class AndroidPermissionRepository(
 
     private fun hasBackgroundStartPermission(): Boolean {
         val ops = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        val opCode = if (isMiui()) {
+        val opCode = if (DeviceUtils.isMiui()) {
             10021 // OP_BACKGROUND_START_ACTIVITY
         } else if (isOnePlus()) {
             10021 // OP_BACKGROUND_START_ACTIVITY

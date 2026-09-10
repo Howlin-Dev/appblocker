@@ -36,6 +36,12 @@ android {
         localeFilters += listOf("en", "uk", "es", "cs", "ru")
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     signingConfigs {
         create("release") {
             storeFile = file("../release.keystore")
