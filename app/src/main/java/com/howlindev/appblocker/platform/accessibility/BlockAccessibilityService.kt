@@ -87,6 +87,14 @@ class BlockAccessibilityService : AccessibilityService() {
             lastBlockTime = now
             lastBlockedUrl = null
             BlockNavigator.launchBlockScreen(this, packageName)
+
+            // Fallback for OxygenOS 16 and other aggressive BAL restrictions
+            serviceScope.launch {
+                kotlinx.coroutines.delay(500)
+                if (lastPackageName == packageName) {
+                    performGlobalAction(GLOBAL_ACTION_HOME)
+                }
+            }
         }
     }
 

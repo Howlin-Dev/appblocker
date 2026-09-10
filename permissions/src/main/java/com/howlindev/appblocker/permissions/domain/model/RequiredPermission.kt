@@ -19,6 +19,7 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
+
     data class Overlay(
         val restricted: Boolean = false,
         val onePlus: Boolean = false,
@@ -28,6 +29,7 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
+
     data class UsageAccess(
         val restricted: Boolean = false,
         val onePlus: Boolean = false,
@@ -37,6 +39,7 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
+
     data class BatteryOptimization(
         val restricted: Boolean = false,
         val onePlus: Boolean = false,
@@ -46,11 +49,13 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
+
     data class ExactAlarm(val onePlus: Boolean = false) : RequiredPermission(
         titleRes = R.string.permission_alarm_title,
         subtitleRes = R.string.permission_alarm_subtitle,
         isOnePlus = onePlus,
     )
+
     data class NotificationListener(
         val restricted: Boolean = false,
         val onePlus: Boolean = false,
@@ -60,16 +65,19 @@ sealed class RequiredPermission(
         isRestricted = restricted,
         isOnePlus = onePlus,
     )
+
     data class BackgroundPopups(val onePlus: Boolean = false) : RequiredPermission(
         titleRes = R.string.permission_background_popups_title,
         subtitleRes = R.string.permission_background_popups_subtitle,
         isOnePlus = onePlus,
     )
+
     data class PostNotifications(val onePlus: Boolean = false) : RequiredPermission(
         titleRes = R.string.permission_post_notifications_title,
         subtitleRes = R.string.permission_post_notifications_subtitle,
         isOnePlus = onePlus,
     )
+
     data class Autostart(val onePlus: Boolean = false) : RequiredPermission(
         titleRes = R.string.permission_autostart_title,
         subtitleRes = R.string.permission_autostart_subtitle,

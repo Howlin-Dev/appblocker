@@ -70,13 +70,13 @@ class AndroidPermissionRepository(
             missing.add(RequiredPermission.BatteryOptimization(restricted = isRestricted, onePlus = onePlus))
         }
         if (!hasPostNotificationPermission()) missing.add(RequiredPermission.PostNotifications(onePlus = onePlus))
-        
+
         if (isMiui() || isOnePlus()) {
             if (!hasBackgroundStartPermission()) {
                 missing.add(RequiredPermission.BackgroundPopups(onePlus = onePlus))
             }
         }
-        
+
         if (isMiui()) {
             if (!isAutostartEnabled()) missing.add(RequiredPermission.Autostart(onePlus = onePlus))
         }
@@ -87,13 +87,13 @@ class AndroidPermissionRepository(
     private fun isRestrictedSettingsEnabled(): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-        
+
         return try {
             val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 appOps.unsafeCheckOpNoThrow(
                     "android:access_restricted_settings",
                     Process.myUid(),
-                    context.packageName
+                    context.packageName,
                 )
             } else {
                 val method = appOps.javaClass.getMethod(
@@ -158,21 +158,21 @@ class AndroidPermissionRepository(
     private fun isAccessibilityServiceEnabledInSettings(): Boolean {
         val expectedService = ComponentName(context, BlockAccessibilityService::class.java)
         val am = context.getSystemService(Context.ACCESSIBILITY_SERVICE) as AccessibilityManager
-        
+
         // Method 1: Check Settings.Secure
         val enabledServices = Settings.Secure.getString(
             context.contentResolver,
             Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
         )
         val isEnabledInSettings = enabledServices?.contains(expectedService.flattenToString()) == true
-        
+
         // Method 2: Check AccessibilityManager (more reliable on some OEMs)
         val enabledServiceList = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK)
-        val isEnabledInManager = enabledServiceList.any { 
+        val isEnabledInManager = enabledServiceList.any {
             it.resolveInfo.serviceInfo.packageName == context.packageName &&
-            it.resolveInfo.serviceInfo.name == BlockAccessibilityService::class.java.name
+                it.resolveInfo.serviceInfo.name == BlockAccessibilityService::class.java.name
         }
-        
+
         return isEnabledInSettings || isEnabledInManager
     }
 
@@ -207,21 +207,24 @@ class AndroidPermissionRepository(
     }
     private fun hasOverlayPermission(): Boolean {
         if (!Settings.canDrawOverlays(context)) return false
-        
+
         // Active verification for OnePlus/ColorOS false positives
         return try {
             val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
             val view = View(context)
             val params = WindowManager.LayoutParams(
-                1, 1,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                1,
+                1,
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                else
-                    @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or 
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                PixelFormat.TRANSPARENT
+                } else {
+                    @Suppress("DEPRECATION")
+                    WindowManager.LayoutParams.TYPE_PHONE
+                },
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                PixelFormat.TRANSPARENT,
             )
             windowManager.addView(view, params)
             // If addView didn't throw, we likely have the permission.
@@ -241,17 +244,19 @@ class AndroidPermissionRepository(
             context.packageName,
         )
         if (mode != AppOpsManager.MODE_ALLOWED) return false
-        
+
         // Secondary check for false positives on some OEMs
         return try {
-            val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as android.app.usage.UsageStatsManager
+            val usageStatsManager = context.getSystemService(
+                Context.USAGE_STATS_SERVICE,
+            ) as android.app.usage.UsageStatsManager
             val endTime = System.currentTimeMillis()
             val startTime = endTime - (1000 * 60 * 60 * 24) // Check last 24 hours for more reliability
-            
+
             val stats = usageStatsManager.queryUsageStats(
                 android.app.usage.UsageStatsManager.INTERVAL_DAILY,
                 startTime,
-                endTime
+                endTime,
             )
             // On OxygenOS 16, it might return an empty list if denied instead of null
             !stats.isNullOrEmpty()
@@ -273,7 +278,7 @@ class AndroidPermissionRepository(
         )
         val componentName = ComponentName(
             context,
-            com.howlindev.appblocker.platform.notification.BlockNotificationListenerService::class.java
+            com.howlindev.appblocker.platform.notification.BlockNotificationListenerService::class.java,
         )
         return enabledListeners?.contains(componentName.flattenToString()) == true
     }
