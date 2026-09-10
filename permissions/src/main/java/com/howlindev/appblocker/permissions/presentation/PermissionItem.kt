@@ -64,7 +64,7 @@ fun PermissionItem(
                     Text(text = stringResource(permission.subtitleRes), style = MaterialTheme.typography.bodyMedium)
                 }
             }
-            
+
             if (isOnePlus && !isRestricted && !isMalfunctioning) {
                 Text(
                     modifier = Modifier.padding(top = 4.dp),

@@ -56,17 +56,34 @@ class PermissionNavigator(private val context: Context) {
 
     fun openBackgroundPopupsSettings() {
         setExpectingReturn()
-        try {
-            val intent = Intent("miui.intent.action.APP_PERM_EDITOR")
-            intent.setClassName(
-                "com.miui.securitycenter",
-                "com.miui.permcenter.permissions.PermissionsEditorActivity",
-            )
-            intent.putExtra("extra_pkgname", context.packageName)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        } catch (e: Exception) {
-            openAppDetailsSettings()
+        val intents = listOf(
+            Intent("miui.intent.action.APP_PERM_EDITOR").apply {
+                setClassName("com.miui.securitycenter", "com.miui.permcenter.permissions.PermissionsEditorActivity")
+                putExtra("extra_pkgname", context.packageName)
+            },
+            Intent().apply {
+                setClassName("com.coloros.safecenter", "com.coloros.safecenter.sysfloatwindow.FloatWindowListActivity")
+            },
+            Intent().apply {
+                setClassName(
+                    "com.coloros.safecenter",
+                    "com.coloros.safecenter.permission.startup.StartupAppListActivity",
+                )
+            },
+            Intent("com.oppo.safe.permission.startup.StartupAppListActivity"),
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = "package:${context.packageName}".toUri()
+            },
+        )
+
+        for (intent in intents) {
+            try {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+                return
+            } catch (e: Exception) {
+                // Continue to next intent
+            }
         }
     }
 
