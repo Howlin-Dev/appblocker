@@ -38,12 +38,10 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun BlockScreen(
     onClose: () -> Unit,
-    onTimerRunsOut: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: BlockViewModel = koinViewModel(),
 ) {
     val remainingMillis by viewModel.remainingTime.collectAsState()
-    val isStillBlocked by viewModel.isStillBlocked.collectAsState()
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
@@ -69,12 +67,6 @@ fun BlockScreen(
             }
         },
     )
-
-    LaunchedEffect(remainingMillis, isStillBlocked) {
-        if (!isStillBlocked || (remainingMillis <= 0 && hasTimer)) {
-            onTimerRunsOut()
-        }
-    }
 }
 
 @Composable

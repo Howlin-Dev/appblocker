@@ -40,9 +40,6 @@ class BlockActivity : AppCompatActivity() {
                         goToHomeScreen()
                         finish()
                     },
-                    onTimerRunsOut = {
-                        finish()
-                    },
                 )
             }
         }
